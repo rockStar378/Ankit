@@ -15,19 +15,19 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/NoxxOP/ShrutiMusic/fork"><img src="https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=social" alt="GitHub Forks"></a>
-  <a href="https://github.com/NoxxOP/ShrutiMusic/stargazers"><img src="https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=social" alt="GitHub Stars"></a>
-  <a href="https://github.com/NoxxOP/ShrutiMusic/graphs/contributors"><img src="https://img.shields.io/github/contributors/NoxxOP/ShrutiMusic?style=social" alt="GitHub Contributors"></a>
+  <a href="https://github.com/rockStar378/Ankit/fork"><img src="https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=social" alt="GitHub Forks"></a>
+  <a href="https://github.com/rockStar378/Ankit/stargazers"><img src="https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=social" alt="GitHub Stars"></a>
+  <a href="https://github.com/rockStar378/Ankit/graphs/contributors"><img src="https://img.shields.io/github/contributors/NoxxOP/ShrutiMusic?style=social" alt="GitHub Contributors"></a>
 </p>
 
 <p align="center">
-<a href="https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic"><img src="https://img.shields.io/badge/Deploy%20To%20Heroku-purple?style=for-the-badge&logo=heroku&logoColor=white" width="250px" alt="Deploy to Heroku"></a>
+<a href="https://dashboard.heroku.com/new?template=https://github.com/rockStar378/Ankit"><img src="https://img.shields.io/badge/Deploy%20To%20Heroku-purple?style=for-the-badge&logo=heroku&logoColor=white" width="250px" alt="Deploy to Heroku"></a>
 </p>
 
 <h2 align="center">🚀 Deploy to Render (Free)</h2>
 
 <p align="center">
-  <a href="https://render.com/deploy?repo=https://github.com/NoxxOP/ShrutiMusic">
+  <a href="https://render.com/deploy?repo=https://github.com/rockStar378/Ankit">
     <img src="https://render.com/images/deploy-to-render-button.svg" alt="Deploy to Render">
   </a>
 </p>
@@ -45,12 +45,12 @@
 ## 📊 Repository Stats
 
 <p align="center">
-  <a href="https://github.com/NoxxOP/ShrutiMusic"><img src="https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?style=flat-square" alt="Repo Size"></a>
-  <a href="https://github.com/NoxxOP/ShrutiMusic/issues"><img src="https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?style=flat-square" alt="Issues"></a>
-  <a href="https://github.com/NoxxOP/ShrutiMusic/network/members"><img src="https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=flat-square" alt="Forks"></a>
-  <a href="https://github.com/NoxxOP/ShrutiMusic/stargazers"><img src="https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=flat-square" alt="Stars"></a>
-  <a href="https://github.com/NoxxOP/ShrutiMusic/blob/main/LICENSE"><img src="https://img.shields.io/github/license/NoxxOP/ShrutiMusic?style=flat-square" alt="LICENSE"></a>
-  <a href="https://github.com/NoxxOP/ShrutiMusic/commits/main"><img src="https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?style=flat-square" alt="Last Commit"></a>
+  <a href="https://github.com/rockStar378/Ankit"><img src="https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?style=flat-square" alt="Repo Size"></a>
+  <a href="https://github.com/rockStar378/Ankit/issues"><img src="https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?style=flat-square" alt="Issues"></a>
+  <a href="https://github.com/rockStar378/Ankit/network/members"><img src="https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=flat-square" alt="Forks"></a>
+  <a href="https://github.com/rockStar378/Ankit/stargazers"><img src="https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/rockStar378/Ankit/blob/main/LICENSE"><img src="https://img.shields.io/github/license/NoxxOP/ShrutiMusic?style=flat-square" alt="LICENSE"></a>
+  <a href="https://github.com/rockStar378/Ankit/commits/main"><img src="https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?style=flat-square" alt="Last Commit"></a>
 </p>
 
 ## 🔥 Essential Commands
@@ -101,7 +101,7 @@ sudo apt-get install -y nodejs
 
 
 ```bash
-git clone https://github.com/NoxxOP/ShrutiMusic
+git clone https://github.com/rockStar378/Ankit
 cd ShrutiMusic
 ```
 
@@ -183,7 +183,7 @@ Example : screen -r 108108
 ### ☁️ Heroku Deployment
 
 <p align="center">
-<a href="https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic"><img src="https://img.shields.io/badge/Deploy%20To%20Heroku-purple?style=for-the-badge&logo=heroku&logoColor=white" width="250px" alt="Deploy to Heroku"></a>
+<a href="https://dashboard.heroku.com/new?template=https://github.com/rockStar378/Ankit"><img src="https://img.shields.io/badge/Deploy%20To%20Heroku-purple?style=for-the-badge&logo=heroku&logoColor=white" width="250px" alt="Deploy to Heroku"></a>
 </p>
 
 1. Click the button above
@@ -235,3 +235,6 @@ For any questions or help, join our [Support Group](https://t.me/ShrutiBotSuppor
 <p align="center">
 <b>🎵 Enjoy Streaming Music with Shruti Bot! 🎵</b>
 </p>
+
+
+
