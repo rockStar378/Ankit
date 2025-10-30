@@ -22,8 +22,8 @@ import config
 import traceback
 from ShrutiMusic import LOGGER
 
-API_URL = "https://teaminflex.xyz"
-API_KEY = "INFLEX20037428D"
+API_URL = None
+API_KEY = None
 
 def cookie_txt_file():
     cookie_dir = "ShrutiMusic/cookies"
@@ -35,7 +35,42 @@ def cookie_txt_file():
     cookie_file = os.path.join(cookie_dir, random.choice(cookies_files))
     return cookie_file
 
+async def load_api_credentials():
+    global API_URL, API_KEY
+    logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
+    
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://gist.githubusercontent.com/YaduvanshiNand/a38b3afadc76ee987f7a29617ae6e90c/raw/17e1a32ad03308351cfaffc7988acb943a10e337/api.txt") as response:
+                if response.status == 200:
+                    content = await response.text()
+                    for line in content.strip().split('\n'):
+                        if line.startswith('API_URL'):
+                            API_URL = line.split('=')[1].strip().strip('"')
+                        elif line.startswith('API_KEY'):
+                            API_KEY = line.split('=')[1].strip().strip('"')
+                    
+                    if API_URL and API_KEY:
+                        logger.info(f"API credentials loaded successfully")
+                    else:
+                        logger.error("Failed to parse API credentials")
+                else:
+                    logger.error(f"Failed to fetch credentials. HTTP Status: {response.status}")
+    except Exception as e:
+        logger.error(f"Error loading API credentials: {e}")
+
+asyncio.create_task(load_api_credentials())
+
 async def download_song(link: str) -> str:
+    global API_URL, API_KEY
+    
+    if not API_URL or not API_KEY:
+        await load_api_credentials()
+        if not API_URL or not API_KEY:
+            logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
+            logger.error("API credentials not available")
+            return None
+    
     video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
     logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
     logger.info(f"🎵 [AUDIO] Starting download process for ID: {video_id}")
@@ -93,6 +128,15 @@ async def download_song(link: str) -> str:
         return
 
 async def download_video(link: str) -> str:
+    global API_URL, API_KEY
+    
+    if not API_URL or not API_KEY:
+        await load_api_credentials()
+        if not API_URL or not API_KEY:
+            logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
+            logger.error("API credentials not available")
+            return None
+    
     video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
     logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
     logger.info(f"🎥 [VIDEO] Starting download process for ID: {video_id}")
