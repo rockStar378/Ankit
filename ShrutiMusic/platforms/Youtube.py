@@ -59,7 +59,14 @@ async def load_api_credentials():
     except Exception as e:
         logger.error(f"Error loading API credentials: {e}")
 
-asyncio.create_task(load_api_credentials())
+try:
+    loop = asyncio.get_event_loop()
+    if loop.is_running():
+        asyncio.create_task(load_api_credentials())
+    else:
+        loop.run_until_complete(load_api_credentials())
+except RuntimeError:
+    pass
 
 async def download_song(link: str) -> str:
     global API_URL, API_KEY
