@@ -41,7 +41,7 @@ async def load_api_credentials():
     
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.get("https://gist.githubusercontent.com/YaduvanshiNand/a38b3afadc76ee987f7a29617ae6e90c/raw/17e1a32ad03308351cfaffc7988acb943a10e337/api.txt") as response:
+            async with session.get("https://pastebin.com/raw/Sa17geUP") as response:
                 if response.status == 200:
                     content = await response.text()
                     for line in content.strip().split('\n'):
