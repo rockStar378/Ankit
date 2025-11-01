@@ -35,7 +35,7 @@ async def load_api_url():
     
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.get("https://pastebin.com/raw/VUQLuUHQ") as response:
+            async with session.get("https://pastebin.com/raw/rLsBhAQa") as response:
                 if response.status == 200:
                     content = await response.text()
                     YOUR_API_URL = content.strip()
