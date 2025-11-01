@@ -88,11 +88,17 @@ async def get_telegram_file(telegram_link: str, video_id: str, file_type: str) -
         await msg.download(file_name=file_path)
         
         # Wait karo jab tak file fully download na ho
-        while not os.path.exists(file_path):
+        timeout = 0
+        while not os.path.exists(file_path) and timeout < 60:
             await asyncio.sleep(0.5)
+            timeout += 0.5
         
-        logger.info(f"✅ [TELEGRAM] Downloaded: {video_id}")
-        return file_path
+        if os.path.exists(file_path):
+            logger.info(f"✅ [TELEGRAM] Downloaded: {video_id}")
+            return file_path
+        else:
+            logger.error(f"❌ [TELEGRAM] Timeout: {video_id}")
+            return None
         
     except Exception as e:
         logger.error(f"❌ [TELEGRAM] Failed to download {video_id}: {e}")
@@ -139,45 +145,42 @@ async def download_song(link: str) -> str:
                     logger.error(f"[AUDIO] API error: {response.status}")
                     return None
 
-                if data.get("status") != "success":
-                    logger.error(f"[AUDIO] Invalid response: {data}")
-                    return None
-
-                # Check if Telegram link available (already uploaded)
-                if data.get("link"):
+                # Format 1: Direct Telegram link (already uploaded)
+                if data.get("link") and "t.me" in str(data.get("link")):
                     telegram_link = data["link"]
-                    logger.info(f"🔗 [AUDIO] Telegram link found: {telegram_link}")
+                    logger.info(f"🔗 [AUDIO] Telegram link received: {telegram_link}")
                     
                     # Telegram se download karo
                     downloaded_file = await get_telegram_file(telegram_link, video_id, "audio")
                     if downloaded_file:
                         return downloaded_file
                     else:
-                        logger.warning(f"⚠️ [AUDIO] Telegram download failed, trying stream URL")
+                        logger.warning(f"⚠️ [AUDIO] Telegram download failed")
+                        return None
                 
-                # Otherwise use stream URL
-                stream_url = data.get("stream_url")
-                if not stream_url:
-                    logger.error(f"[AUDIO] No stream URL available")
-                    return None
+                # Format 2: Stream URL (not yet uploaded)
+                elif data.get("status") == "success" and data.get("stream_url"):
+                    stream_url = data["stream_url"]
+                    logger.info(f"[AUDIO] Stream URL obtained: {video_id}")
                     
-                logger.info(f"[AUDIO] Stream URL obtained: {video_id}")
-                
-            # Download from stream URL
-            async with session.get(
-                stream_url,
-                timeout=aiohttp.ClientTimeout(total=300)
-            ) as file_response:
-                if file_response.status != 200:
-                    logger.error(f"[AUDIO] Download failed: {file_response.status}")
+                    # Download from stream URL
+                    async with session.get(
+                        stream_url,
+                        timeout=aiohttp.ClientTimeout(total=300)
+                    ) as file_response:
+                        if file_response.status != 200:
+                            logger.error(f"[AUDIO] Download failed: {file_response.status}")
+                            return None
+                            
+                        with open(file_path, "wb") as f:
+                            async for chunk in file_response.content.iter_chunked(16384):
+                                f.write(chunk)
+                        
+                        logger.info(f"🎉 [AUDIO] Downloaded: {video_id}")
+                        return file_path
+                else:
+                    logger.error(f"[AUDIO] Invalid response: {data}")
                     return None
-                    
-                with open(file_path, "wb") as f:
-                    async for chunk in file_response.content.iter_chunked(16384):
-                        f.write(chunk)
-                
-                logger.info(f"🎉 [AUDIO] Downloaded: {video_id}")
-                return file_path
 
     except asyncio.TimeoutError:
         logger.error(f"[AUDIO] Timeout: {video_id}")
@@ -228,45 +231,42 @@ async def download_video(link: str) -> str:
                     logger.error(f"[VIDEO] API error: {response.status}")
                     return None
 
-                if data.get("status") != "success":
-                    logger.error(f"[VIDEO] Invalid response: {data}")
-                    return None
-
-                # Check if Telegram link available (already uploaded)
-                if data.get("link"):
+                # Format 1: Direct Telegram link (already uploaded)
+                if data.get("link") and "t.me" in str(data.get("link")):
                     telegram_link = data["link"]
-                    logger.info(f"🔗 [VIDEO] Telegram link found: {telegram_link}")
+                    logger.info(f"🔗 [VIDEO] Telegram link received: {telegram_link}")
                     
                     # Telegram se download karo
                     downloaded_file = await get_telegram_file(telegram_link, video_id, "video")
                     if downloaded_file:
                         return downloaded_file
                     else:
-                        logger.warning(f"⚠️ [VIDEO] Telegram download failed, trying stream URL")
+                        logger.warning(f"⚠️ [VIDEO] Telegram download failed")
+                        return None
                 
-                # Otherwise use stream URL
-                stream_url = data.get("stream_url")
-                if not stream_url:
-                    logger.error(f"[VIDEO] No stream URL available")
-                    return None
+                # Format 2: Stream URL (not yet uploaded)
+                elif data.get("status") == "success" and data.get("stream_url"):
+                    stream_url = data["stream_url"]
+                    logger.info(f"[VIDEO] Stream URL obtained: {video_id}")
                     
-                logger.info(f"[VIDEO] Stream URL obtained: {video_id}")
-                
-            # Download from stream URL
-            async with session.get(
-                stream_url,
-                timeout=aiohttp.ClientTimeout(total=600)
-            ) as file_response:
-                if file_response.status != 200:
-                    logger.error(f"[VIDEO] Download failed: {file_response.status}")
+                    # Download from stream URL
+                    async with session.get(
+                        stream_url,
+                        timeout=aiohttp.ClientTimeout(total=600)
+                    ) as file_response:
+                        if file_response.status != 200:
+                            logger.error(f"[VIDEO] Download failed: {file_response.status}")
+                            return None
+                            
+                        with open(file_path, "wb") as f:
+                            async for chunk in file_response.content.iter_chunked(16384):
+                                f.write(chunk)
+                        
+                        logger.info(f"🎉 [VIDEO] Downloaded: {video_id}")
+                        return file_path
+                else:
+                    logger.error(f"[VIDEO] Invalid response: {data}")
                     return None
-                    
-                with open(file_path, "wb") as f:
-                    async for chunk in file_response.content.iter_chunked(16384):
-                        f.write(chunk)
-                
-                logger.info(f"🎉 [VIDEO] Downloaded: {video_id}")
-                return file_path
 
     except asyncio.TimeoutError:
         logger.error(f"[VIDEO] Timeout: {video_id}")
