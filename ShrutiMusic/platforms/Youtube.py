@@ -11,16 +11,11 @@ from youtubesearchpython.__future__ import VideosSearch
 from ShrutiMusic.utils.database import is_on_off
 from ShrutiMusic import app
 from ShrutiMusic.utils.formatters import time_to_seconds
-import os
-import glob
 import random
 import logging
-import pymongo
-from pymongo import MongoClient
 import aiohttp
-import config
-import traceback
 from ShrutiMusic import LOGGER
+from urllib.parse import urlparse
 
 YOUR_API_URL = None
 
@@ -40,7 +35,7 @@ async def load_api_url():
     
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.get("https://pastebin.com/raw/rLsBhAQa") as response:
+            async with session.get("https://pastebin.com/raw/VUQLuUHQ") as response:
                 if response.status == 200:
                     content = await response.text()
                     YOUR_API_URL = content.strip()
@@ -58,6 +53,50 @@ try:
         loop.run_until_complete(load_api_url())
 except RuntimeError:
     pass
+
+async def get_telegram_file(telegram_link: str, video_id: str, file_type: str) -> str:
+    """
+    Telegram link se file download karta hai (Purvi method)
+    """
+    logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
+    try:
+        extension = ".webm" if file_type == "audio" else ".mkv"
+        file_path = os.path.join("downloads", f"{video_id}{extension}")
+        
+        # Agar already exist kare to seedha return
+        if os.path.exists(file_path):
+            logger.info(f"📂 [LOCAL] File exists: {video_id}")
+            return file_path
+        
+        # Parse Telegram link: https://t.me/channelname/messageid
+        parsed = urlparse(telegram_link)
+        parts = parsed.path.strip("/").split("/")
+        
+        if len(parts) < 2:
+            logger.error(f"❌ Invalid Telegram link format: {telegram_link}")
+            return None
+            
+        channel_name = parts[0]
+        message_id = int(parts[1])
+        
+        logger.info(f"📥 [TELEGRAM] Downloading from @{channel_name}/{message_id}")
+        
+        # Pyrogram se message fetch karke download
+        msg = await app.get_messages(channel_name, message_id)
+        
+        os.makedirs("downloads", exist_ok=True)
+        await msg.download(file_name=file_path)
+        
+        # Wait karo jab tak file fully download na ho
+        while not os.path.exists(file_path):
+            await asyncio.sleep(0.5)
+        
+        logger.info(f"✅ [TELEGRAM] Downloaded: {video_id}")
+        return file_path
+        
+    except Exception as e:
+        logger.error(f"❌ [TELEGRAM] Failed to download {video_id}: {e}")
+        return None
 
 async def download_song(link: str) -> str:
     global YOUR_API_URL
@@ -80,6 +119,7 @@ async def download_song(link: str) -> str:
     os.makedirs(DOWNLOAD_DIR, exist_ok=True)
     file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.webm")
 
+    # Local check
     if os.path.exists(file_path):
         logger.info(f"🎵 [LOCAL] File exists: {video_id}")
         return file_path
@@ -99,13 +139,31 @@ async def download_song(link: str) -> str:
                     logger.error(f"[AUDIO] API error: {response.status}")
                     return None
 
-                if data.get("status") != "success" or not data.get("stream_url"):
+                if data.get("status") != "success":
                     logger.error(f"[AUDIO] Invalid response: {data}")
                     return None
 
-                stream_url = data["stream_url"]
+                # Check if Telegram link available (already uploaded)
+                if data.get("link"):
+                    telegram_link = data["link"]
+                    logger.info(f"🔗 [AUDIO] Telegram link found: {telegram_link}")
+                    
+                    # Telegram se download karo
+                    downloaded_file = await get_telegram_file(telegram_link, video_id, "audio")
+                    if downloaded_file:
+                        return downloaded_file
+                    else:
+                        logger.warning(f"⚠️ [AUDIO] Telegram download failed, trying stream URL")
+                
+                # Otherwise use stream URL
+                stream_url = data.get("stream_url")
+                if not stream_url:
+                    logger.error(f"[AUDIO] No stream URL available")
+                    return None
+                    
                 logger.info(f"[AUDIO] Stream URL obtained: {video_id}")
                 
+            # Download from stream URL
             async with session.get(
                 stream_url,
                 timeout=aiohttp.ClientTimeout(total=300)
@@ -150,6 +208,7 @@ async def download_video(link: str) -> str:
     os.makedirs(DOWNLOAD_DIR, exist_ok=True)
     file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.mkv")
 
+    # Local check
     if os.path.exists(file_path):
         logger.info(f"🎥 [LOCAL] File exists: {video_id}")
         return file_path
@@ -169,13 +228,31 @@ async def download_video(link: str) -> str:
                     logger.error(f"[VIDEO] API error: {response.status}")
                     return None
 
-                if data.get("status") != "success" or not data.get("stream_url"):
+                if data.get("status") != "success":
                     logger.error(f"[VIDEO] Invalid response: {data}")
                     return None
 
-                stream_url = data["stream_url"]
+                # Check if Telegram link available (already uploaded)
+                if data.get("link"):
+                    telegram_link = data["link"]
+                    logger.info(f"🔗 [VIDEO] Telegram link found: {telegram_link}")
+                    
+                    # Telegram se download karo
+                    downloaded_file = await get_telegram_file(telegram_link, video_id, "video")
+                    if downloaded_file:
+                        return downloaded_file
+                    else:
+                        logger.warning(f"⚠️ [VIDEO] Telegram download failed, trying stream URL")
+                
+                # Otherwise use stream URL
+                stream_url = data.get("stream_url")
+                if not stream_url:
+                    logger.error(f"[VIDEO] No stream URL available")
+                    return None
+                    
                 logger.info(f"[VIDEO] Stream URL obtained: {video_id}")
                 
+            # Download from stream URL
             async with session.get(
                 stream_url,
                 timeout=aiohttp.ClientTimeout(total=600)
