@@ -8,7 +8,7 @@ ffmpeg-python
 gitpython
 hachoir
 heroku3
-httpx[http2]==0.25.2
+httpx
 motor
 numpy
 opencv-python
@@ -35,5 +35,3 @@ yt-dlp
 # 🔗 GitHub : https://github.com/NoxxOP/ShrutiMusic
 # 📢 Telegram Channel : https://t.me/ShrutiBots
 # ===========================================
-
-
