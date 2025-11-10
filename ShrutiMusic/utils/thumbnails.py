@@ -28,7 +28,7 @@ import aiofiles
 import traceback
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageEnhance
-from youtubesearchpython.__future__ import VideosSearch
+from py_yt import VideosSearch
 
 CACHE_DIR = Path("cache")
 CACHE_DIR.mkdir(exist_ok=True)
