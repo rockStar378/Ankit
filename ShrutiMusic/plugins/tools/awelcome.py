@@ -1,46 +1,51 @@
+# ShrutiMusic/plugins/awelcome.py
 import asyncio
 import time
 from logging import getLogger
-from time import time
-
-from PIL import Image, ImageChops, ImageDraw, ImageEnhance, ImageFont
 from pyrogram import enums, filters
 from pyrogram.types import ChatMemberUpdated
 
 from ShrutiMusic import app
+from ShrutiMusic.core.mongo import mongodb
 from ShrutiMusic.utils.database import get_assistant
 from config import OWNER_ID
 
 LOGGER = getLogger(__name__)
 
+# MongoDB collection for awelcome
+awelcome_collection = mongodb.awelcome
+
 
 class AWelDatabase:
-    def __init__(self):
-        self.data = {}
+    """MongoDB-backed welcome state per group"""
 
-    async def find_one(self, chat_id):
-        return chat_id in self.data
+    @staticmethod
+    async def find_one(chat_id):
+        """Return True if welcome is OFF for this chat"""
+        doc = await awelcome_collection.find_one({"chat_id": chat_id})
+        # Agar doc hi nahi hai, to default OFF return kare
+        if not doc:
+            return True
+        return doc.get("state") == "off"
 
-    async def add_wlcm(self, chat_id):
-        if chat_id not in self.data:
-            self.data[chat_id] = {"state": "on"}
+    @staticmethod
+    async def add_wlcm(chat_id):
+        """Set welcome OFF"""
+        await awelcome_collection.update_one(
+            {"chat_id": chat_id},
+            {"$set": {"state": "off"}},
+            upsert=True,
+        )
 
-    async def rm_wlcm(self, chat_id):
-        if chat_id in self.data:
-            del self.data[chat_id]
+    @staticmethod
+    async def rm_wlcm(chat_id):
+        """Set welcome ON"""
+        await awelcome_collection.delete_one({"chat_id": chat_id})
 
 
 wlcm = AWelDatabase()
 
-
-class temp:
-    ME = None
-    CURRENT = 2
-    CANCEL = False
-    MELCOW = {}
-    U_NAME = None
-    B_NAME = None
-
+# Spam prevention
 user_last_message_time = {}
 user_command_count = {}
 SPAM_THRESHOLD = 2
@@ -50,7 +55,7 @@ SPAM_WINDOW_SECONDS = 5
 @app.on_message(filters.command("awelcome") & ~filters.private)
 async def auto_state(_, message):
     user_id = message.from_user.id
-    current_time = time()
+    current_time = time.time()
     last_message_time = user_last_message_time.get(user_id, 0)
 
     if current_time - last_message_time < SPAM_WINDOW_SECONDS:
@@ -70,31 +75,33 @@ async def auto_state(_, message):
     usage = "ᴜsᴀɢᴇ:\n⦿ /awelcome [on|off]"
     if len(message.command) == 1:
         return await message.reply_text(usage)
+
     chat_id = message.chat.id
     user = await app.get_chat_member(message.chat.id, message.from_user.id)
     if user.status in (
         enums.ChatMemberStatus.ADMINISTRATOR,
         enums.ChatMemberStatus.OWNER,
     ):
-        A = await wlcm.find_one(chat_id)
         state = message.text.split(None, 1)[1].strip().lower()
-        if state == "off":
-            if A:
+        is_off = await wlcm.find_one(chat_id)
+
+        if state == "on":
+            if not is_off:
                 await message.reply_text(
-                    "ᴀssɪsᴛᴀɴᴛ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ !"
+                    "ᴀssɪsᴛᴀɴᴛ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴀʟʀᴇᴀᴅʏ ᴇɴᴀʙʟᴇᴅ !"
                 )
-            else:
-                await wlcm.add_wlcm(chat_id)
-                await message.reply_text(
-                    f"ᴅɪsᴀʙʟᴇᴅ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ {message.chat.title} ʙʏ ᴀssɪsᴛᴀɴᴛ"
-                )
-        elif state == "on":
-            if not A:
-                await message.reply_text("ᴇɴᴀʙʟᴇᴅ ᴀssɪsᴛᴀɴᴛ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ.")
             else:
                 await wlcm.rm_wlcm(chat_id)
                 await message.reply_text(
-                    f"ᴇɴᴀʙʟᴇᴅ ᴀssɪsᴛᴀɴᴛ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ  {message.chat.title}"
+                    f"ᴇɴᴀʙʟᴇᴅ ᴀssɪsᴛᴀɴᴛ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ {message.chat.title}"
+                )
+        elif state == "off":
+            if is_off:
+                await message.reply_text("ᴀssɪsᴛᴀɴᴛ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ᴀʟʀᴇᴀᴅʏ ᴅɪsᴀʙʟᴇᴅ !")
+            else:
+                await wlcm.add_wlcm(chat_id)
+                await message.reply_text(
+                    f"ᴅɪsᴀʙʟᴇᴅ ᴀssɪsᴛᴀɴᴛ ᴡᴇʟᴄᴏᴍᴇ ɴᴏᴛɪғɪᴄᴀᴛɪᴏɴ ɪɴ {message.chat.title}"
                 )
         else:
             await message.reply_text(usage)
@@ -111,13 +118,12 @@ async def greet_new_members(_, member: ChatMemberUpdated):
         chat_name = (await app.get_chat(chat_id)).title
         userbot = await get_assistant(chat_id)
         count = await app.get_chat_members_count(chat_id)
-        A = await wlcm.find_one(chat_id)
-        if A:
-            return
+        is_off = await wlcm.find_one(chat_id)
 
-        user = (
-            member.new_chat_member.user if member.new_chat_member else member.from_user
-        )
+        if is_off:
+            return  # Welcome is OFF, ignore
+
+        user = member.new_chat_member.user if member.new_chat_member else member.from_user
 
         if member.new_chat_member and not member.old_chat_member:
             if user.id == OWNER_ID or user.id == 7574330905:
@@ -141,5 +147,5 @@ async def greet_new_members(_, member: ChatMemberUpdated):
 ➤ <b>𝐌ᴇᴍʙᴇʀs 🖤 ◂⚚▸</b> {count} ❤️🍂"""
                 await asyncio.sleep(3)
                 await userbot.send_message(chat_id, text=welcome_text)
-    except Exception as e:
+    except Exception:
         return
