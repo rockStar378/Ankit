@@ -30,10 +30,8 @@ async def load_api_url():
                     content = await response.text()
                     YOUR_API_URL = content.strip()
                     logger.info(f"API URL loaded successfully")
-                else:
-                    logger.error(f"Failed to fetch API URL. HTTP Status: {response.status}")
     except Exception as e:
-        logger.error(f"Error loading API URL: {e}")
+        pass
 
 try:
     loop = asyncio.get_event_loop()
@@ -45,26 +43,21 @@ except RuntimeError:
     pass
 
 async def get_telegram_file(telegram_link: str, video_id: str, file_type: str) -> str:
-    logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
     try:
         extension = ".webm" if file_type == "audio" else ".mkv"
         file_path = os.path.join("downloads", f"{video_id}{extension}")
         
         if os.path.exists(file_path):
-            logger.info(f"📂 [LOCAL] File exists: {video_id}")
             return file_path
         
         parsed = urlparse(telegram_link)
         parts = parsed.path.strip("/").split("/")
         
         if len(parts) < 2:
-            logger.error(f"❌ Invalid Telegram link format: {telegram_link}")
             return None
             
         channel_name = parts[0]
         message_id = int(parts[1])
-        
-        logger.info(f"📥 [TELEGRAM] Downloading from @{channel_name}/{message_id}")
         
         msg = await app.get_messages(channel_name, message_id)
         
@@ -77,14 +70,11 @@ async def get_telegram_file(telegram_link: str, video_id: str, file_type: str) -
             timeout += 0.5
         
         if os.path.exists(file_path):
-            logger.info(f"✅ [TELEGRAM] Downloaded: {video_id}")
             return file_path
         else:
-            logger.error(f"❌ [TELEGRAM] Timeout: {video_id}")
             return None
         
     except Exception as e:
-        logger.error(f"❌ [TELEGRAM] Failed to download {video_id}: {e}")
         return None
 
 async def download_song(link: str) -> str:
@@ -93,13 +83,9 @@ async def download_song(link: str) -> str:
     if not YOUR_API_URL:
         await load_api_url()
         if not YOUR_API_URL:
-            logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
-            logger.error("API URL not available")
             return None
     
     video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
-    logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
-    logger.info(f"🎵 [AUDIO] Starting download for: {video_id}")
 
     if not video_id or len(video_id) < 3:
         return None
@@ -109,7 +95,6 @@ async def download_song(link: str) -> str:
     file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.webm")
 
     if os.path.exists(file_path):
-        logger.info(f"🎵 [LOCAL] File exists: {video_id}")
         return file_path
 
     try:
@@ -124,47 +109,38 @@ async def download_song(link: str) -> str:
                 data = await response.json()
 
                 if response.status != 200:
-                    logger.error(f"[AUDIO] API error: {response.status}")
                     return None
 
                 if data.get("link") and "t.me" in str(data.get("link")):
                     telegram_link = data["link"]
-                    logger.info(f"🔗 [AUDIO] Telegram link received: {telegram_link}")
                     
                     downloaded_file = await get_telegram_file(telegram_link, video_id, "audio")
                     if downloaded_file:
                         return downloaded_file
                     else:
-                        logger.warning(f"⚠️ [AUDIO] Telegram download failed")
                         return None
                 
                 elif data.get("status") == "success" and data.get("stream_url"):
                     stream_url = data["stream_url"]
-                    logger.info(f"[AUDIO] Stream URL obtained: {video_id}")
                     
                     async with session.get(
                         stream_url,
                         timeout=aiohttp.ClientTimeout(total=300)
                     ) as file_response:
                         if file_response.status != 200:
-                            logger.error(f"[AUDIO] Download failed: {file_response.status}")
                             return None
                             
                         with open(file_path, "wb") as f:
                             async for chunk in file_response.content.iter_chunked(16384):
                                 f.write(chunk)
                         
-                        logger.info(f"🎉 [AUDIO] Downloaded: {video_id}")
                         return file_path
                 else:
-                    logger.error(f"[AUDIO] Invalid response: {data}")
                     return None
 
     except asyncio.TimeoutError:
-        logger.error(f"[AUDIO] Timeout: {video_id}")
         return None
     except Exception as e:
-        logger.error(f"[AUDIO] Exception: {video_id} - {e}")
         return None
 
 
@@ -174,13 +150,9 @@ async def download_video(link: str) -> str:
     if not YOUR_API_URL:
         await load_api_url()
         if not YOUR_API_URL:
-            logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
-            logger.error("API URL not available")
             return None
     
     video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
-    logger = LOGGER("ShrutiMusic/platforms/Youtube.py")
-    logger.info(f"🎥 [VIDEO] Starting download for: {video_id}")
 
     if not video_id or len(video_id) < 3:
         return None
@@ -190,7 +162,6 @@ async def download_video(link: str) -> str:
     file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.mkv")
 
     if os.path.exists(file_path):
-        logger.info(f"🎥 [LOCAL] File exists: {video_id}")
         return file_path
 
     try:
@@ -205,47 +176,38 @@ async def download_video(link: str) -> str:
                 data = await response.json()
 
                 if response.status != 200:
-                    logger.error(f"[VIDEO] API error: {response.status}")
                     return None
 
                 if data.get("link") and "t.me" in str(data.get("link")):
                     telegram_link = data["link"]
-                    logger.info(f"🔗 [VIDEO] Telegram link received: {telegram_link}")
                     
                     downloaded_file = await get_telegram_file(telegram_link, video_id, "video")
                     if downloaded_file:
                         return downloaded_file
                     else:
-                        logger.warning(f"⚠️ [VIDEO] Telegram download failed")
                         return None
                 
                 elif data.get("status") == "success" and data.get("stream_url"):
                     stream_url = data["stream_url"]
-                    logger.info(f"[VIDEO] Stream URL obtained: {video_id}")
                     
                     async with session.get(
                         stream_url,
                         timeout=aiohttp.ClientTimeout(total=600)
                     ) as file_response:
                         if file_response.status != 200:
-                            logger.error(f"[VIDEO] Download failed: {file_response.status}")
                             return None
                             
                         with open(file_path, "wb") as f:
                             async for chunk in file_response.content.iter_chunked(16384):
                                 f.write(chunk)
                         
-                        logger.info(f"🎉 [VIDEO] Downloaded: {video_id}")
                         return file_path
                 else:
-                    logger.error(f"[VIDEO] Invalid response: {data}")
                     return None
 
     except asyncio.TimeoutError:
-        logger.error(f"[VIDEO] Timeout: {video_id}")
         return None
     except Exception as e:
-        logger.error(f"[VIDEO] Exception: {video_id} - {e}")
         return None
 
 async def check_file_size(link):
