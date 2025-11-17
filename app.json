@@ -37,11 +37,6 @@
       "value": "7574330905",
       "required": true
     },
-    "OWNER_USERNAME": {
-      "description": "The username of the owner (without @)",
-      "value": "WTF_WhyMeeh",
-      "required": true
-    },
     "BOT_USERNAME": {
       "description": "The username of your bot (without @)",
       "value": "ShrutixMusicBot",
@@ -88,22 +83,22 @@
       "required": false
     },
     "INSTAGRAM": {
-      "description": "Your Instagram profile link",
+      "description": "Your Instagram profile link or Any Link",
       "value": "https://instagram.com/yaduwanshi_nand",
       "required": false
     },
     "YOUTUBE": {
-      "description": "Your YouTube channel link",
+      "description": "Your YouTube channel link or Any Link",
       "value": "https://youtube.com/@NandEditz",
       "required": false
     },
     "GITHUB": {
-      "description": "Your GitHub profile link",
+      "description": "Your GitHub profile link or Any Link",
       "value": "https://github.com/NoxxOP",
       "required": false
     },
     "DONATE": {
-      "description": "Link where people can support/donate",
+      "description": "Link where people can support/donate or Any Link",
       "value": "https://t.me/ShrutiBots/91",
       "required": false
     },
