@@ -30,11 +30,8 @@ async def load_api_url():
                     content = await response.text()
                     YOUR_API_URL = content.strip()
                     logger.info(f"API URL loaded successfully")
-                    return
     except Exception as e:
         pass
-    
-    YOUR_API_URL = "79.72.84.69:8080"
 
 try:
     loop = asyncio.get_event_loop()
@@ -105,7 +102,7 @@ async def download_song(link: str) -> str:
             params = {"url": video_id, "type": "audio"}
             
             async with session.get(
-                f"http://{YOUR_API_URL}/download",
+                f"{YOUR_API_URL}/download",
                 params=params,
                 timeout=aiohttp.ClientTimeout(total=60)
             ) as response:
@@ -172,7 +169,7 @@ async def download_video(link: str) -> str:
             params = {"url": video_id, "type": "video"}
             
             async with session.get(
-                f"http://{YOUR_API_URL}/download",
+                f"{YOUR_API_URL}/download",
                 params=params,
                 timeout=aiohttp.ClientTimeout(total=60)
             ) as response:
