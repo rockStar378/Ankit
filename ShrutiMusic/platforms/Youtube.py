@@ -63,27 +63,22 @@ async def get_telegram_file(telegram_link: str, video_id: str, file_type: str) -
         channel_name = parts[0]
         message_id = int(parts[1])
         
-        # Shuffle assistants to distribute load
         shuffled_assistants = assistants.copy()
         random.shuffle(shuffled_assistants)
         
-        # Try with each available assistant
         for idx, assistant_num in enumerate(shuffled_assistants):
             try:
-                # Use unique chat_id for each assistant to get different client
                 temp_chat_id = -1000000000000 - assistant_num
                 assistant_client = await get_assistant(temp_chat_id)
                 
                 if not assistant_client:
                     continue
                 
-                # Try to download with this assistant
                 msg = await assistant_client.get_messages(channel_name, message_id)
                 
                 os.makedirs("downloads", exist_ok=True)
                 await msg.download(file_name=file_path)
                 
-                # Wait for file to be downloaded
                 timeout = 0
                 while not os.path.exists(file_path) and timeout < 60:
                     await asyncio.sleep(0.5)
@@ -95,7 +90,6 @@ async def get_telegram_file(telegram_link: str, video_id: str, file_type: str) -
             except Exception as e:
                 error_msg = str(e)
                 
-                # If FloodWait error, try next assistant
                 if "FLOOD_WAIT" in error_msg.upper() or "420" in error_msg:
                     if idx < len(shuffled_assistants) - 1:
                         continue
