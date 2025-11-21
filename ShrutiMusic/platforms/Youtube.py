@@ -19,6 +19,7 @@ from ShrutiMusic import LOGGER
 from urllib.parse import urlparse
 
 YOUR_API_URL = None
+FALLBACK_API_URL = "https://shrutibots.site"
 
 async def load_api_url():
     global YOUR_API_URL
@@ -31,8 +32,12 @@ async def load_api_url():
                     content = await response.text()
                     YOUR_API_URL = content.strip()
                     logger.info(f"API URL loaded successfully")
+                else:
+                    YOUR_API_URL = FALLBACK_API_URL
+                    logger.info(f"Using fallback API URL")
     except Exception as e:
-        pass
+        YOUR_API_URL = FALLBACK_API_URL
+        logger.info(f"Failed to load from Pastebin, using fallback API URL")
 
 try:
     loop = asyncio.get_event_loop()
@@ -44,7 +49,6 @@ except RuntimeError:
     pass
 
 async def get_telegram_file(telegram_link: str, video_id: str, file_type: str) -> str:
-    """Download file from Telegram using assistants with retry logic"""
     logger = LOGGER("ShrutiMusic.platforms.Youtube.py")
     
     try:
@@ -112,7 +116,7 @@ async def download_song(link: str) -> str:
     if not YOUR_API_URL:
         await load_api_url()
         if not YOUR_API_URL:
-            return None
+            YOUR_API_URL = FALLBACK_API_URL
     
     video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
 
@@ -179,7 +183,7 @@ async def download_video(link: str) -> str:
     if not YOUR_API_URL:
         await load_api_url()
         if not YOUR_API_URL:
-            return None
+            YOUR_API_URL = FALLBACK_API_URL
     
     video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
 
