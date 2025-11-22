@@ -37,7 +37,6 @@ CANVAS_W, CANVAS_H = 1320, 760
 BG_BLUR = 16
 BG_BRIGHTNESS = 1  
 
-NEON_GLOW = (0, 255, 150, 255)
 RING_COLOR = (98, 193, 169, 255)
 TEXT_WHITE = (245, 245, 245, 255)
 TEXT_SOFT = (230, 230, 230, 255)
@@ -93,23 +92,79 @@ def fit_title_two_lines(draw, text, max_width, font_path, start_size=58, min_siz
     return f, wrap_two_lines(draw, text, f, max_width)
 
 
-def add_neon_glow(canvas, glow_color, glow_radius=30, blur_iterations=3):
-    glow_layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
-    glow_draw = ImageDraw.Draw(glow_layer)
+def get_dominant_edge_color(image, sample_size=50):
+    img_small = image.resize((sample_size, sample_size), Image.LANCZOS)
+    pixels = list(img_small.getdata())
     
-    for i in range(blur_iterations):
-        alpha = int(100 - (i * 25))
-        current_color = (*glow_color[:3], alpha)
-        offset = glow_radius - (i * 8)
+    edge_pixels = []
+    for i in range(sample_size):
+        edge_pixels.append(pixels[i])
+        edge_pixels.append(pixels[i * sample_size])
+        edge_pixels.append(pixels[(i + 1) * sample_size - 1])
+        edge_pixels.append(pixels[sample_size * (sample_size - 1) + i])
+    
+    r_avg = sum(p[0] for p in edge_pixels) // len(edge_pixels)
+    g_avg = sum(p[1] for p in edge_pixels) // len(edge_pixels)
+    b_avg = sum(p[2] for p in edge_pixels) // len(edge_pixels)
+    
+    brightness = (r_avg + g_avg + b_avg) / 3
+    saturation_boost = 1.5 if brightness < 100 else 1.3
+    
+    r_boosted = min(255, int(r_avg * saturation_boost))
+    g_boosted = min(255, int(g_avg * saturation_boost))
+    b_boosted = min(255, int(b_avg * saturation_boost))
+    
+    return (r_boosted, g_boosted, b_boosted, 255)
+
+
+def add_dynamic_edge_glow(canvas, glow_color, corner_radius=40):
+    width, height = canvas.size
+    
+    glow_layers = []
+    glow_intensities = [
+        (45, 120),
+        (35, 90),
+        (25, 60),
+        (15, 35),
+        (8, 20)
+    ]
+    
+    for offset, alpha in glow_intensities:
+        glow_layer = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+        glow_draw = ImageDraw.Draw(glow_layer)
         
-        glow_draw.rectangle(
-            [offset, offset, canvas.width - offset, canvas.height - offset],
+        current_color = (*glow_color[:3], alpha)
+        
+        x0, y0 = offset, offset
+        x1, y1 = width - offset, height - offset
+        
+        glow_draw.rounded_rectangle(
+            [x0, y0, x1, y1],
+            radius=corner_radius,
             outline=current_color,
-            width=12
+            width=8
+        )
+        
+        glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(12))
+        glow_layers.append(glow_layer)
+    
+    for glow_layer in reversed(glow_layers):
+        canvas = Image.alpha_composite(canvas, glow_layer)
+    
+    inner_glow = Image.new("RGBA", canvas.size, (0, 0, 0, 0))
+    inner_draw = ImageDraw.Draw(inner_glow)
+    
+    for i, (inset, alpha) in enumerate([(5, 40), (12, 25), (20, 15)]):
+        inner_color = (*glow_color[:3], alpha)
+        inner_draw.rounded_rectangle(
+            [inset, inset, width - inset, height - inset],
+            radius=corner_radius - (i * 3),
+            outline=inner_color,
+            width=6
         )
     
-    glow_layer = glow_layer.filter(ImageFilter.GaussianBlur(15))
-    canvas = Image.alpha_composite(canvas, glow_layer)
+    inner_glow = inner_glow.filter(ImageFilter.GaussianBlur(8))
+    canvas = Image.alpha_composite(canvas, inner_glow)
     
     return canvas
 
@@ -163,7 +218,8 @@ async def gen_thumb(videoid: str):
         canvas = Image.new("RGBA", (CANVAS_W, CANVAS_H), (0, 0, 0, 255))
         canvas.paste(bg, (0, 0))
         
-        canvas = add_neon_glow(canvas, NEON_GLOW, glow_radius=35, blur_iterations=4)
+        edge_color = get_dominant_edge_color(base_img)
+        canvas = add_dynamic_edge_glow(canvas, edge_color, corner_radius=45)
         
         draw = ImageDraw.Draw(canvas)
 
