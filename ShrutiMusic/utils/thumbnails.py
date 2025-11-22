@@ -35,12 +35,12 @@ CACHE_DIR = Path("cache")
 CACHE_DIR.mkdir(exist_ok=True)
 
 CANVAS_W, CANVAS_H = 1320, 760
-BG_BLUR = 18
-BG_BRIGHTNESS = 0.85
+BG_BLUR = 25
+BG_DARKNESS = 0.35
 
 TEXT_WHITE = (255, 255, 255, 255)
 TEXT_SOFT = (240, 240, 240, 255)
-TEXT_SHADOW = (0, 0, 0, 180)
+TEXT_SHADOW = (0, 0, 0, 200)
 
 FONT_REGULAR_PATH = "ShrutiMusic/assets/font2.ttf"
 FONT_BOLD_PATH = "ShrutiMusic/assets/font3.ttf"
@@ -73,52 +73,98 @@ def wrap_text(draw, text, font, max_width):
 
 
 def get_vibrant_edge_color(image):
-    img_small = image.resize((100, 100), Image.LANCZOS)
+    img_small = image.resize((80, 80), Image.LANCZOS)
     pixels = list(img_small.getdata())
     
     edge_pixels = []
-    size = 100
+    size = 80
+    thickness = 15
+    
     for i in range(size):
-        edge_pixels.append(pixels[i])
-        edge_pixels.append(pixels[i * size])
-        edge_pixels.append(pixels[(i + 1) * size - 1])
-        edge_pixels.append(pixels[size * (size - 1) + i])
+        for j in range(thickness):
+            edge_pixels.append(pixels[i + j * size])
+            edge_pixels.append(pixels[i * size + j])
+            edge_pixels.append(pixels[i * size + (size - 1 - j)])
+            edge_pixels.append(pixels[(size - 1 - j) * size + i])
     
     r_avg = sum(p[0] for p in edge_pixels) // len(edge_pixels)
     g_avg = sum(p[1] for p in edge_pixels) // len(edge_pixels)
     b_avg = sum(p[2] for p in edge_pixels) // len(edge_pixels)
     
     h, s, v = rgb_to_hsv(r_avg/255, g_avg/255, b_avg/255)
-    s = min(1.0, s * 1.8)
-    v = max(0.6, min(0.95, v * 1.4))
+    s = min(1.0, s * 2.2)
+    v = max(0.7, min(1.0, v * 1.6))
     
     r, g, b = hsv_to_rgb(h, s, v)
     return (int(r*255), int(g*255), int(b*255), 255)
 
 
-def create_premium_glow(size, glow_color, intensity=1.0):
+def create_edge_glow(size, glow_color):
     glow = Image.new('RGBA', size, (0, 0, 0, 0))
-    draw = ImageDraw.Draw(glow)
     
-    layers = [
-        (0, int(180 * intensity)),
-        (15, int(140 * intensity)),
-        (30, int(100 * intensity)),
-        (45, int(70 * intensity)),
-        (60, int(40 * intensity)),
-        (75, int(20 * intensity))
+    glow_layers = [
+        (10, 220, 30),
+        (25, 180, 25),
+        (40, 140, 20),
+        (60, 100, 18),
+        (80, 70, 15),
+        (100, 40, 12),
+        (120, 20, 10)
     ]
     
-    for offset, alpha in layers:
+    for offset, alpha, width in glow_layers:
+        layer = Image.new('RGBA', size, (0, 0, 0, 0))
+        draw = ImageDraw.Draw(layer)
         color = (*glow_color[:3], alpha)
         draw.rectangle(
             [offset, offset, size[0]-offset, size[1]-offset],
             outline=color,
-            width=int(15 + (offset/10))
+            width=width
         )
+        layer = layer.filter(ImageFilter.GaussianBlur(20))
+        glow = Image.alpha_composite(glow, layer)
     
-    glow = glow.filter(ImageFilter.GaussianBlur(25))
     return glow
+
+
+def create_artwork_with_frame(base_img, size, glow_color):
+    art = base_img.resize((size, size), Image.LANCZOS)
+    
+    corner_radius = 40
+    mask = Image.new('L', (size, size), 0)
+    mask_draw = ImageDraw.Draw(mask)
+    mask_draw.rounded_rectangle([0, 0, size, size], radius=corner_radius, fill=255)
+    
+    output = Image.new('RGBA', (size, size), (0, 0, 0, 0))
+    output.paste(art, (0, 0))
+    output.putalpha(mask)
+    
+    frame_size = size + 40
+    frame = Image.new('RGBA', (frame_size, frame_size), (0, 0, 0, 0))
+    
+    glow_layers = [
+        (35, 200, 8),
+        (28, 160, 6),
+        (20, 120, 5),
+        (12, 80, 4),
+        (5, 50, 3)
+    ]
+    
+    for offset, alpha, width in glow_layers:
+        layer = Image.new('RGBA', (frame_size, frame_size), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(layer)
+        color = (*glow_color[:3], alpha)
+        x = offset
+        y = offset
+        w = frame_size - offset * 2
+        h = frame_size - offset * 2
+        draw.rounded_rectangle([x, y, x+w, y+h], radius=corner_radius+10, outline=color, width=width)
+        layer = layer.filter(ImageFilter.GaussianBlur(8))
+        frame = Image.alpha_composite(frame, layer)
+    
+    frame.paste(output, (20, 20), output)
+    
+    return frame
 
 
 async def gen_thumb(videoid: str):
@@ -165,73 +211,36 @@ async def gen_thumb(videoid: str):
     try:
         bg = change_image_size(CANVAS_W, CANVAS_H, base_img).convert("RGBA")
         bg = bg.filter(ImageFilter.GaussianBlur(BG_BLUR))
-        bg = ImageEnhance.Brightness(bg).enhance(BG_BRIGHTNESS)
+        bg = ImageEnhance.Brightness(bg).enhance(BG_DARKNESS)
         
-        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
-        overlay_draw = ImageDraw.Draw(overlay)
+        dark_overlay = Image.new('RGBA', bg.size, (0, 0, 0, 120))
+        bg = Image.alpha_composite(bg, dark_overlay)
         
-        gradient_height = 150
-        for i in range(gradient_height):
-            alpha = int((i / gradient_height) * 100)
-            overlay_draw.rectangle(
-                [(0, CANVAS_H - gradient_height + i), (CANVAS_W, CANVAS_H - gradient_height + i + 1)],
-                fill=(0, 0, 0, alpha)
-            )
-        
-        bg = Image.alpha_composite(bg, overlay)
-        
-        canvas = Image.new("RGBA", (CANVAS_W, CANVAS_H), (0, 0, 0, 255))
+        canvas = Image.new("RGBA", (CANVAS_W, CANVAS_H), (15, 15, 20, 255))
         canvas.paste(bg, (0, 0))
         
         edge_color = get_vibrant_edge_color(base_img)
-        glow_layer = create_premium_glow((CANVAS_W, CANVAS_H), edge_color, intensity=1.2)
+        glow_layer = create_edge_glow((CANVAS_W, CANVAS_H), edge_color)
         canvas = Image.alpha_composite(canvas, glow_layer)
         
         draw = ImageDraw.Draw(canvas)
 
-        thumb_size = 500
-        circle_x = 80
-        circle_y = (CANVAS_H - thumb_size) // 2
+        art_size = 480
+        artwork_frame = create_artwork_with_frame(base_img, art_size, edge_color)
+        art_x = 70
+        art_y = (CANVAS_H - artwork_frame.height) // 2
+        canvas.paste(artwork_frame, (art_x, art_y), artwork_frame)
 
-        circular_mask = Image.new("L", (thumb_size, thumb_size), 0)
-        mdraw = ImageDraw.Draw(circular_mask)
-        mdraw.ellipse((0, 0, thumb_size, thumb_size), fill=255)
-
-        art = base_img.resize((thumb_size, thumb_size), Image.LANCZOS)
-        art.putalpha(circular_mask)
-
-        ring_width = 8
-        ring_size = thumb_size + ring_width * 2
-        ring_img = Image.new("RGBA", (ring_size, ring_size), (0, 0, 0, 0))
-        rdraw = ImageDraw.Draw(ring_img)
-        
-        ring_glow_color = edge_color
-        for i in range(3):
-            offset = i * 6
-            alpha = 180 - (i * 40)
-            rdraw.ellipse(
-                [offset, offset, ring_size - offset, ring_size - offset],
-                outline=(*ring_glow_color[:3], alpha),
-                width=ring_width + (i * 2)
-            )
-        
-        ring_img = ring_img.filter(ImageFilter.GaussianBlur(4))
-        
-        canvas.paste(ring_img, (circle_x - ring_width, circle_y - ring_width), ring_img)
-        canvas.paste(art, (circle_x, circle_y), art)
-
-        tl_font = ImageFont.truetype(FONT_BOLD_PATH, 40)
-        tl_shadow_offset = 3
-        draw.text((35+tl_shadow_offset, 25+tl_shadow_offset), "ShrutiMusic", fill=(0, 0, 0, 200), font=tl_font)
+        tl_font = ImageFont.truetype(FONT_BOLD_PATH, 42)
+        shadow_offset = 3
+        draw.text((35+shadow_offset, 25+shadow_offset), "ShrutiMusic", fill=TEXT_SHADOW, font=tl_font)
         draw.text((35, 25), "ShrutiMusic", fill=TEXT_WHITE, font=tl_font)
 
-        info_x = circle_x + thumb_size + 70
+        info_x = art_x + artwork_frame.width + 50
         max_text_w = CANVAS_W - info_x - 60
 
         np_font = ImageFont.truetype(FONT_BOLD_PATH, 75)
         np_text = "NOW PLAYING"
-        np_bbox = draw.textbbox((0, 0), np_text, font=np_font)
-        np_w = np_bbox[2] - np_bbox[0]
         np_x = info_x
         np_y = 120
         
