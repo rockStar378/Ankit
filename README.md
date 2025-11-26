@@ -3,446 +3,332 @@
 </p>
 
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=35&duration=2000&pause=1000&color=FF1493&center=true&vCenter=true&width=600&lines=%F0%9D%90%92%F0%9D%90%A1%F0%9D%90%AB%F0%9D%90%AE%F0%9D%90%AD%F0%9D%90%A2+%F0%9D%90%8C%F0%9D%90%AE%F0%9D%90%AC%F0%9D%90%A2%F0%9D%90%9C+%F0%9D%90%91%F0%9D%90%9E%F0%9D%90%A9%F0%9D%90%A8;%F0%9D%90%92%F0%9D%90%A1%F0%9D%90%AB%F0%9D%90%AE%F0%9D%90%AD%F0%9D%90%A2+%F0%9D%90%8C%F0%9D%90%AE%F0%9D%90%AC%F0%9D%90%A2%F0%9D%90%9C+%F0%9D%90%91%F0%9D%90%9E%F0%9D%90%A9%F0%9D%90%A8;%F0%9D%90%92%F0%9D%90%A1%F0%9D%90%AB%F0%9D%90%AE%F0%9D%90%AD%F0%9D%90%A2+%F0%9D%90%8C%F0%9D%90%AE%F0%9D%90%AC%F0%9D%90%A2%F0%9D%90%9C+%F0%9D%90%91%F0%9D%90%9E%F0%9D%90%A9%F0%9D%90%A8" alt="Shruti Music Repo">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=35&duration=2000&pause=1000&color=00D9FF&center=true&vCenter=true&width=600&lines=%F0%9D%90%92%F0%9D%90%A1%F0%9D%90%AB%F0%9D%90%AE%F0%9D%90%AD%F0%9D%90%A2+%F0%9D%90%8C%F0%9D%90%AE%F0%9D%90%AC%F0%9D%90%A2%F0%9D%90%9C+%F0%9D%90%91%F0%9D%90%9E%F0%9D%90%A9%F0%9D%90%A8;Lightning+Fast+Music+Streaming;Now+Running+on+API!" alt="Shruti Music Repo">
 </div>
 
 ---
 
 <div align="center">
 
-## ⚡ **ᴍᴀᴊᴏʀ ᴜᴘᴅᴀᴛᴇ - ɴᴏᴡ ʀᴜɴɴɪɴɢ ᴏɴ ᴀᴘɪ!** ⚡
+## ⚡ 𝐍𝐨𝐰 𝐑𝐮𝐧𝐧𝐢𝐧𝐠 𝐨𝐧 𝐀𝐏𝐈 - 𝟏𝟎𝐱 𝐅𝐚𝐬𝐭𝐞𝐫! ⚡
 
-### 🚀 **ʟɪɢʜᴛɴɪɴɢ ғᴀsᴛ ᴘᴇʀғᴏʀᴍᴀɴᴄᴇ** 🚀
-> **Response Time:** `1-3 seconds` | **Speed Boost:** `10x Faster` | **Stability:** `99.9% Uptime`
+> **𝐑𝐞𝐬𝐩𝐨𝐧𝐬𝐞 𝐓𝐢𝐦𝐞:** `1-3 seconds` | **𝐒𝐭𝐚𝐛𝐢𝐥𝐢𝐭𝐲:** `99.9% Uptime`
 
-</div>
+[![Support Channel](https://img.shields.io/badge/Support%20Channel-1c1c1c?style=for-the-badge&logo=telegram&logoColor=00D9FF)](https://t.me/ShrutiBots)
+[![Support Group](https://img.shields.io/badge/Support%20Group-1c1c1c?style=for-the-badge&logo=telegram&logoColor=00D9FF)](https://t.me/ShrutiBotSupport)
+[![Owner](https://img.shields.io/badge/Owner-1c1c1c?style=for-the-badge&logo=telegram&logoColor=00D9FF)](https://t.me/WTF_WhyMeeh)
 
----
-
-<div align="center">
-  
-# 🎵 **sʜʀᴜᴛɪ ᴍᴜsɪᴄ ʙᴏᴛ** 🎵
-  
-### ᴀ ᴘᴏᴡᴇʀғᴜʟ ᴛᴇʟᴇɢʀᴀᴍ ᴍᴜsɪᴄ ʙᴏᴛ ᴛᴏ ᴘʟᴀʏ sᴏɴɢs ɪɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs
-  
-[![Support Channel](https://img.shields.io/badge/Support%20Channel-FF0000?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/ShrutiBots)
-[![Support Group](https://img.shields.io/badge/Support%20Group-00FF00?style=for-the-badge&logo=telegram&logoColor=black&labelColor=FF0000)](https://t.me/ShrutiBotSupport)
-[![Owner](https://img.shields.io/badge/Owner-FFFF00?style=for-the-badge&logo=telegram&logoColor=black&labelColor=8A2BE2)](https://t.me/WTF_WhyMeeh)
-
-[![Forks](https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=social&logo=github&labelColor=FF1493&color=00CED1)](https://github.com/NoxxOP/ShrutiMusic/fork)
-[![Stars](https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=social&logo=github&labelColor=FF4500&color=32CD32)](https://github.com/NoxxOP/ShrutiMusic/stargazers)
-[![Contributors](https://img.shields.io/github/contributors/NoxxOP/ShrutiMusic?style=social&logo=github&labelColor=DC143C&color=FFD700)](https://github.com/NoxxOP/ShrutiMusic/graphs/contributors)
+[![Forks](https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=0a0a0a&labelColor=1c1c1c)](https://github.com/NoxxOP/ShrutiMusic/fork)
+[![Stars](https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=0a0a0a&labelColor=1c1c1c)](https://github.com/NoxxOP/ShrutiMusic/stargazers)
+[![Contributors](https://img.shields.io/github/contributors/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=0a0a0a&labelColor=1c1c1c)](https://github.com/NoxxOP/ShrutiMusic/graphs/contributors)
 
 </div>
 
 ---
 
-## 🚀 **ǫᴜɪᴄᴋ ᴅᴇᴘʟᴏʏ ᴏᴘᴛɪᴏɴs**
-
-<div align="center">
-  
-<table>
-<tr>
-<td align="center" width="33%">
-
-### 🔥 **ʜᴇʀᴏᴋᴜ**
-<a href="https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic">
-<img src="https://img.shields.io/badge/Deploy%20To%20Heroku-FF0080?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000080" width="220px">
-</a>
-
-**ᴏɴᴇ-ᴄʟɪᴄᴋ ᴅᴇᴘʟᴏʏ**
-
-</td>
-<td align="center" width="33%">
-
-### ☁️ **ʀᴇɴᴅᴇʀ**
-<a href="https://render.com/deploy?repo=https://github.com/NoxxOP/ShrutiMusic">
-<img src="https://img.shields.io/badge/Deploy%20To%20Render-00FF80?style=for-the-badge&logo=render&logoColor=black&labelColor=800080" width="220px">
-</a>
-
-**100% ғʀᴇᴇ**
-
-</td>
-<td align="center" width="33%">
-
-### 🎵 **sɪᴍᴘʟᴇ ʙᴏᴛ**
-<a href="https://github.com/NoxxOP/ShrutixMusic">
-<img src="https://img.shields.io/badge/Simple%20Music%20Bot-FF4000?style=for-the-badge&logo=github&logoColor=white&labelColor=008000" width="220px">
-</a>
-
-**ʟɪɢʜᴛᴡᴇɪɢʜᴛ**
-
-</td>
-</tr>
-</table>
-  
-</div>
-
----
-
-## ✨ **ғᴇᴀᴛᴜʀᴇs**
+## 🚀 𝐐𝐮𝐢𝐜𝐤 𝐃𝐞𝐩𝐥𝐨𝐲
 
 <div align="center">
 
-<table>
-<tr>
-<td align="center" width="25%">
-
-### 🎵
-### **ᴘʟᴀʏ ᴍᴜsɪᴄ**
-sᴛʀᴇᴀᴍ ʜɪɢʜ-ǫᴜᴀʟɪᴛʏ ᴍᴜsɪᴄ ɪɴ ᴛᴇʟᴇɢʀᴀᴍ ᴠᴏɪᴄᴇ ᴄʜᴀᴛs
-
-</td>
-<td align="center" width="25%">
-
-### 🔗
-### **ᴍᴜʟᴛɪᴘʟᴇ sᴏᴜʀᴄᴇs**
-ʏᴏᴜᴛᴜʙᴇ • sᴘᴏᴛɪғʏ
-sᴏᴜɴᴅᴄʟᴏᴜᴅ • ʟᴏᴄᴀʟ ғɪʟᴇs
-
-</td>
-<td align="center" width="25%">
-
-### 📋
-### **ᴘʟᴀʏʟɪsᴛs**
-ᴄʀᴇᴀᴛᴇ ᴀɴᴅ ᴍᴀɴᴀɢᴇ ᴘʟᴀʏʟɪsᴛs ғᴏʀ ʏᴏᴜʀ ɢʀᴏᴜᴘ
-
-</td>
-<td align="center" width="25%">
-
-### 🌐
-### **ᴍᴜʟᴛɪ-ʟᴀɴɢᴜᴀɢᴇ**
-ᴀᴠᴀɪʟᴀʙʟᴇ ɪɴ ᴍᴜʟᴛɪᴘʟᴇ ʟᴀɴɢᴜᴀɢᴇs
-
-</td>
-</tr>
-<tr>
-<td align="center" width="25%">
-
-### 🎨
-### **ᴇʟᴇɢᴀɴᴛ ᴜɪ**
-ᴄʟᴇᴀɴ ᴀɴᴅ ᴍᴏᴅᴇʀɴ ᴜsᴇʀ ɪɴᴛᴇʀғᴀᴄᴇ
-
-</td>
-<td align="center" width="25%">
-
-### 👑
-### **ɢʀᴏᴜᴘ ᴍᴀɴᴀɢᴇᴍᴇɴᴛ**
-ᴘᴏᴡᴇʀғᴜʟ ᴀᴅᴍɪɴ ᴄᴏᴍᴍᴀɴᴅs
-
-</td>
-<td align="center" width="25%">
-
-### 🔊
-### **ʜɪɢʜ ǫᴜᴀʟɪᴛʏ**
-ᴄʀʏsᴛᴀʟ ᴄʟᴇᴀʀ ᴀᴜᴅɪᴏ sᴛʀᴇᴀᴍɪɴɢ
-
-</td>
-<td align="center" width="25%">
-
-### ⚡
-### **ғᴀsᴛ & ʀᴇʟɪᴀʙʟᴇ**
-ʟɪɢʜᴛɴɪɴɢ ғᴀsᴛ ʀᴇsᴘᴏɴsᴇ ᴛɪᴍᴇ
-
-</td>
-</tr>
-</table>
-
-</div>
-
----
-
-## 📊 **ʀᴇᴘᴏsɪᴛᴏʀʏ sᴛᴀᴛs**
-
-<div align="center">
-
-![Repo Size](https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=FF1493&labelColor=000080)
-![Issues](https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=FF4500&labelColor=008B8B)
-![Forks](https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=32CD32&labelColor=8B0000)
-![Stars](https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=FFD700&labelColor=4B0082)
-![License](https://img.shields.io/github/license/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=00CED1&labelColor=DC143C)
-![Last Commit](https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?style=flat-square&logo=github&color=FF6347&labelColor=2F4F4F)
-
-</div>
-
----
-
-## 🔥 **ᴇssᴇɴᴛɪᴀʟ ᴄᴏᴍᴍᴀɴᴅs**
-
-<div align="center">
-
-| **ᴄᴏᴍᴍᴀɴᴅ** | **ᴅᴇsᴄʀɪᴘᴛɪᴏɴ** | **ᴜsᴀɢᴇ** |
+| **𝐏𝐥𝐚𝐭𝐟𝐨𝐫𝐦** | **𝐃𝐞𝐩𝐥𝐨𝐲 𝐍𝐨𝐰** | **𝐈𝐧𝐟𝐨** |
 |:---:|:---:|:---:|
-| `/play` | 🎵 ᴘʟᴀʏ sᴏɴɢ ғʀᴏᴍ ʏᴏᴜᴛᴜʙᴇ | `/play [song name/URL]` |
-| `/pause` | ⏸️ ᴘᴀᴜsᴇ ᴛʜᴇ ᴄᴜʀʀᴇɴᴛ sᴛʀᴇᴀᴍ | `/pause` |
-| `/resume` | ▶️ ʀᴇsᴜᴍᴇ ᴛʜᴇ ᴘᴀᴜsᴇᴅ sᴛʀᴇᴀᴍ | `/resume` |
-| `/skip` | ⏭️ sᴋɪᴘ ᴛᴏ ᴛʜᴇ ɴᴇxᴛ sᴏɴɢ | `/skip` |
-| `/stop` | ⏹️ sᴛᴏᴘ ᴛʜᴇ sᴛʀᴇᴀᴍɪɴɢ | `/stop` |
-| `/playlist` | 📋 sʜᴏᴡ ᴛʜᴇ ᴘʟᴀʏʟɪsᴛ | `/playlist` |
-| `/song` | 📥 ᴅᴏᴡɴʟᴏᴀᴅ ᴀ sᴏɴɢ ᴀs ᴀᴜᴅɪᴏ | `/song [song name]` |
-| `/settings` | ⚙️ ᴏᴘᴇɴ ʙᴏᴛ sᴇᴛᴛɪɴɢs | `/settings` |
+| **𝐇𝐞𝐫𝐨𝐤𝐮** | [![Deploy](https://img.shields.io/badge/Deploy-0a0a0a?style=for-the-badge&logo=heroku&logoColor=00D9FF)](https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic) | 𝐎𝐧𝐞-𝐂𝐥𝐢𝐜𝐤 𝐃𝐞𝐩𝐥𝐨𝐲 |
+| **𝐑𝐞𝐧𝐝𝐞𝐫** | [![Deploy](https://img.shields.io/badge/Deploy-0a0a0a?style=for-the-badge&logo=render&logoColor=00D9FF)](https://render.com/deploy?repo=https://github.com/NoxxOP/ShrutiMusic) | 𝟏𝟎𝟎% 𝐅𝐫𝐞𝐞 |
+| **𝐒𝐢𝐦𝐩𝐥𝐞 𝐁𝐨𝐭** | [![View](https://img.shields.io/badge/View-0a0a0a?style=for-the-badge&logo=github&logoColor=00D9FF)](https://github.com/NoxxOP/ShrutixMusic) | 𝐋𝐢𝐠𝐡𝐭𝐰𝐞𝐢𝐠𝐡𝐭 |
 
 </div>
 
 ---
 
-## 🚀 **ᴅᴇᴘʟᴏʏᴍᴇɴᴛ ɢᴜɪᴅᴇ**
+## ✨ 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬
 
-### 🔧 **ᴠᴘs ᴅᴇᴘʟᴏʏᴍᴇɴᴛ** (sᴛᴇᴘ ʙʏ sᴛᴇᴘ)
+<div align="center">
 
-#### **📦 ᴘʀᴇʀᴇǫᴜɪsɪᴛᴇs**
+| 🎵 𝐇𝐢𝐠𝐡 𝐐𝐮𝐚𝐥𝐢𝐭𝐲 | 🔗 𝐌𝐮𝐥𝐭𝐢𝐩𝐥𝐞 𝐒𝐨𝐮𝐫𝐜𝐞𝐬 | 📋 𝐏𝐥𝐚𝐲𝐥𝐢𝐬𝐭𝐬 | 🌐 𝐌𝐮𝐥𝐭𝐢-𝐋𝐚𝐧𝐠𝐮𝐚𝐠𝐞 |
+|:---:|:---:|:---:|:---:|
+| Crystal clear audio | YouTube • Spotify | Create & Manage | Multiple Languages |
+| **🎨 𝐄𝐥𝐞𝐠𝐚𝐧𝐭 𝐔𝐈** | **👑 𝐀𝐝𝐦𝐢𝐧 𝐂𝐨𝐧𝐭𝐫𝐨𝐥𝐬** | **⚡ 𝐋𝐢𝐠𝐡𝐭𝐧𝐢𝐧𝐠 𝐅𝐚𝐬𝐭** | **🔊 𝐒𝐭𝐚𝐛𝐥𝐞** |
+| Modern Interface | Powerful Commands | 1-3s Response | 99.9% Uptime |
 
-**ᴜᴘᴅᴀᴛᴇ sʏsᴛᴇᴍ:**
+</div>
+
+---
+
+## 🎯 𝐂𝐨𝐦𝐦𝐚𝐧𝐝𝐬
+
+<div align="center">
+
+| 𝐂𝐨𝐦𝐦𝐚𝐧𝐝 | 𝐃𝐞𝐬𝐜𝐫𝐢𝐩𝐭𝐢𝐨𝐧 |
+|:---:|:---:|
+| `/play [song]` | 🎵 𝐏𝐥𝐚𝐲 𝐦𝐮𝐬𝐢𝐜 |
+| `/pause` | ⏸️ 𝐏𝐚𝐮𝐬𝐞 𝐩𝐥𝐚𝐲𝐛𝐚𝐜𝐤 |
+| `/resume` | ▶️ 𝐑𝐞𝐬𝐮𝐦𝐞 𝐩𝐥𝐚𝐲𝐛𝐚𝐜𝐤 |
+| `/skip` | ⏭️ 𝐒𝐤𝐢𝐩 𝐭𝐫𝐚𝐜𝐤 |
+| `/stop` | ⏹️ 𝐒𝐭𝐨𝐩 𝐩𝐥𝐚𝐲𝐛𝐚𝐜𝐤 |
+| `/playlist` | 📋 𝐕𝐢𝐞𝐰 𝐩𝐥𝐚𝐲𝐥𝐢𝐬𝐭 |
+| `/song [name]` | 📥 𝐃𝐨𝐰𝐧𝐥𝐨𝐚𝐝 𝐚𝐮𝐝𝐢𝐨 |
+| `/settings` | ⚙️ 𝐁𝐨𝐭 𝐬𝐞𝐭𝐭𝐢𝐧𝐠𝐬 |
+
+</div>
+
+---
+
+## 🚀 𝐃𝐞𝐩𝐥𝐨𝐲𝐦𝐞𝐧𝐭 𝐆𝐮𝐢𝐝𝐞
+
+<details>
+<summary><b>📦 𝐕𝐏𝐒 𝐃𝐞𝐩𝐥𝐨𝐲𝐦𝐞𝐧𝐭 (𝐂𝐥𝐢𝐜𝐤 𝐭𝐨 𝐄𝐱𝐩𝐚𝐧𝐝)</b></summary>
+
+<br>
+
+### **𝐒𝐭𝐞𝐩 𝟏: 𝐔𝐩𝐝𝐚𝐭𝐞 𝐒𝐲𝐬𝐭𝐞𝐦**
+
 ```bash
 sudo apt-get update && sudo apt-get upgrade -y
 ```
 
-**ɪɴsᴛᴀʟʟ ᴘᴀᴄᴋᴀɢᴇs:**
+---
+
+### **𝐒𝐭𝐞𝐩 𝟐: 𝐈𝐧𝐬𝐭𝐚𝐥𝐥 𝐑𝐞𝐪𝐮𝐢𝐫𝐞𝐝 𝐏𝐚𝐜𝐤𝐚𝐠𝐞𝐬**
+
 ```bash
 sudo apt-get install python3 python3-pip ffmpeg git screen curl -y
 ```
 
-**ɪɴsᴛᴀʟʟ ɴᴏᴅᴇ.ᴊs:**
+---
+
+### **𝐒𝐭𝐞𝐩 𝟑: 𝐈𝐧𝐬𝐭𝐚𝐥𝐥 𝐍𝐨𝐝𝐞.𝐣𝐬**
+
 ```bash
 curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+```
+
+```bash
 sudo apt-get install -y nodejs
 ```
 
 ---
 
-#### **📂 ᴄʟᴏɴᴇ ʀᴇᴘᴏsɪᴛᴏʀʏ**
+### **𝐒𝐭𝐞𝐩 𝟒: 𝐂𝐥𝐨𝐧𝐞 𝐑𝐞𝐩𝐨𝐬𝐢𝐭𝐨𝐫𝐲**
 
 ```bash
 git clone https://github.com/NoxxOP/ShrutiMusic
+```
+
+```bash
 cd ShrutiMusic
 ```
 
 ---
 
-#### **🖥️ sᴇᴛᴜᴘ sᴄʀᴇᴇɴ** (24/7 ʀᴜɴɴɪɴɢ)
+### **𝐒𝐭𝐞𝐩 𝟓: 𝐂𝐫𝐞𝐚𝐭𝐞 𝐒𝐜𝐫𝐞𝐞𝐧 𝐒𝐞𝐬𝐬𝐢𝐨𝐧**
 
 ```bash
 screen
 ```
 
+**𝐍𝐨𝐭𝐞:** Press `Ctrl+A` then `D` to detach screen
+
+**𝐓𝐨 𝐑𝐞𝐚𝐭𝐭𝐚𝐜𝐡:**
+```bash
+screen -ls
+```
+```bash
+screen -r {screen_id}
+```
+
 ---
 
-#### **🐍 ᴠɪʀᴛᴜᴀʟ ᴇɴᴠɪʀᴏɴᴍᴇɴᴛ**
+### **𝐒𝐭𝐞𝐩 𝟔: 𝐈𝐧𝐬𝐭𝐚𝐥𝐥 𝐕𝐢𝐫𝐭𝐮𝐚𝐥 𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭 𝐏𝐚𝐜𝐤𝐚𝐠𝐞**
+
+```bash
+sudo apt-get install python3-venv -y
+```
+
+---
+
+### **𝐒𝐭𝐞𝐩 𝟕: 𝐂𝐫𝐞𝐚𝐭𝐞 𝐕𝐢𝐫𝐭𝐮𝐚𝐥 𝐄𝐧𝐯𝐢𝐫𝐨𝐧𝐦𝐞𝐧𝐭**
 
 ```bash
 python3 -m venv venv
+```
+
+```bash
 source venv/bin/activate
 ```
 
 ---
 
-#### **📦 ɪɴsᴛᴀʟʟ ᴅᴇᴘᴇɴᴅᴇɴᴄɪᴇs**
+### **𝐒𝐭𝐞𝐩 𝟖: 𝐈𝐧𝐬𝐭𝐚𝐥𝐥 𝐏𝐲𝐭𝐡𝐨𝐧 𝐃𝐞𝐩𝐞𝐧𝐝𝐞𝐧𝐜𝐢𝐞𝐬**
 
 ```bash
 pip3 install -U pip
+```
+
+```bash
 pip3 install -U -r requirements.txt
 ```
 
 ---
 
-#### **⚙️ ᴄᴏɴғɪɢᴜʀᴀᴛɪᴏɴ**
+### **𝐒𝐭𝐞𝐩 𝟗: 𝐂𝐨𝐧𝐟𝐢𝐠𝐮𝐫𝐚𝐭𝐢𝐨𝐧**
 
 ```bash
 nano .env
 ```
 
-**ғɪʟʟ ɪɴ ʏᴏᴜʀ ᴠᴀʀɪᴀʙʟᴇs:**
+**𝐅𝐢𝐥𝐥 𝐢𝐧 𝐲𝐨𝐮𝐫 𝐯𝐚𝐫𝐢𝐚𝐛𝐥𝐞𝐬:**
 
-- `API_ID` & `API_HASH` - ғʀᴏᴍ [my.telegram.org](https://my.telegram.org)
-- `BOT_TOKEN` - ғʀᴏᴍ [@BotFather](https://t.me/BotFather)
-- `MONGO_DB_URI` - ғʀᴏᴍ ʏᴏᴜʀ ᴍᴏɴɢᴏᴅʙ ᴀᴛʟᴀs ᴄʟᴜsᴛᴇʀ
-- `OWNER_ID` - ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴍ ᴜsᴇʀ ɪᴅ
-- `OWNER_USERNAME` - ʏᴏᴜʀ ᴛᴇʟᴇɢʀᴀᴍ ᴜsᴇʀɴᴀᴍᴇ (ᴡɪᴛʜᴏᴜᴛ @)
-- `BOT_USERNAME` - ʏᴏᴜʀ ʙᴏᴛ's ᴜsᴇʀɴᴀᴍᴇ (ᴡɪᴛʜᴏᴜᴛ @)
-- `UPSTREAM_REPO` - ɢɪᴛʜᴜʙ ʀᴇᴘᴏ ᴜʀʟ ғᴏʀ ᴜᴘᴅᴀᴛᴇs
-- `STRING_SESSION` - ɢᴇɴᴇʀᴀᴛᴇ ᴜsɪɴɢ [@Sessionbbbot](https://t.me/Sessionbbbot)
-- `GIT_TOKEN` - ɪғ ʏᴏᴜʀ ʀᴇᴘᴏ ɪs ᴘʀɪᴠᴀᴛᴇ
-- `LOG_GROUP_ID` - ʟᴏɢ ɢʀᴏᴜᴘ/ᴄʜᴀɴɴᴇʟ ɪᴅ (sᴛᴀʀᴛɪɴɢ ᴡɪᴛʜ -100)
-- `SUPPORT_GROUP` - ғᴜʟʟ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ
-- `SUPPORT_CHANNEL` - ғᴜʟʟ ʟɪɴᴋ ᴏғ ʏᴏᴜʀ sᴜᴘᴘᴏʀᴛ ᴄʜᴀɴɴᴇʟ
-- `START_IMG_URL` - ɪᴍᴀɢᴇ ᴜʀʟ ғᴏʀ /sᴛᴀʀᴛ ᴍᴇssᴀɢᴇ ᴛʜᴜᴍʙɴᴀɪʟ
+- `API_ID` & `API_HASH` - Get from [my.telegram.org](https://my.telegram.org)
+- `BOT_TOKEN` - Get from [@BotFather](https://t.me/BotFather)
+- `MONGO_DB_URI` - MongoDB Atlas connection string
+- `OWNER_ID` - Your Telegram user ID
+- `STRING_SESSION` - Generate using [@Sessionbbbot](https://t.me/Sessionbbbot)
+- `LOG_GROUP_ID` - Log group/channel ID (starting with -100)
+- `SUPPORT_GROUP` - Your support group link
+- `SUPPORT_CHANNEL` - Your support channel link
+
+**Save:** `Ctrl+X` then `Y` then `Enter`
 
 ---
 
-#### **▶️ sᴛᴀʀᴛɪɴɢ ᴛʜᴇ ʙᴏᴛ**
+### **𝐒𝐭𝐞𝐩 𝟏𝟎: 𝐒𝐭𝐚𝐫𝐭 𝐁𝐨𝐭**
 
-**ᴍᴇᴛʜᴏᴅ 1:** ᴜsɪɴɢ ᴘʏᴛʜᴏɴ
+**𝐌𝐞𝐭𝐡𝐨𝐝 𝟏:**
 ```bash
 python3 -m ShrutiMusic
 ```
 
-**ᴍᴇᴛʜᴏᴅ 2:** ᴜsɪɴɢ ʙᴀsʜ sᴄʀɪᴘᴛ
+**𝐌𝐞𝐭𝐡𝐨𝐝 𝟐:**
 ```bash
 bash start
 ```
 
-**ᴅᴇᴛᴀᴄʜ sᴄʀᴇᴇɴ:** `Ctrl+A` ᴛʜᴇɴ `D`
+**𝐃𝐞𝐭𝐚𝐜𝐡 𝐒𝐜𝐫𝐞𝐞𝐧:** `Ctrl+A` then `D`
 
-**ʀᴇᴀᴛᴛᴀᴄʜ sᴄʀᴇᴇɴ:**
-```bash
-screen -ls
-screen -r {screen_id}
-```
-
-**ᴇxᴀᴍᴘʟᴇ:** `screen -r 108108`
+</details>
 
 ---
 
-## ☁️ **ʜᴇʀᴏᴋᴜ ᴅᴇᴘʟᴏʏᴍᴇɴᴛ**
+<details>
+<summary><b>☁️ 𝐇𝐞𝐫𝐨𝐤𝐮 𝐃𝐞𝐩𝐥𝐨𝐲𝐦𝐞𝐧𝐭 (𝐂𝐥𝐢𝐜𝐤 𝐭𝐨 𝐄𝐱𝐩𝐚𝐧𝐝)</b></summary>
+
+<br>
 
 <div align="center">
 
-[![Deploy to Heroku](https://img.shields.io/badge/Deploy%20To%20Heroku-FF0080?style=for-the-badge&logo=heroku&logoColor=white&labelColor=000080)](https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic)
+[![Deploy to Heroku](https://img.shields.io/badge/Deploy%20To%20Heroku-0a0a0a?style=for-the-badge&logo=heroku&logoColor=00D9FF)](https://dashboard.heroku.com/new?template=https://github.com/NoxxOP/ShrutiMusic)
 
 </div>
 
-### **📝 sᴛᴇᴘs:**
+### **𝐒𝐭𝐞𝐩𝐬:**
 
-1. **ᴄʟɪᴄᴋ ᴛʜᴇ ʙᴜᴛᴛᴏɴ ᴀʙᴏᴠᴇ**
+1. Click the "Deploy To Heroku" button above
+2. Fill in the required environment variables:
+   - `API_ID` & `API_HASH` from [my.telegram.org](https://my.telegram.org)
+   - `BOT_TOKEN` from [@BotFather](https://t.me/BotFather)
+   - `MONGO_DB_URI` - MongoDB connection string
+   - `STRING_SESSION` from [@Sessionbbbot](https://t.me/Sessionbbbot)
+   - Other required variables
+3. Click "Deploy App"
+4. Go to Resources tab and enable the worker
 
-2. **ғɪʟʟ ɪɴ ᴛʜᴇ ʀᴇǫᴜɪʀᴇᴅ ᴅᴇᴛᴀɪʟs:**
-   - ᴀᴘᴘ ɴᴀᴍᴇ
-   - `API_ID` & `API_HASH`
-   - `BOT_TOKEN`
-   - `MUSIC_BOT_NAME`
-   - `STRING_SESSION`
-   - `SUDO_USERS` (ʏᴏᴜʀ ᴜsᴇʀ ɪᴅ)
-
-3. **ᴄʟɪᴄᴋ "ᴅᴇᴘʟᴏʏ ᴀᴘᴘ"**
-
-4. **ɢᴏ ᴛᴏ ʀᴇsᴏᴜʀᴄᴇs ᴛᴀʙ ᴀɴᴅ ᴛᴜʀɴ ᴏɴ ᴛʜᴇ ᴡᴏʀᴋᴇʀ**
+</details>
 
 ---
 
-## 🔄 **ʜᴏᴡ ᴛᴏ ɢᴇɴᴇʀᴀᴛᴇ sᴇssɪᴏɴ sᴛʀɪɴɢ**
+<details>
+<summary><b>🔄 𝐒𝐞𝐬𝐬𝐢𝐨𝐧 𝐒𝐭𝐫𝐢𝐧𝐠 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐨𝐫 (𝐂𝐥𝐢𝐜𝐤 𝐭𝐨 𝐄𝐱𝐩𝐚𝐧𝐝)</b></summary>
+
+<br>
 
 <div align="center">
 
-### 🤖 **ᴜsᴇ ᴏᴜʀ sᴇssɪᴏɴ ɢᴇɴᴇʀᴀᴛᴏʀ ʙᴏᴛ**
-
-[![Session Bot](https://img.shields.io/badge/Session%20Generator-00D9FF?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/Sessionbbbot)
+[![Session Bot](https://img.shields.io/badge/Session%20Generator-0a0a0a?style=for-the-badge&logo=telegram&logoColor=00D9FF)](https://t.me/Sessionbbbot)
 
 </div>
 
-**sᴛᴇᴘs:**
-1. 🤖 **sᴛᴀʀᴛ ᴛʜᴇ ʙᴏᴛ** - [@Sessionbbbot](https://t.me/Sessionbbbot)
-2. 📱 **sᴇɴᴅ ᴘʜᴏɴᴇ ɴᴜᴍʙᴇʀ** ᴡɪᴛʜ ᴄᴏᴜɴᴛʀʏ ᴄᴏᴅᴇ
-3. 🔢 **ᴇɴᴛᴇʀ ᴛʜᴇ ᴏᴛᴘ**
-4. ✅ **ʏᴏᴜʀ sᴇssɪᴏɴ sᴛʀɪɴɢ ᴡɪʟʟ ʙᴇ ɢᴇɴᴇʀᴀᴛᴇᴅ**
+### **𝐒𝐭𝐞𝐩𝐬:**
+
+1. 🤖 Start [@Sessionbbbot](https://t.me/Sessionbbbot)
+2. 📱 Send your phone number with country code
+3. 🔢 Enter the OTP you receive
+4. ✅ Copy your session string
+
+</details>
 
 ---
 
-## 🤔 **ᴄᴏᴍᴍᴏɴ ɪssᴜᴇs & ғɪxᴇs**
+<details>
+<summary><b>🤔 𝐂𝐨𝐦𝐦𝐨𝐧 𝐈𝐬𝐬𝐮𝐞𝐬 (𝐂𝐥𝐢𝐜𝐤 𝐭𝐨 𝐄𝐱𝐩𝐚𝐧𝐝)</b></summary>
 
-<div align="center">
+<br>
 
-| **ɪssᴜᴇ** | **sᴏʟᴜᴛɪᴏɴ** |
+| **𝐈𝐬𝐬𝐮𝐞** | **𝐒𝐨𝐥𝐮𝐭𝐢𝐨𝐧** |
 |:---:|:---:|
-| 🤖 **ʙᴏᴛ ɴᴏᴛ ʀᴇsᴘᴏɴᴅɪɴɢ** | ᴄʜᴇᴄᴋ ɪғ ᴛʜᴇ ʙᴏᴛ ɪs ʀᴜɴɴɪɴɢ ᴀɴᴅ ʜᴀs ᴘʀᴏᴘᴇʀ ᴘᴇʀᴍɪssɪᴏɴs |
-| 🔇 **ɴᴏ sᴏᴜɴᴅ ɪɴ ᴠᴄ** | ᴇɴsᴜʀᴇ ғғᴍᴘᴇɢ ɪs ᴘʀᴏᴘᴇʀʟʏ ɪɴsᴛᴀʟʟᴇᴅ |
-| 🚫 **ᴄᴀɴ'ᴛ ᴊᴏɪɴ ᴠᴏɪᴄᴇ ᴄʜᴀᴛ** | ᴍᴀᴋᴇ sᴜʀᴇ ᴛʜᴇ ʙᴏᴛ ɪs ᴀɴ ᴀᴅᴍɪɴ ᴡɪᴛʜ ᴠᴄ ᴘᴇʀᴍɪssɪᴏɴs |
-| ⚠️ **ᴀᴘɪ ɪssᴜᴇs** | ᴅᴏᴜʙʟᴇ ᴄʜᴇᴄᴋ ʏᴏᴜʀ `API_ID` ᴀɴᴅ `API_HASH` |
-| ⏱️ **sʟᴏᴡ ʀᴇsᴘᴏɴsᴇ** | ᴄʜᴇᴄᴋ ʏᴏᴜʀ ɪɴᴛᴇʀɴᴇᴛ ᴄᴏɴɴᴇᴄᴛɪᴏɴ ᴀɴᴅ sᴇʀᴠᴇʀ ʀᴇsᴏᴜʀᴄᴇs |
+| Bot not responding | Check if bot is running with proper permissions |
+| No sound in VC | Ensure FFmpeg is properly installed |
+| Can't join voice chat | Make bot admin with VC permissions |
+| API issues | Double check `API_ID` and `API_HASH` |
+| Slow response | Check internet connection and server resources |
+
+</details>
+
+---
+
+## 📊 𝐒𝐭𝐚𝐭𝐬
+
+<div align="center">
+
+![Repo Size](https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=0a0a0a&labelColor=1c1c1c&logoColor=00D9FF)
+![Issues](https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=0a0a0a&labelColor=1c1c1c&logoColor=00D9FF)
+![License](https://img.shields.io/github/license/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=0a0a0a&labelColor=1c1c1c&logoColor=00D9FF)
+![Last Commit](https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=0a0a0a&labelColor=1c1c1c&logoColor=00D9FF)
 
 </div>
 
 ---
 
-## 🌟 **ᴄʀᴇᴅɪᴛs ᴀɴᴅ ᴀᴄᴋɴᴏᴡʟᴇᴅɢᴇᴍᴇɴᴛs**
+## 🌟 𝐂𝐫𝐞𝐝𝐢𝐭𝐬
 
 <div align="center">
 
-### 👨‍💻 **ᴍᴀɪɴ ᴅᴇᴠᴇʟᴏᴘᴇʀ**
+**𝐌𝐚𝐢𝐧 𝐃𝐞𝐯𝐞𝐥𝐨𝐩𝐞𝐫**
 
-[![NoxxOP](https://img.shields.io/badge/NoxxOP-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/NoxxOP)
+[![NoxxOP](https://img.shields.io/badge/NoxxOP-0a0a0a?style=for-the-badge&logo=github&logoColor=00D9FF)](https://github.com/NoxxOP)
 
-### 🙏 **sᴘᴇᴄɪᴀʟ ᴛʜᴀɴᴋs**
-
-**ᴀʟʟ ᴄᴏɴᴛʀɪʙᴜᴛᴏʀs ᴡʜᴏ ʜᴇʟᴘᴇᴅ ᴍᴀᴋᴇ ᴛʜɪs ᴘʀᴏᴊᴇᴄᴛ ʙᴇᴛᴛᴇʀ**
+**𝐒𝐩𝐞𝐜𝐢𝐚𝐥 𝐓𝐡𝐚𝐧𝐤𝐬 𝐭𝐨 𝐀𝐥𝐥 𝐂𝐨𝐧𝐭𝐫𝐢𝐛𝐮𝐭𝐨𝐫𝐬**
 
 </div>
 
 ---
 
-## 📝 **ʟɪᴄᴇɴsᴇ**
+## 📝 𝐋𝐢𝐜𝐞𝐧𝐬𝐞
 
 <div align="center">
 
-**ᴛʜɪs ᴘʀᴏᴊᴇᴄᴛ ɪs ʟɪᴄᴇɴsᴇᴅ ᴜɴᴅᴇʀ ᴛʜᴇ**
-
-[![MIT License](https://img.shields.io/badge/License-MIT-00CED1?style=for-the-badge&logo=opensourceinitiative&logoColor=white&labelColor=DC143C)](LICENSE)
+[![MIT License](https://img.shields.io/badge/License-MIT-0a0a0a?style=for-the-badge&logo=opensourceinitiative&logoColor=00D9FF&labelColor=1c1c1c)](LICENSE)
 
 </div>
 
 ---
 
-## 📞 **sᴜᴘᴘᴏʀᴛ**
+## 💬 𝐒𝐮𝐩𝐩𝐨𝐫𝐭
 
 <div align="center">
 
-### 💬 **ғᴏʀ ᴀɴʏ ǫᴜᴇsᴛɪᴏɴs ᴏʀ ʜᴇʟᴘ, ᴊᴏɪɴ ᴏᴜʀ sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ**
-
-<table>
-<tr>
-<td align="center" width="50%">
-
-### 📢 **sᴜᴘᴘᴏʀᴛ ᴄʜᴀɴɴᴇʟ**
-[![Join Channel](https://img.shields.io/badge/Join%20Channel-FF0000?style=for-the-badge&logo=telegram&logoColor=white&labelColor=000000)](https://t.me/ShrutiBots)
-
-**ɢᴇᴛ ʟᴀᴛᴇsᴛ ᴜᴘᴅᴀᴛᴇs**
-
-</td>
-<td align="center" width="50%">
-
-### 💬 **sᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ**
-[![Join Group](https://img.shields.io/badge/Join%20Group-00FF00?style=for-the-badge&logo=telegram&logoColor=black&labelColor=FF0000)](https://t.me/ShrutiBotSupport)
-
-**24/7 ʜᴇʟᴘ & sᴜᴘᴘᴏʀᴛ**
-
-</td>
-</tr>
-</table>
+| **𝐒𝐮𝐩𝐩𝐨𝐫𝐭 𝐂𝐡𝐚𝐧𝐧𝐞𝐥** | **𝐒𝐮𝐩𝐩𝐨𝐫𝐭 𝐆𝐫𝐨𝐮𝐩** |
+|:---:|:---:|
+| [![Channel](https://img.shields.io/badge/Join%20Channel-0a0a0a?style=for-the-badge&logo=telegram&logoColor=00D9FF)](https://t.me/ShrutiBots) | [![Group](https://img.shields.io/badge/Join%20Group-0a0a0a?style=for-the-badge&logo=telegram&logoColor=00D9FF)](https://t.me/ShrutiBotSupport) |
+| Latest Updates | 24/7 Help & Support |
 
 ---
 
-### 🎯 **ǫᴜɪᴄᴋ ʟɪɴᴋs**
-
-<table align="center">
-<tr>
-<td align="center" width="50%">
-
-#### 📚 **ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ**
-[![Docs](https://img.shields.io/badge/Read%20Docs-00D9FF?style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=000080)](https://github.com/NoxxOP/ShrutiMusic)
-
-**ᴄᴏᴍᴘʟᴇᴛᴇ ɢᴜɪᴅᴇ**
-
-</td>
-<td align="center" width="50%">
-
-#### 🔗 **sᴇssɪᴏɴ ʙᴏᴛ**
-[![Session](https://img.shields.io/badge/Generate%20Session-00FF80?style=for-the-badge&logo=telegram&logoColor=black&labelColor=800080)](https://t.me/Sessionbbbot)
-
-**ғᴀsᴛ & sᴇᴄᴜʀᴇ**
-
-</td>
-</tr>
-</table>
+<img src="https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F%20by-NoxxOP-00D9FF?style=for-the-badge&labelColor=0a0a0a" alt="Made with love">
 
 ---
-
-<img src="https://img.shields.io/badge/Made%20with%20%E2%9D%A4%EF%B8%8F%20by-NoxxOP-FF1493?style=for-the-badge&logo=heart&labelColor=000080" alt="Made with love">
-
----
-
-<h1 align="center">🎵 ᴇɴᴊᴏʏ sᴛʀᴇᴀᴍɪɴɢ ᴍᴜsɪᴄ ᴡɪᴛʜ sʜʀᴜᴛɪ ʙᴏᴛ! 🎵</h1>
 
 <p align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=FF1493&center=true&vCenter=true&width=600&lines=Fast+%F0%9F%9A%80+Reliable+%F0%9F%94%92+High+Quality+%F0%9F%8E%B5;10x+Faster+with+API+%E2%9A%A1;Join+Our+Community+%F0%9F%92%AC" alt="Typing SVG">
+  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=22&duration=3000&pause=1000&color=00D9FF&center=true&vCenter=true&width=600&lines=Fast+%F0%9F%9A%80+Reliable+%F0%9F%94%92+High+Quality+%F0%9F%8E%B5;10x+Faster+with+API+%E2%9A%A1;Join+Our+Community+%F0%9F%92%AC" alt="Typing SVG">
 </p>
 
 </div>
