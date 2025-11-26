@@ -18,9 +18,9 @@
 [![Support Group](https://img.shields.io/badge/Support%20Group-1c1c1c?style=for-the-badge&logo=telegram&logoColor=00D9FF)](https://t.me/ShrutiBotSupport)
 [![Owner](https://img.shields.io/badge/Owner-1c1c1c?style=for-the-badge&logo=telegram&logoColor=00D9FF)](https://t.me/WTF_WhyMeeh)
 
-[![Forks](https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=FFFFFF&logoColor=000000)](https://github.com/NoxxOP/ShrutiMusic/fork)
-[![Stars](https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=FFFFFF&logoColor=000000)](https://github.com/NoxxOP/ShrutiMusic/stargazers)
-[![Contributors](https://img.shields.io/github/contributors/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=FFFFFF&logoColor=000000)](https://github.com/NoxxOP/ShrutiMusic/graphs/contributors)
+[![Forks](https://img.shields.io/github/forks/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=00D9FF&logoColor=000000)](https://github.com/NoxxOP/ShrutiMusic/fork)
+[![Stars](https://img.shields.io/github/stars/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=00D9FF&logoColor=000000)](https://github.com/NoxxOP/ShrutiMusic/stargazers)
+[![Contributors](https://img.shields.io/github/contributors/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=00D9FF&logoColor=000000)](https://github.com/NoxxOP/ShrutiMusic/graphs/contributors)
 
 </div>
 
@@ -279,10 +279,10 @@ bash start
 
 <div align="center">
 
-![Repo Size](https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=FFFFFF&logoColor=000000)
-![Issues](https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=FFFFFF&logoColor=000000)
-![License](https://img.shields.io/github/license/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=FFFFFF&logoColor=000000)
-![Last Commit](https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=FFFFFF&logoColor=000000)
+![Repo Size](https://img.shields.io/github/repo-size/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=00D9FF&logoColor=000000)
+![Issues](https://img.shields.io/github/issues/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=00D9FF&logoColor=000000)
+![License](https://img.shields.io/github/license/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=00D9FF&logoColor=000000)
+![Last Commit](https://img.shields.io/github/last-commit/NoxxOP/ShrutiMusic?style=for-the-badge&logo=github&color=000000&labelColor=00D9FF&logoColor=000000)
 
 </div>
 
