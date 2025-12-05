@@ -3,21 +3,26 @@ import os
 import re
 import json
 from typing import Union
+import requests
 import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
 from py_yt import VideosSearch
+from ShrutiMusic.utils.database import is_on_off, get_assistant
 from ShrutiMusic import app
 from ShrutiMusic.utils.formatters import time_to_seconds
+from ShrutiMusic.core.userbot import assistants
+import random
+import logging
 import aiohttp
 from ShrutiMusic import LOGGER
+from urllib.parse import urlparse
 
 YOUR_API_URL = None
 FALLBACK_API_URL = "https://shrutibots.site"
 
 async def load_api_url():
     global YOUR_API_URL
-    logger = LOGGER("ShrutiMusic.platforms.Youtube.py")
     
     try:
         async with aiohttp.ClientSession() as session:
@@ -25,13 +30,10 @@ async def load_api_url():
                 if response.status == 200:
                     content = await response.text()
                     YOUR_API_URL = content.strip()
-                    logger.info(f"API URL loaded successfully")
                 else:
                     YOUR_API_URL = FALLBACK_API_URL
-                    logger.info(f"Using fallback API URL")
     except Exception as e:
         YOUR_API_URL = FALLBACK_API_URL
-        logger.info(f"Failed to load from Pastebin, using fallback API URL")
 
 try:
     loop = asyncio.get_event_loop()
@@ -41,6 +43,83 @@ try:
         loop.run_until_complete(load_api_url())
 except RuntimeError:
     pass
+
+async def get_telegram_file(telegram_link: str, video_id: str, file_type: str, use_bot: bool = True) -> str:
+    try:
+        extension = ".webm" if file_type == "audio" else ".mkv"
+        file_path = os.path.join("downloads", f"{video_id}{extension}")
+        
+        if os.path.exists(file_path):
+            return file_path
+        
+        parsed = urlparse(telegram_link)
+        parts = parsed.path.strip("/").split("/")
+        
+        if len(parts) < 2:
+            return None
+            
+        channel_name = parts[0]
+        message_id = int(parts[1])
+        
+        if use_bot:
+            try:
+                msg = await app.get_messages(channel_name, message_id)
+                
+                os.makedirs("downloads", exist_ok=True)
+                await msg.download(file_name=file_path)
+                
+                timeout = 0
+                while not os.path.exists(file_path) and timeout < 60:
+                    await asyncio.sleep(0.5)
+                    timeout += 0.5
+                
+                if os.path.exists(file_path):
+                    return file_path
+            except Exception as e:
+                pass
+        
+        shuffled_assistants = assistants.copy()
+        random.shuffle(shuffled_assistants)
+        
+        for idx, assistant_num in enumerate(shuffled_assistants):
+            try:
+                temp_chat_id = -1000000000000 - assistant_num
+                assistant_client = await get_assistant(temp_chat_id)
+                
+                if not assistant_client:
+                    continue
+                
+                msg = await assistant_client.get_messages(channel_name, message_id)
+                
+                os.makedirs("downloads", exist_ok=True)
+                await msg.download(file_name=file_path)
+                
+                timeout = 0
+                while not os.path.exists(file_path) and timeout < 60:
+                    await asyncio.sleep(0.5)
+                    timeout += 0.5
+                
+                if os.path.exists(file_path):
+                    return file_path
+                
+            except Exception as e:
+                error_msg = str(e)
+                
+                if "FLOOD_WAIT" in error_msg.upper() or "420" in error_msg:
+                    if idx < len(shuffled_assistants) - 1:
+                        continue
+                    else:
+                        return None
+                else:
+                    if idx < len(shuffled_assistants) - 1:
+                        continue
+                    else:
+                        return None
+        
+        return None
+        
+    except Exception as e:
+        return None
 
 async def download_song(link: str) -> str:
     global YOUR_API_URL
@@ -76,7 +155,16 @@ async def download_song(link: str) -> str:
                 if response.status != 200:
                     return None
 
-                if data.get("status") == "success" and data.get("stream_url"):
+                if data.get("link") and "t.me" in str(data.get("link")):
+                    telegram_link = data["link"]
+                    
+                    downloaded_file = await get_telegram_file(telegram_link, video_id, "audio", use_bot=True)
+                    if downloaded_file:
+                        return downloaded_file
+                    else:
+                        return None
+                
+                elif data.get("status") == "success" and data.get("stream_url"):
                     stream_url = data["stream_url"]
                     
                     async with session.get(
@@ -98,6 +186,7 @@ async def download_song(link: str) -> str:
         return None
     except Exception as e:
         return None
+
 
 async def download_video(link: str) -> str:
     global YOUR_API_URL
@@ -133,7 +222,16 @@ async def download_video(link: str) -> str:
                 if response.status != 200:
                     return None
 
-                if data.get("status") == "success" and data.get("stream_url"):
+                if data.get("link") and "t.me" in str(data.get("link")):
+                    telegram_link = data["link"]
+                    
+                    downloaded_file = await get_telegram_file(telegram_link, video_id, "video", use_bot=True)
+                    if downloaded_file:
+                        return downloaded_file
+                    else:
+                        return None
+                
+                elif data.get("status") == "success" and data.get("stream_url"):
                     stream_url = data["stream_url"]
                     
                     async with session.get(
@@ -203,6 +301,7 @@ async def shell_cmd(cmd):
         else:
             return errorz.decode("utf-8")
     return out.decode("utf-8")
+
 
 class YouTubeAPI:
     def __init__(self):
