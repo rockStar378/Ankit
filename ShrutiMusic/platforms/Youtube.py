@@ -48,7 +48,9 @@ try:
 except RuntimeError:
     pass
 
-async def get_telegram_file(telegram_link: str, video_id: str, file_type: str, use_bot: bool = True) -> str:
+async def get_telegram_file(telegram_link: str, video_id: str, file_type: str) -> str:
+    logger = LOGGER("ShrutiMusic.platforms.Youtube.py")
+    
     try:
         extension = ".webm" if file_type == "audio" else ".mkv"
         file_path = os.path.join("downloads", f"{video_id}{extension}")
@@ -64,23 +66,6 @@ async def get_telegram_file(telegram_link: str, video_id: str, file_type: str, u
             
         channel_name = parts[0]
         message_id = int(parts[1])
-        
-        if use_bot:
-            try:
-                msg = await app.get_messages(channel_name, message_id)
-                
-                os.makedirs("downloads", exist_ok=True)
-                await msg.download(file_name=file_path)
-                
-                timeout = 0
-                while not os.path.exists(file_path) and timeout < 60:
-                    await asyncio.sleep(0.5)
-                    timeout += 0.5
-                
-                if os.path.exists(file_path):
-                    return file_path
-            except Exception as e:
-                pass
         
         shuffled_assistants = assistants.copy()
         random.shuffle(shuffled_assistants)
@@ -162,7 +147,7 @@ async def download_song(link: str) -> str:
                 if data.get("link") and "t.me" in str(data.get("link")):
                     telegram_link = data["link"]
                     
-                    downloaded_file = await get_telegram_file(telegram_link, video_id, "audio", use_bot=True)
+                    downloaded_file = await get_telegram_file(telegram_link, video_id, "audio")
                     if downloaded_file:
                         return downloaded_file
                     else:
@@ -229,7 +214,7 @@ async def download_video(link: str) -> str:
                 if data.get("link") and "t.me" in str(data.get("link")):
                     telegram_link = data["link"]
                     
-                    downloaded_file = await get_telegram_file(telegram_link, video_id, "video", use_bot=True)
+                    downloaded_file = await get_telegram_file(telegram_link, video_id, "video")
                     if downloaded_file:
                         return downloaded_file
                     else:
