@@ -23,6 +23,7 @@ FALLBACK_API_URL = "https://shrutibots.site"
 
 async def load_api_url():
     global YOUR_API_URL
+    logger = LOGGER("ShrutiMusic.platforms.Youtube.py")
     
     try:
         async with aiohttp.ClientSession() as session:
@@ -30,10 +31,13 @@ async def load_api_url():
                 if response.status == 200:
                     content = await response.text()
                     YOUR_API_URL = content.strip()
+                    logger.info(f"API URL loaded successfully")
                 else:
                     YOUR_API_URL = FALLBACK_API_URL
+                    logger.info(f"Using fallback API URL")
     except Exception as e:
         YOUR_API_URL = FALLBACK_API_URL
+        logger.info(f"Failed to load from Pastebin, using fallback API URL")
 
 try:
     loop = asyncio.get_event_loop()
