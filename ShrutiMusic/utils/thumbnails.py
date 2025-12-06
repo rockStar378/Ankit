@@ -286,7 +286,7 @@ async def gen_thumb(videoid: str):
             max_text_w = art_x - info_x - 50
         
         np_font = ImageFont.truetype(FONT_BOLD_PATH, random.randint(50, 70))
-        np_text = random.choice(["NOW PLAYING", "PLAYING NOW", "♪ NOW PLAYING", "▸ PLAYING"])
+        np_text = random.choice(["NOW PLAYING", "PLAYING NOW", "NOW PLAYING", "PLAYING"])
         np_y = random.randint(120, 160)
         draw.text((info_x, np_y), np_text, fill=(*accent_color, 255), font=np_font)
         
