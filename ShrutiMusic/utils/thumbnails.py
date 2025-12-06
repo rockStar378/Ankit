@@ -30,6 +30,7 @@ import traceback
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageEnhance
 from py_yt import VideosSearch
+from ShrutiMusic import app
 import math
 
 CACHE_DIR = Path("cache")
@@ -71,6 +72,9 @@ def random_gradient():
         [(12, 17, 30), (38, 43, 65), (25, 30, 45)],
         [(18, 18, 28), (48, 48, 68), (32, 32, 48)],
         [(8, 15, 25), (28, 40, 55), (18, 28, 40)],
+        [(22, 22, 35), (52, 52, 75), (35, 35, 55)],
+        [(14, 20, 28), (44, 50, 68), (28, 35, 48)],
+        [(16, 14, 38), (46, 44, 88), (30, 28, 60)],
     ]
     return random.choice(colors)
 
@@ -105,21 +109,24 @@ def random_layout():
             'art_x': random.randint(60, 120),
             'art_shape': random.choice(['circle', 'rounded', 'diamond']),
             'text_align': 'right',
-            'accent_style': random.choice(['line', 'dot', 'wave'])
+            'accent_style': random.choice(['line', 'dot', 'wave']),
+            'show_particles': random.choice([True, False])
         },
         {
             'art_size': random.randint(400, 500),
             'art_x': CANVAS_W - random.randint(520, 620),
             'art_shape': random.choice(['circle', 'rounded', 'square']),
             'text_align': 'left',
-            'accent_style': random.choice(['line', 'glow', 'none'])
+            'accent_style': random.choice(['line', 'glow', 'none']),
+            'show_particles': random.choice([True, False])
         },
         {
             'art_size': random.randint(380, 480),
             'art_x': random.randint(80, 140),
-            'art_shape': random.choice(['circle', 'hexagon']),
+            'art_shape': random.choice(['circle', 'hexagon', 'rounded']),
             'text_align': 'right',
-            'accent_style': random.choice(['dot', 'wave', 'glow'])
+            'accent_style': random.choice(['dot', 'wave', 'glow']),
+            'show_particles': random.choice([True, False])
         }
     ]
     return random.choice(layouts)
@@ -161,9 +168,21 @@ def random_accent_color():
         (200, 200, 220),
         (180, 190, 254),
         (120, 200, 255),
-        (165, 177, 255)
+        (165, 177, 255),
+        (255, 170, 128),
+        (255, 138, 180),
+        (148, 226, 213),
     ]
     return random.choice(colors)
+
+
+def add_particles(draw, accent_color):
+    for _ in range(random.randint(15, 30)):
+        x = random.randint(0, CANVAS_W)
+        y = random.randint(0, CANVAS_H)
+        size = random.randint(1, 4)
+        alpha = random.randint(40, 120)
+        draw.ellipse([x, y, x+size, y+size], fill=(*accent_color, alpha))
 
 
 def add_accent_elements(draw, layout, accent_color):
@@ -256,6 +275,11 @@ async def gen_thumb(videoid: str):
         layout = random_layout()
         accent_color = random_accent_color()
         
+        if layout['show_particles']:
+            draw = ImageDraw.Draw(canvas)
+            add_particles(draw, accent_color)
+            canvas = canvas.filter(ImageFilter.GaussianBlur(1))
+        
         art_size = layout['art_size']
         art_x = layout['art_x']
         art_y = (CANVAS_H - art_size) // 2
@@ -276,7 +300,17 @@ async def gen_thumb(videoid: str):
         brand_font = ImageFont.truetype(FONT_BOLD_PATH, random.randint(36, 48))
         brand_x = random.randint(35, 60)
         brand_y = random.randint(25, 45)
-        draw.text((brand_x, brand_y), "ShrutiMusic", fill=(255, 255, 255, 255), font=brand_font)
+        
+        shadow_offset = 2
+        draw.text((brand_x + shadow_offset, brand_y + shadow_offset), 
+                 app.username, fill=(0, 0, 0, 150), font=brand_font)
+        draw.text((brand_x, brand_y), app.username, fill=(255, 255, 255, 255), font=brand_font)
+        
+        brand_bbox = draw.textbbox((brand_x, brand_y), app.username, font=brand_font)
+        brand_w = brand_bbox[2] - brand_bbox[0]
+        underline_y = brand_bbox[3] + 6
+        draw.line([(brand_x, underline_y), (brand_x + brand_w, underline_y)], 
+                 fill=(*accent_color, 200), width=3)
         
         if layout['text_align'] == 'right':
             info_x = art_x + art_size + random.randint(60, 100)
@@ -285,9 +319,14 @@ async def gen_thumb(videoid: str):
             info_x = random.randint(50, 100)
             max_text_w = art_x - info_x - 50
         
+        np_options = ["NOW PLAYING", "PLAYING NOW", "NOW PLAYING", "PLAYING", "♪ PLAYING"]
         np_font = ImageFont.truetype(FONT_BOLD_PATH, random.randint(50, 70))
-        np_text = random.choice(["NOW PLAYING", "PLAYING NOW", "NOW PLAYING", "PLAYING"])
+        np_text = random.choice(np_options)
         np_y = random.randint(120, 160)
+        
+        np_shadow = 3
+        draw.text((info_x + np_shadow, np_y + np_shadow), np_text, 
+                 fill=(0, 0, 0, 180), font=np_font)
         draw.text((info_x, np_y), np_text, fill=(*accent_color, 255), font=np_font)
         
         title_font_size = random.randint(36, 48)
@@ -296,6 +335,10 @@ async def gen_thumb(videoid: str):
         title_text = "\n".join(title_lines)
         title_y = np_y + random.randint(70, 100)
         
+        title_shadow = 2
+        draw.multiline_text((info_x + title_shadow, title_y + title_shadow), title_text, 
+                          fill=(0, 0, 0, 160), font=title_font, 
+                          spacing=random.randint(8, 15))
         draw.multiline_text((info_x, title_y), title_text, 
                           fill=(255, 255, 255, 255), font=title_font, 
                           spacing=random.randint(8, 15))
@@ -310,14 +353,21 @@ async def gen_thumb(videoid: str):
             if len(parts) == 2 and parts[0].isdigit():
                 duration_label = f"{parts[0]}m {parts[1]}s"
         
+        meta_labels = random.choice([
+            ["Views", "Duration", "Channel"],
+            ["👁", "⏱", "📺"],
+            ["", "", ""]
+        ])
+        
         meta_items = [
-            f"{views}",
-            f"{duration_label}",
-            f"{channel}"
+            f"{meta_labels[0]} {views}" if meta_labels[0] else f"{views}",
+            f"{meta_labels[1]} {duration_label}" if meta_labels[1] else f"{duration_label}",
+            f"{meta_labels[2]} {channel}" if meta_labels[2] else f"{channel}"
         ]
         
         for idx, meta in enumerate(meta_items):
             y = meta_y + (idx * line_spacing)
+            draw.text((info_x + 1, y + 1), meta, fill=(0, 0, 0, 140), font=meta_font)
             draw.text((info_x, y), meta, fill=(220, 220, 230, 255), font=meta_font)
         
         if random.choice([True, False]):
