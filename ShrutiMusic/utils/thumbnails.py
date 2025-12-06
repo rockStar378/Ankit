@@ -1,28 +1,9 @@
 # Copyright (c) 2025 Nand Yaduwanshi <NoxxOP>
+# Enhanced by Claude - Premium Multi-Style Thumbnail Generator
 # Location: Supaul, Bihar
-#
-# All rights reserved.
-#
-# This code is the intellectual property of Nand Yaduwanshi.
-# You are not allowed to copy, modify, redistribute, or use this
-# code for commercial or personal projects without explicit permission.
-#
-# Allowed:
-# - Forking for personal learning
-# - Submitting improvements via pull requests
-#
-# Not Allowed:
-# - Claiming this code as your own
-# - Re-uploading without credit or permission
-# - Selling or using commercially
-#
-# Contact for permissions:
-# Email: badboy809075@gmail.com
-#
-# ATLEAST GIVE CREDITS IF YOU STEALING :
-# ELSE NO FURTHER PUBLIC THUMBNAIL UPDATES
 
 import os
+import random
 import aiohttp
 import aiofiles
 import traceback
@@ -30,21 +11,239 @@ from pathlib import Path
 from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageEnhance
 from py_yt import VideosSearch
 from colorsys import rgb_to_hsv, hsv_to_rgb
+import math
 
 CACHE_DIR = Path("cache")
 CACHE_DIR.mkdir(exist_ok=True)
 
 CANVAS_W, CANVAS_H = 1320, 760
-BG_BLUR = 18
-BG_BRIGHTNESS = 0.85
-
-TEXT_WHITE = (255, 255, 255, 255)
-TEXT_SOFT = (240, 240, 240, 255)
-TEXT_SHADOW = (0, 0, 0, 180)
 
 FONT_REGULAR_PATH = "ShrutiMusic/assets/font2.ttf"
 FONT_BOLD_PATH = "ShrutiMusic/assets/font3.ttf"
 DEFAULT_THUMB = "ShrutiMusic/assets/ShrutiBots.jpg"
+
+
+class ThemeGenerator:
+    """Different premium themes for thumbnails"""
+    
+    @staticmethod
+    def get_random_theme():
+        themes = [
+            ThemeGenerator.neon_cyberpunk,
+            ThemeGenerator.gradient_wave,
+            ThemeGenerator.glassmorphism,
+            ThemeGenerator.retro_synthwave,
+            ThemeGenerator.minimalist_modern,
+            ThemeGenerator.holographic,
+            ThemeGenerator.dark_elegant,
+            ThemeGenerator.vibrant_pop
+        ]
+        return random.choice(themes)
+    
+    @staticmethod
+    def neon_cyberpunk(base_img):
+        """Neon cyberpunk style with glowing edges"""
+        bg = base_img.resize((CANVAS_W, CANVAS_H), Image.LANCZOS).convert("RGBA")
+        bg = bg.filter(ImageFilter.GaussianBlur(25))
+        bg = ImageEnhance.Brightness(bg).enhance(0.4)
+        
+        # Neon overlay
+        overlay = Image.new('RGBA', bg.size, (138, 43, 226, 30))
+        bg = Image.alpha_composite(bg, overlay)
+        
+        # Scan lines effect
+        for i in range(0, CANVAS_H, 4):
+            draw = ImageDraw.Draw(bg)
+            draw.line([(0, i), (CANVAS_W, i)], fill=(0, 255, 255, 10), width=1)
+        
+        return bg, {
+            'accent': (0, 255, 255, 255),
+            'text': (255, 255, 255, 255),
+            'glow': (138, 43, 226, 255),
+            'style': 'neon'
+        }
+    
+    @staticmethod
+    def gradient_wave(base_img):
+        """Smooth gradient wave design"""
+        bg = base_img.resize((CANVAS_W, CANVAS_H), Image.LANCZOS).convert("RGBA")
+        bg = bg.filter(ImageFilter.GaussianBlur(30))
+        bg = ImageEnhance.Brightness(bg).enhance(0.6)
+        
+        # Wave gradient overlay
+        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        draw = ImageDraw.Draw(overlay)
+        
+        for y in range(CANVAS_H):
+            wave = int(math.sin(y / 80) * 30)
+            progress = y / CANVAS_H
+            r = int(255 * (1 - progress) + 138 * progress)
+            g = int(50 * (1 - progress) + 43 * progress)
+            b = int(150 * (1 - progress) + 226 * progress)
+            alpha = int(80 * progress)
+            
+            draw.rectangle([(0, y), (CANVAS_W + wave, y + 1)], fill=(r, g, b, alpha))
+        
+        bg = Image.alpha_composite(bg, overlay)
+        
+        return bg, {
+            'accent': (255, 100, 200, 255),
+            'text': (255, 255, 255, 255),
+            'glow': (138, 43, 226, 255),
+            'style': 'wave'
+        }
+    
+    @staticmethod
+    def glassmorphism(base_img):
+        """Modern glass effect"""
+        bg = base_img.resize((CANVAS_W, CANVAS_H), Image.LANCZOS).convert("RGBA")
+        bg = bg.filter(ImageFilter.GaussianBlur(20))
+        bg = ImageEnhance.Brightness(bg).enhance(0.7)
+        
+        # Frosted glass overlay
+        overlay = Image.new('RGBA', bg.size, (255, 255, 255, 40))
+        bg = Image.alpha_composite(bg, overlay)
+        
+        return bg, {
+            'accent': (255, 255, 255, 200),
+            'text': (255, 255, 255, 255),
+            'glow': (200, 200, 255, 255),
+            'style': 'glass'
+        }
+    
+    @staticmethod
+    def retro_synthwave(base_img):
+        """80s synthwave vibes"""
+        bg = base_img.resize((CANVAS_W, CANVAS_H), Image.LANCZOS).convert("RGBA")
+        bg = bg.filter(ImageFilter.GaussianBlur(22))
+        bg = ImageEnhance.Brightness(bg).enhance(0.5)
+        
+        # Synthwave gradient
+        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        draw = ImageDraw.Draw(overlay)
+        
+        for y in range(CANVAS_H):
+            progress = y / CANVAS_H
+            if progress < 0.5:
+                r, g, b = 255, int(0 + 100 * progress * 2), 200
+            else:
+                r, g, b = 255, 100, int(200 - 150 * (progress - 0.5) * 2)
+            alpha = int(60 + 40 * progress)
+            draw.rectangle([(0, y), (CANVAS_W, y + 1)], fill=(r, g, b, alpha))
+        
+        bg = Image.alpha_composite(bg, overlay)
+        
+        # Grid lines
+        for i in range(0, CANVAS_H, 40):
+            draw = ImageDraw.Draw(bg)
+            draw.line([(0, i), (CANVAS_W, i)], fill=(255, 0, 255, 30), width=2)
+        
+        return bg, {
+            'accent': (255, 0, 255, 255),
+            'text': (255, 255, 255, 255),
+            'glow': (255, 100, 255, 255),
+            'style': 'synthwave'
+        }
+    
+    @staticmethod
+    def minimalist_modern(base_img):
+        """Clean minimalist design"""
+        bg = base_img.resize((CANVAS_W, CANVAS_H), Image.LANCZOS).convert("RGBA")
+        bg = bg.filter(ImageFilter.GaussianBlur(35))
+        bg = ImageEnhance.Brightness(bg).enhance(0.35)
+        
+        # Solid dark overlay
+        overlay = Image.new('RGBA', bg.size, (20, 20, 30, 200))
+        bg = Image.alpha_composite(bg, overlay)
+        
+        return bg, {
+            'accent': (100, 200, 255, 255),
+            'text': (255, 255, 255, 255),
+            'glow': (100, 200, 255, 255),
+            'style': 'minimal'
+        }
+    
+    @staticmethod
+    def holographic(base_img):
+        """Holographic rainbow effect"""
+        bg = base_img.resize((CANVAS_W, CANVAS_H), Image.LANCZOS).convert("RGBA")
+        bg = bg.filter(ImageFilter.GaussianBlur(28))
+        bg = ImageEnhance.Brightness(bg).enhance(0.55)
+        
+        # Rainbow gradient
+        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        draw = ImageDraw.Draw(overlay)
+        
+        for x in range(CANVAS_W):
+            progress = x / CANVAS_W
+            hue = progress
+            r, g, b = hsv_to_rgb(hue, 0.8, 0.9)
+            alpha = 60
+            draw.rectangle([(x, 0), (x + 1, CANVAS_H)], fill=(int(r*255), int(g*255), int(b*255), alpha))
+        
+        bg = Image.alpha_composite(bg, overlay)
+        
+        return bg, {
+            'accent': (255, 150, 255, 255),
+            'text': (255, 255, 255, 255),
+            'glow': (200, 150, 255, 255),
+            'style': 'holographic'
+        }
+    
+    @staticmethod
+    def dark_elegant(base_img):
+        """Dark premium look"""
+        bg = base_img.resize((CANVAS_W, CANVAS_H), Image.LANCZOS).convert("RGBA")
+        bg = bg.filter(ImageFilter.GaussianBlur(25))
+        bg = ImageEnhance.Brightness(bg).enhance(0.3)
+        
+        # Vignette effect
+        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        draw = ImageDraw.Draw(overlay)
+        
+        center_x, center_y = CANVAS_W // 2, CANVAS_H // 2
+        max_dist = math.sqrt(center_x**2 + center_y**2)
+        
+        for y in range(CANVAS_H):
+            for x in range(0, CANVAS_W, 5):
+                dist = math.sqrt((x - center_x)**2 + (y - center_y)**2)
+                alpha = int((dist / max_dist) * 150)
+                draw.rectangle([(x, y), (x + 5, y + 1)], fill=(0, 0, 0, alpha))
+        
+        bg = Image.alpha_composite(bg, overlay)
+        
+        return bg, {
+            'accent': (255, 215, 0, 255),
+            'text': (255, 255, 255, 255),
+            'glow': (255, 215, 0, 255),
+            'style': 'elegant'
+        }
+    
+    @staticmethod
+    def vibrant_pop(base_img):
+        """Vibrant colorful pop art"""
+        bg = base_img.resize((CANVAS_W, CANVAS_H), Image.LANCZOS).convert("RGBA")
+        bg = ImageEnhance.Color(bg).enhance(1.8)
+        bg = bg.filter(ImageFilter.GaussianBlur(20))
+        bg = ImageEnhance.Brightness(bg).enhance(0.65)
+        
+        # Color blocks
+        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
+        draw = ImageDraw.Draw(overlay)
+        
+        colors = [(255, 0, 100, 30), (0, 255, 200, 30), (255, 200, 0, 30)]
+        for i, color in enumerate(colors):
+            y_start = int(i * (CANVAS_H / 3))
+            draw.rectangle([(0, y_start), (CANVAS_W, y_start + CANVAS_H // 3)], fill=color)
+        
+        bg = Image.alpha_composite(bg, overlay)
+        
+        return bg, {
+            'accent': (255, 50, 150, 255),
+            'text': (255, 255, 255, 255),
+            'glow': (255, 100, 200, 255),
+            'style': 'pop'
+        }
 
 
 def change_image_size(max_w, max_h, image):
@@ -72,53 +271,72 @@ def wrap_text(draw, text, font, max_width):
     return lines[:2]
 
 
-def get_vibrant_edge_color(image):
-    img_small = image.resize((100, 100), Image.LANCZOS)
-    pixels = list(img_small.getdata())
-    
-    edge_pixels = []
-    size = 100
-    for i in range(size):
-        edge_pixels.append(pixels[i])
-        edge_pixels.append(pixels[i * size])
-        edge_pixels.append(pixels[(i + 1) * size - 1])
-        edge_pixels.append(pixels[size * (size - 1) + i])
-    
-    r_avg = sum(p[0] for p in edge_pixels) // len(edge_pixels)
-    g_avg = sum(p[1] for p in edge_pixels) // len(edge_pixels)
-    b_avg = sum(p[2] for p in edge_pixels) // len(edge_pixels)
-    
-    h, s, v = rgb_to_hsv(r_avg/255, g_avg/255, b_avg/255)
-    s = min(1.0, s * 1.8)
-    v = max(0.6, min(0.95, v * 1.4))
-    
-    r, g, b = hsv_to_rgb(h, s, v)
-    return (int(r*255), int(g*255), int(b*255), 255)
-
-
-def create_premium_glow(size, glow_color, intensity=1.0):
+def create_dynamic_glow(size, color, style):
+    """Different glow effects based on style"""
     glow = Image.new('RGBA', size, (0, 0, 0, 0))
     draw = ImageDraw.Draw(glow)
     
-    layers = [
-        (0, int(180 * intensity)),
-        (15, int(140 * intensity)),
-        (30, int(100 * intensity)),
-        (45, int(70 * intensity)),
-        (60, int(40 * intensity)),
-        (75, int(20 * intensity))
-    ]
+    if style in ['neon', 'synthwave']:
+        # Sharp neon glow
+        for i in range(0, 100, 10):
+            alpha = int(200 - i * 2)
+            draw.rectangle([i, i, size[0]-i, size[1]-i], 
+                         outline=(*color[:3], alpha), width=3)
+    elif style == 'glass':
+        # Soft diffused glow
+        for i in range(0, 80, 8):
+            alpha = int(120 - i * 1.5)
+            draw.rectangle([i, i, size[0]-i, size[1]-i], 
+                         outline=(255, 255, 255, alpha), width=2)
+    else:
+        # Standard glow
+        for i in range(0, 90, 12):
+            alpha = int(180 - i * 2)
+            draw.rectangle([i, i, size[0]-i, size[1]-i], 
+                         outline=(*color[:3], alpha), width=4)
     
-    for offset, alpha in layers:
-        color = (*glow_color[:3], alpha)
-        draw.rectangle(
-            [offset, offset, size[0]-offset, size[1]-offset],
-            outline=color,
-            width=int(15 + (offset/10))
-        )
-    
-    glow = glow.filter(ImageFilter.GaussianBlur(25))
+    glow = glow.filter(ImageFilter.GaussianBlur(20))
     return glow
+
+
+def create_artwork_shape(art, theme_style):
+    """Different artwork shapes based on theme"""
+    thumb_size = 480
+    
+    if theme_style in ['minimal', 'glass']:
+        # Rounded square
+        mask = Image.new("L", (thumb_size, thumb_size), 0)
+        draw = ImageDraw.Draw(mask)
+        draw.rounded_rectangle([0, 0, thumb_size, thumb_size], radius=50, fill=255)
+        art = art.resize((thumb_size, thumb_size), Image.LANCZOS)
+        art.putalpha(mask)
+        return art, thumb_size
+    
+    elif theme_style in ['neon', 'synthwave', 'holographic']:
+        # Hexagon
+        mask = Image.new("L", (thumb_size, thumb_size), 0)
+        draw = ImageDraw.Draw(mask)
+        center = thumb_size // 2
+        radius = thumb_size // 2 - 10
+        points = []
+        for i in range(6):
+            angle = math.pi / 3 * i - math.pi / 6
+            x = center + radius * math.cos(angle)
+            y = center + radius * math.sin(angle)
+            points.append((x, y))
+        draw.polygon(points, fill=255)
+        art = art.resize((thumb_size, thumb_size), Image.LANCZOS)
+        art.putalpha(mask)
+        return art, thumb_size
+    
+    else:
+        # Circle (default)
+        mask = Image.new("L", (thumb_size, thumb_size), 0)
+        draw = ImageDraw.Draw(mask)
+        draw.ellipse([0, 0, thumb_size, thumb_size], fill=255)
+        art = art.resize((thumb_size, thumb_size), Image.LANCZOS)
+        art.putalpha(mask)
+        return art, thumb_size
 
 
 async def gen_thumb(videoid: str):
@@ -151,7 +369,7 @@ async def gen_thumb(videoid: str):
             base_img = Image.open(DEFAULT_THUMB).convert("RGBA")
 
     except Exception as e:
-        print(f"[gen_thumb Error - Using Default] {e}")
+        print(f"[gen_thumb Error] {e}")
         try:
             base_img = Image.open(DEFAULT_THUMB).convert("RGBA")
             title = "ShrutiMusic"
@@ -163,123 +381,127 @@ async def gen_thumb(videoid: str):
             return None
 
     try:
-        bg = change_image_size(CANVAS_W, CANVAS_H, base_img).convert("RGBA")
-        bg = bg.filter(ImageFilter.GaussianBlur(BG_BLUR))
-        bg = ImageEnhance.Brightness(bg).enhance(BG_BRIGHTNESS)
-        
-        overlay = Image.new('RGBA', bg.size, (0, 0, 0, 0))
-        overlay_draw = ImageDraw.Draw(overlay)
-        
-        gradient_height = 150
-        for i in range(gradient_height):
-            alpha = int((i / gradient_height) * 100)
-            overlay_draw.rectangle(
-                [(0, CANVAS_H - gradient_height + i), (CANVAS_W, CANVAS_H - gradient_height + i + 1)],
-                fill=(0, 0, 0, alpha)
-            )
-        
-        bg = Image.alpha_composite(bg, overlay)
+        # Get random theme
+        theme_func = ThemeGenerator.get_random_theme()
+        bg, theme_colors = theme_func(base_img)
         
         canvas = Image.new("RGBA", (CANVAS_W, CANVAS_H), (0, 0, 0, 255))
         canvas.paste(bg, (0, 0))
         
-        edge_color = get_vibrant_edge_color(base_img)
-        glow_layer = create_premium_glow((CANVAS_W, CANVAS_H), edge_color, intensity=1.2)
+        # Add border glow
+        glow_layer = create_dynamic_glow((CANVAS_W, CANVAS_H), 
+                                        theme_colors['glow'], 
+                                        theme_colors['style'])
         canvas = Image.alpha_composite(canvas, glow_layer)
         
         draw = ImageDraw.Draw(canvas)
 
-        thumb_size = 500
-        circle_x = 80
-        circle_y = (CANVAS_H - thumb_size) // 2
-
-        circular_mask = Image.new("L", (thumb_size, thumb_size), 0)
-        mdraw = ImageDraw.Draw(circular_mask)
-        mdraw.ellipse((0, 0, thumb_size, thumb_size), fill=255)
-
-        art = base_img.resize((thumb_size, thumb_size), Image.LANCZOS)
-        art.putalpha(circular_mask)
-
-        ring_width = 8
-        ring_size = thumb_size + ring_width * 2
+        # Create artwork with theme-based shape
+        art, thumb_size = create_artwork_shape(base_img, theme_colors['style'])
+        
+        # Position artwork
+        art_x = 80
+        art_y = (CANVAS_H - thumb_size) // 2
+        
+        # Artwork glow ring
+        ring_width = 6
+        ring_size = thumb_size + ring_width * 4
         ring_img = Image.new("RGBA", (ring_size, ring_size), (0, 0, 0, 0))
         rdraw = ImageDraw.Draw(ring_img)
         
-        ring_glow_color = edge_color
-        for i in range(3):
-            offset = i * 6
-            alpha = 180 - (i * 40)
-            rdraw.ellipse(
-                [offset, offset, ring_size - offset, ring_size - offset],
-                outline=(*ring_glow_color[:3], alpha),
-                width=ring_width + (i * 2)
-            )
+        for i in range(4):
+            offset = i * 8
+            alpha = 200 - (i * 40)
+            if theme_colors['style'] in ['minimal', 'glass']:
+                rdraw.rounded_rectangle(
+                    [offset, offset, ring_size - offset, ring_size - offset],
+                    radius=60,
+                    outline=(*theme_colors['accent'][:3], alpha),
+                    width=ring_width
+                )
+            else:
+                rdraw.ellipse(
+                    [offset, offset, ring_size - offset, ring_size - offset],
+                    outline=(*theme_colors['accent'][:3], alpha),
+                    width=ring_width
+                )
         
-        ring_img = ring_img.filter(ImageFilter.GaussianBlur(4))
+        ring_img = ring_img.filter(ImageFilter.GaussianBlur(6))
+        canvas.paste(ring_img, (art_x - ring_width * 2, art_y - ring_width * 2), ring_img)
+        canvas.paste(art, (art_x, art_y), art)
+
+        # ShrutiMusic branding
+        brand_font = ImageFont.truetype(FONT_BOLD_PATH, 45)
+        brand_y = 30
         
-        canvas.paste(ring_img, (circle_x - ring_width, circle_y - ring_width), ring_img)
-        canvas.paste(art, (circle_x, circle_y), art)
-
-        tl_font = ImageFont.truetype(FONT_BOLD_PATH, 40)
-        tl_shadow_offset = 3
-        draw.text((35+tl_shadow_offset, 25+tl_shadow_offset), "ShrutiMusic", fill=(0, 0, 0, 200), font=tl_font)
-        draw.text((35, 25), "ShrutiMusic", fill=TEXT_WHITE, font=tl_font)
-
-        info_x = circle_x + thumb_size + 70
-        max_text_w = CANVAS_W - info_x - 60
-
-        np_font = ImageFont.truetype(FONT_BOLD_PATH, 75)
-        np_text = "NOW PLAYING"
-        np_bbox = draw.textbbox((0, 0), np_text, font=np_font)
-        np_w = np_bbox[2] - np_bbox[0]
-        np_x = info_x
-        np_y = 120
+        # Animated underline effect
+        brand_text = "ShrutiMusic"
+        brand_bbox = draw.textbbox((0, 0), brand_text, font=brand_font)
+        brand_w = brand_bbox[2] - brand_bbox[0]
         
-        shadow_offset = 4
-        draw.text((np_x+shadow_offset, np_y+shadow_offset), np_text, fill=TEXT_SHADOW, font=np_font)
-        draw.text((np_x, np_y), np_text, fill=TEXT_WHITE, font=np_font)
+        draw.text((38, brand_y), brand_text, fill=theme_colors['text'], font=brand_font)
+        draw.rectangle([35, brand_y + 55, 35 + brand_w, brand_y + 62], 
+                      fill=theme_colors['accent'])
 
-        title_font_size = 38
-        title_font = ImageFont.truetype(FONT_BOLD_PATH, title_font_size)
+        # Text info area
+        info_x = art_x + thumb_size + 80
+        max_text_w = CANVAS_W - info_x - 50
+
+        # NOW PLAYING with style
+        np_font = ImageFont.truetype(FONT_BOLD_PATH, 65)
+        np_text = "♪ NOW PLAYING"
+        np_y = 140
+        
+        # Glowing text effect
+        for offset in [4, 3, 2]:
+            draw.text((info_x + offset, np_y + offset), np_text, 
+                     fill=(*theme_colors['accent'][:3], 80), font=np_font)
+        draw.text((info_x, np_y), np_text, fill=theme_colors['text'], font=np_font)
+
+        # Title with better spacing
+        title_font = ImageFont.truetype(FONT_BOLD_PATH, 42)
         title_lines = wrap_text(draw, title, title_font, max_text_w)
         title_text = "\n".join(title_lines)
-        title_y = np_y + 100
+        title_y = np_y + 90
         
-        draw.multiline_text(
-            (info_x+3, title_y+3), 
-            title_text, 
-            fill=TEXT_SHADOW, 
-            font=title_font, 
-            spacing=10
-        )
-        draw.multiline_text(
-            (info_x, title_y), 
-            title_text, 
-            fill=TEXT_WHITE, 
-            font=title_font, 
-            spacing=10
-        )
+        draw.multiline_text((info_x, title_y), title_text, 
+                          fill=theme_colors['text'], font=title_font, spacing=12)
 
-        meta_font = ImageFont.truetype(FONT_REGULAR_PATH, 32)
-        meta_start_y = title_y + 140
-        line_gap = 52
+        # Metadata with icons
+        meta_font = ImageFont.truetype(FONT_REGULAR_PATH, 34)
+        meta_y = title_y + 150
+        line_spacing = 55
         
         duration_label = duration
-        if duration and ":" in duration and "Min" not in duration and "min" not in duration:
-            duration_label = f"{duration} Mins"
-
+        if duration and ":" in duration:
+            parts = duration.split(":")
+            if len(parts) == 2:
+                duration_label = f"{parts[0]}m {parts[1]}s"
+        
         meta_items = [
-            f"Views : {views}",
-            f"Duration : {duration_label}",
-            f"Channel : {channel}"
+            f"👁 {views}",
+            f"⏱ {duration_label}",
+            f"📺 {channel}"
         ]
         
-        for idx, meta_text in enumerate(meta_items):
-            y_pos = meta_start_y + (idx * line_gap)
-            draw.text((info_x+2, y_pos+2), meta_text, fill=TEXT_SHADOW, font=meta_font)
-            draw.text((info_x, y_pos), meta_text, fill=TEXT_SOFT, font=meta_font)
+        for idx, meta in enumerate(meta_items):
+            y = meta_y + (idx * line_spacing)
+            # Subtle shadow
+            draw.text((info_x + 2, y + 2), meta, fill=(0, 0, 0, 120), font=meta_font)
+            draw.text((info_x, y), meta, fill=(240, 240, 240, 255), font=meta_font)
 
-        out = CACHE_DIR / f"{videoid}_styled.png"
+        # Decorative elements based on theme
+        if theme_colors['style'] in ['neon', 'cyberpunk']:
+            # Corner accents
+            corner_size = 40
+            corner_color = theme_colors['accent']
+            draw.line([(20, 20), (20 + corner_size, 20)], fill=corner_color, width=4)
+            draw.line([(20, 20), (20, 20 + corner_size)], fill=corner_color, width=4)
+            draw.line([(CANVAS_W - 20, 20), (CANVAS_W - 20 - corner_size, 20)], fill=corner_color, width=4)
+            draw.line([(CANVAS_W - 20, 20), (CANVAS_W - 20, 20 + corner_size)], fill=corner_color, width=4)
+
+        # Save output
+        out = CACHE_DIR / f"{videoid}_premium.png"
         canvas.save(out, quality=95, optimize=True)
 
         if thumb_path and thumb_path.exists():
