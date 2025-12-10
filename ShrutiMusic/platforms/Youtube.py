@@ -1,4 +1,3 @@
-# If You Are use This in another Repo Make Sure Change Module Name in Line Number 10 and 12 .
 import asyncio
 import os
 import re
@@ -79,21 +78,29 @@ async def download_song(link: str) -> str:
                 if not download_token:
                     return None
                 
-                stream_url = f"{YOUR_API_URL}/stream/{video_id}?type=audio"
+                stream_url = f"{YOUR_API_URL}/stream/{video_id}?type=audio&token={download_token}"
                 
                 async with session.get(
                     stream_url,
-                    headers={"X-Download-Token": download_token},
                     timeout=aiohttp.ClientTimeout(total=300)
                 ) as file_response:
-                    if file_response.status != 200:
+                    if file_response.status == 302:
+                        redirect_url = file_response.headers.get('Location')
+                        if redirect_url:
+                            async with session.get(redirect_url) as final_response:
+                                if final_response.status != 200:
+                                    return None
+                                with open(file_path, "wb") as f:
+                                    async for chunk in final_response.content.iter_chunked(16384):
+                                        f.write(chunk)
+                                return file_path
+                    elif file_response.status == 200:
+                        with open(file_path, "wb") as f:
+                            async for chunk in file_response.content.iter_chunked(16384):
+                                f.write(chunk)
+                        return file_path
+                    else:
                         return None
-                        
-                    with open(file_path, "wb") as f:
-                        async for chunk in file_response.content.iter_chunked(16384):
-                            f.write(chunk)
-                    
-                    return file_path
 
     except Exception:
         return None
@@ -136,21 +143,29 @@ async def download_video(link: str) -> str:
                 if not download_token:
                     return None
                 
-                stream_url = f"{YOUR_API_URL}/stream/{video_id}?type=video"
+                stream_url = f"{YOUR_API_URL}/stream/{video_id}?type=video&token={download_token}"
                 
                 async with session.get(
                     stream_url,
-                    headers={"X-Download-Token": download_token},
                     timeout=aiohttp.ClientTimeout(total=600)
                 ) as file_response:
-                    if file_response.status != 200:
+                    if file_response.status == 302:
+                        redirect_url = file_response.headers.get('Location')
+                        if redirect_url:
+                            async with session.get(redirect_url) as final_response:
+                                if final_response.status != 200:
+                                    return None
+                                with open(file_path, "wb") as f:
+                                    async for chunk in final_response.content.iter_chunked(16384):
+                                        f.write(chunk)
+                                return file_path
+                    elif file_response.status == 200:
+                        with open(file_path, "wb") as f:
+                            async for chunk in file_response.content.iter_chunked(16384):
+                                f.write(chunk)
+                        return file_path
+                    else:
                         return None
-                        
-                    with open(file_path, "wb") as f:
-                        async for chunk in file_response.content.iter_chunked(16384):
-                            f.write(chunk)
-                    
-                    return file_path
 
     except Exception:
         return None
