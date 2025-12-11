@@ -90,10 +90,10 @@ async def helper_cb(client, CallbackQuery, _):
     cb = callback_data.split(None, 1)[1]
 
     def get_keyboard_for(cb):
-        page1 = ["hb1", "hb2", "hb5", "hb4", "hb32", "hb3", "hb6", "hb36", "hb21", "hb30", "hb24"]
-        page2 = ["hb31", "hb17", "hb7", "hb23", "hb8", "hb38", "hb9", "hb33", "hb29", "hb10"]
-        page3 = ["hb11", "hb16", "hb27", "hb37", "hb13", "hb12", "hb14", "hb15", "hb20", "hb19"]
-        page4 = ["hb28", "hb22", "hb26", "hb39", "hb35", "hb34", "hb18", "hb25"]
+        page1 = ["hb1", "hb2", "hb5", "hb4", "hb32", "hb3", "hb6", "hb36"]
+        page2 = ["hb21", "hb30", "hb24", "hb31", "hb17", "hb7", "hb23", "hb8", "hb38", "hb9"]
+        page3 = ["hb33", "hb29", "hb10", "hb11", "hb16", "hb27", "hb37", "hb13", "hb12", "hb14"]
+        page4 = ["hb15", "hb20", "hb19", "hb28", "hb22", "hb26", "hb39", "hb35", "hb34", "hb18"]
 
         if cb in page1:
             return help_back_markup(_, page=1)
