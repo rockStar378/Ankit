@@ -16,11 +16,23 @@ from ShrutiMusic.core.mongo import mongodb
 ░█▀▀░█▀▄░█░█░█▀▀░█▀▄░░█░░█▀▀░░█░░█▀█░█▀▄░░█░░░░█░░░░█░░█░░░█▀▀░█░█░▀▀█░█▀▀
 ░▀░░░▀░▀░▀▀▀░▀░░░▀░▀░▀▀▀░▀▀▀░░▀░░▀░▀░▀░▀░░▀░░░░▀▀▀░▀▀▀░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀
 
+ORIGINAL WORK & COPYRIGHT NOTICE
+================================
+Original Author: Nand Yaduwanshi (@NoxxOP)
+First Commit: September 26, 2025
+Original Repository: https://github.com/NoxxOP/Music (Private)
+Original File Path: ShrutiMusic/plugins/tools/vccall.py
+
 Copyright (c) 2025 Nand Yaduwanshi (@NoxxOP)
 All Rights Reserved.
 
+AUTHENTICITY PROOF:
+- Original development in private repository (NoxxOP/Music)
+- First commit date: September 26, 2025
+- Complete commit history maintained in private repository
+- This is a refactored/cleaned version of the original work
+
 Licensed under the Proprietary License.
-This code is the exclusive property of Nand Yaduwanshi.
 
 RESTRICTIONS:
 - Unauthorized copying, modification, distribution, or use is strictly prohibited
@@ -32,7 +44,9 @@ Owner: Nand Yaduwanshi
 GitHub: @NoxxOP
 Location: Supaul, Bihar, India
 
-For licensing inquiries, contact the owner through GitHub.
+LEGAL NOTICE:
+The original commit history proving authorship is maintained in the private repository.
+For licensing inquiries or to verify authenticity, contact via GitHub (@NoxxOP).
 Violation of this license will result in legal action.
 """
 
