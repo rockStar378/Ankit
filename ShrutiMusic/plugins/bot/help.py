@@ -89,11 +89,12 @@ async def helper_cb(client, CallbackQuery, _):
     callback_data = CallbackQuery.data.strip()
     cb = callback_data.split(None, 1)[1]
 
+    # Helper to return keyboard with correct page
     def get_keyboard_for(cb):
-        page1 = ["hb1", "hb2", "hb5", "hb4", "hb32", "hb3", "hb6", "hb36"]
-        page2 = ["hb21", "hb30", "hb24", "hb31", "hb17", "hb7", "hb23", "hb8", "hb38", "hb9"]
-        page3 = ["hb33", "hb29", "hb10", "hb11", "hb16", "hb27", "hb37", "hb13", "hb12", "hb14"]
-        page4 = ["hb15", "hb20", "hb19", "hb28", "hb22", "hb26", "hb39", "hb35", "hb34", "hb18"]
+        page1 = ["hb1", "hb2", "hb3", "hb4", "hb5", "hb6", "hb7", "hb8", "hb9", "hb10"]
+        page2 = ["hb11", "hb12", "hb13", "hb14", "hb15", "hb17", "hb18", "hb19", "hb20", "hb21"]
+        page3 = ["hb22", "hb23", "hb24", "hb25", "hb26", "hb27", "hb28", "hb29", "hb30", "hb31"]
+        page4 = ["hb32", "hb33", "hb34", "hb35", "hb36", "hb37", "hb38", "hb39"]
 
         if cb in page1:
             return help_back_markup(_, page=1)
@@ -104,8 +105,9 @@ async def helper_cb(client, CallbackQuery, _):
         elif cb in page4:
             return help_back_markup(_, page=4)
         else:
-            return help_back_markup(_, page=1)
+            return help_back_markup(_, page=1)  # fallback
 
+    # Show the correct help message based on callback
     if cb == "hb1":
         await CallbackQuery.edit_message_text(helpers.HELP_1, reply_markup=get_keyboard_for(cb))
     elif cb == "hb2":
@@ -184,3 +186,16 @@ async def helper_cb(client, CallbackQuery, _):
         await CallbackQuery.edit_message_text(helpers.HELP_38, reply_markup=get_keyboard_for(cb))
     elif cb == "hb39":
         await CallbackQuery.edit_message_text(helpers.HELP_39, reply_markup=get_keyboard_for(cb))
+        
+
+
+# ©️ Copyright Reserved - @NoxxOP  Nand Yaduwanshi
+
+# ===========================================
+# ©️ 2025 Nand Yaduwanshi (aka @NoxxOP)
+# 🔗 GitHub : https://github.com/NoxxOP/ShrutiMusic
+# 📢 Telegram Channel : https://t.me/ShrutiBots
+# ===========================================
+
+
+# ❤️ Love From ShrutiBots 
