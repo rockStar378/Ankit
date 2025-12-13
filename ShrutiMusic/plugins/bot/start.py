@@ -46,7 +46,7 @@ def get_random_effect_id():
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client, message: Message, _):
-    if config.START_STICKER_ENABLED:
+    if getattr(config, 'START_STICKER_ENABLED', True):
         random_sticker = random.choice(RANDOM_STICKERS)
         await message.reply_sticker(sticker=random_sticker)
     
@@ -151,7 +151,7 @@ async def start_pm(client, message: Message, _):
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
-    if config.START_STICKER_ENABLED:
+    if getattr(config, 'START_STICKER_ENABLED', True):
         random_sticker = random.choice(RANDOM_STICKERS)
         await message.reply_sticker(sticker=random_sticker)
     
@@ -200,7 +200,7 @@ async def welcome(client, message: Message):
                     )
                     return await app.leave_chat(message.chat.id)
 
-                if config.START_STICKER_ENABLED:
+                if getattr(config, 'START_STICKER_ENABLED', True):
                     random_sticker = random.choice(RANDOM_STICKERS)
                     await message.reply_sticker(sticker=random_sticker)
 
