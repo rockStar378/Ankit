@@ -1,27 +1,6 @@
-# Copyright (c) 2025 Nand Yaduwanshi <NoxxOP>
-# Location: Supaul, Bihar
-#
-# All rights reserved.
-#
-# This code is the intellectual property of Nand Yaduwanshi.
-# You are not allowed to copy, modify, redistribute, or use this
-# code for commercial or personal projects without explicit permission.
-#
-# Allowed:
-# - Forking for personal learning
-# - Submitting improvements via pull requests
-#
-# Not Allowed:
-# - Claiming this code as your own
-# - Re-uploading without credit or permission
-# - Selling or using commercially
-#
-# Contact for permissions:
-# Email: badboy809075@gmail.com
-
-
 import time
 import random
+from typing import Final
 
 from pyrogram import filters
 from pyrogram.enums import ChatType
@@ -46,7 +25,13 @@ from ShrutiMusic.utils.inline import help_pannel_page1, private_panel, start_pan
 from config import BANNED_USERS
 from strings import get_string
 
-# Random stickers list
+NAND_YADUWANSHI_EFFECTS: Final[list[str]] = [
+    "5104841245755180586",
+    "5107584321108051014",
+    "5159385139981059251",
+    "5046509860389126442",
+]
+
 RANDOM_STICKERS = [
     "CAACAgUAAxkBAAEEnzFor872a_gYPHu-FxIwv-nxmZ5U8QACyBUAAt5hEFVBanMxRZCc7h4E",
     "CAACAgUAAxkBAAEEnzJor88q_xRO1ljlwh_I6fRF7lDR-AACnBsAAlckCFWNCpez-HzWHB4E",
@@ -54,25 +39,36 @@ RANDOM_STICKERS = [
     "CAACAgUAAxkBAAEEnzRor880z_spEYEnEfyFXN55tNwydQACIxUAAosKEVUB8iqZMVYroR4E"
 ]
 
+def get_random_effect_id():
+    return int(random.choice(NAND_YADUWANSHI_EFFECTS))
+
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client, message: Message, _):
-    # Send random sticker first
-    random_sticker = random.choice(RANDOM_STICKERS)
-    await message.reply_sticker(sticker=random_sticker)
+    if config.START_STICKER_ENABLED:
+        random_sticker = random.choice(RANDOM_STICKERS)
+        await message.reply_sticker(sticker=random_sticker)
     
     await add_served_user(message.from_user.id)
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
         if name[0:4] == "help":
             keyboard = help_pannel_page1(_)
-            return await message.reply_photo(
-                photo=config.START_IMG_URL,
-                caption=_["help_1"].format(config.SUPPORT_GROUP),
-                #protect_content=True,
-                reply_markup=keyboard,
-            )
+            try:
+                return await message.reply_photo(
+                    photo=config.START_IMG_URL,
+                    caption=_["help_1"].format(config.SUPPORT_GROUP),
+                    reply_markup=keyboard,
+                    has_spoiler=True,
+                    message_effect_id=get_random_effect_id(),
+                )
+            except:
+                return await message.reply_photo(
+                    photo=config.START_IMG_URL,
+                    caption=_["help_1"].format(config.SUPPORT_GROUP),
+                    reply_markup=keyboard,
+                )
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
             if await is_on_off(2):
@@ -107,12 +103,22 @@ async def start_pm(client, message: Message, _):
                 ]
             )
             await m.delete()
-            await app.send_photo(
-                chat_id=message.chat.id,
-                photo=thumbnail,
-                caption=searched_text,
-                reply_markup=key,
-            )
+            try:
+                await app.send_photo(
+                    chat_id=message.chat.id,
+                    photo=thumbnail,
+                    caption=searched_text,
+                    reply_markup=key,
+                    has_spoiler=True,
+                    message_effect_id=get_random_effect_id(),
+                )
+            except:
+                await app.send_photo(
+                    chat_id=message.chat.id,
+                    photo=thumbnail,
+                    caption=searched_text,
+                    reply_markup=key,
+                )
             if await is_on_off(2):
                 return await app.send_message(
                     chat_id=config.LOG_GROUP_ID,
@@ -121,11 +127,20 @@ async def start_pm(client, message: Message, _):
     else:
         out = private_panel(_)
         UP, CPU, RAM, DISK = await bot_sys_stats()
-        await message.reply_photo(
-            photo=config.START_IMG_URL,
-            caption=_["start_2"].format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM),
-            reply_markup=InlineKeyboardMarkup(out),
-        )
+        try:
+            await message.reply_photo(
+                photo=config.START_IMG_URL,
+                caption=_["start_2"].format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM),
+                reply_markup=InlineKeyboardMarkup(out),
+                has_spoiler=True,
+                message_effect_id=get_random_effect_id(),
+            )
+        except:
+            await message.reply_photo(
+                photo=config.START_IMG_URL,
+                caption=_["start_2"].format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM),
+                reply_markup=InlineKeyboardMarkup(out),
+            )
         if await is_on_off(2):
             return await app.send_message(
                 chat_id=config.LOG_GROUP_ID,
@@ -136,17 +151,26 @@ async def start_pm(client, message: Message, _):
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
-    # Send random sticker first
-    random_sticker = random.choice(RANDOM_STICKERS)
-    await message.reply_sticker(sticker=random_sticker)
+    if config.START_STICKER_ENABLED:
+        random_sticker = random.choice(RANDOM_STICKERS)
+        await message.reply_sticker(sticker=random_sticker)
     
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
-    await message.reply_photo(
-        photo=config.START_IMG_URL,
-        caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
-        reply_markup=InlineKeyboardMarkup(out),
-    )
+    try:
+        await message.reply_photo(
+            photo=config.START_IMG_URL,
+            caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
+            reply_markup=InlineKeyboardMarkup(out),
+            has_spoiler=True,
+            message_effect_id=get_random_effect_id(),
+        )
+    except:
+        await message.reply_photo(
+            photo=config.START_IMG_URL,
+            caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
+            reply_markup=InlineKeyboardMarkup(out),
+        )
     return await add_served_chat(message.chat.id)
 
 
@@ -176,34 +200,36 @@ async def welcome(client, message: Message):
                     )
                     return await app.leave_chat(message.chat.id)
 
-                # Send random sticker first when bot joins group
-                random_sticker = random.choice(RANDOM_STICKERS)
-                await message.reply_sticker(sticker=random_sticker)
+                if config.START_STICKER_ENABLED:
+                    random_sticker = random.choice(RANDOM_STICKERS)
+                    await message.reply_sticker(sticker=random_sticker)
 
                 out = start_panel(_)
-                await message.reply_photo(
-                    photo=config.START_IMG_URL,
-                    caption=_["start_3"].format(
-                        message.from_user.first_name,
-                        app.mention,
-                        message.chat.title,
-                        app.mention,
-                    ),
-                    reply_markup=InlineKeyboardMarkup(out),
-                )
+                try:
+                    await message.reply_photo(
+                        photo=config.START_IMG_URL,
+                        caption=_["start_3"].format(
+                            message.from_user.first_name,
+                            app.mention,
+                            message.chat.title,
+                            app.mention,
+                        ),
+                        reply_markup=InlineKeyboardMarkup(out),
+                        has_spoiler=True,
+                        message_effect_id=get_random_effect_id(),
+                    )
+                except:
+                    await message.reply_photo(
+                        photo=config.START_IMG_URL,
+                        caption=_["start_3"].format(
+                            message.from_user.first_name,
+                            app.mention,
+                            message.chat.title,
+                            app.mention,
+                        ),
+                        reply_markup=InlineKeyboardMarkup(out),
+                    )
                 await add_served_chat(message.chat.id)
                 await message.stop_propagation()
         except Exception as ex:
             print(ex)
-
-
-# ©️ Copyright Reserved - @NoxxOP  Nand Yaduwanshi
-
-# ===========================================
-# ©️ 2025 Nand Yaduwanshi (aka @NoxxOP)
-# 🔗 GitHub : https://github.com/NoxxOP/ShrutiMusic
-# 📢 Telegram Channel : https://t.me/ShrutiBots
-# ===========================================
-
-
-# ❤️ Love From ShrutiBots
