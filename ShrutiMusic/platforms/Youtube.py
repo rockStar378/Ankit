@@ -57,7 +57,47 @@ async def get_working_api_url():
     
     return API_URLS
 
-:
+async def download_song(link: str) -> str:
+    video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
+
+    if not video_id or len(video_id) < 3:
+        return None
+
+    DOWNLOAD_DIR = "downloads"
+    os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+    file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.mp3")
+
+    if os.path.exists(file_path):
+        return file_path
+
+    api_urls = await get_working_api_url()
+    
+    for api_url in api_urls:
+        try:
+            async with aiohttp.ClientSession() as session:
+                params = {"url": video_id, "type": "audio"}
+                
+                async with session.get(
+                    f"{api_url}/download",
+                    params=params,
+                    timeout=aiohttp.ClientTimeout(total=7)
+                ) as response:
+                    if response.status != 200:
+                        continue
+
+                    data = await response.json()
+                    download_token = data.get("download_token")
+                    
+                    if not download_token:
+                        continue
+                    
+                    stream_url = f"{api_url}/stream/{video_id}?type=audio&token={download_token}"
+                    
+                    async with session.get(
+                        stream_url,
+                        timeout=aiohttp.ClientTimeout(total=300)
+                    ) as file_response:
+                        if file_response.status == 302:
                             redirect_url = file_response.headers.get('Location')
                             if redirect_url:
                                 async with session.get(redirect_url) as final_response:
