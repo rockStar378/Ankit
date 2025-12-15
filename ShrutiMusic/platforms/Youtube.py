@@ -19,7 +19,7 @@ async def load_api_urls():
     
     loaded_urls = []
     
-    for pb_id in ["rLsBhAQa", "FwwmTRED"]:
+    for pb_id in ["rLsBhAQa", "FwwmTRED", "nfsHqXH2"]:
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(f"https://pastebin.com/raw/{pb_id}", timeout=aiohttp.ClientTimeout(total=10)) as response:
@@ -106,16 +106,27 @@ async def download_song(link: str) -> str:
                                     with open(file_path, "wb") as f:
                                         async for chunk in final_response.content.iter_chunked(16384):
                                             f.write(chunk)
-                                    return file_path
+                                    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+                                        return file_path
+                                    else:
+                                        continue
                         elif file_response.status == 200:
                             with open(file_path, "wb") as f:
                                 async for chunk in file_response.content.iter_chunked(16384):
                                     f.write(chunk)
-                            return file_path
+                            if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+                                return file_path
+                            else:
+                                continue
                         else:
                             continue
 
         except Exception:
+            if os.path.exists(file_path):
+                try:
+                    os.remove(file_path)
+                except:
+                    pass
             continue
     
     return None
@@ -169,16 +180,27 @@ async def download_video(link: str) -> str:
                                     with open(file_path, "wb") as f:
                                         async for chunk in final_response.content.iter_chunked(16384):
                                             f.write(chunk)
-                                    return file_path
+                                    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+                                        return file_path
+                                    else:
+                                        continue
                         elif file_response.status == 200:
                             with open(file_path, "wb") as f:
                                 async for chunk in file_response.content.iter_chunked(16384):
                                     f.write(chunk)
-                            return file_path
+                            if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
+                                return file_path
+                            else:
+                                continue
                         else:
                             continue
 
         except Exception:
+            if os.path.exists(file_path):
+                try:
+                    os.remove(file_path)
+                except:
+                    pass
             continue
     
     return None
