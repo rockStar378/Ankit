@@ -3,9 +3,19 @@
 </p>
 
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=35&duration=2000&pause=1000&color=00D9FF&center=true&vCenter=true&width=600&lines=%F0%9D%90%92%F0%9D%90%A1%F0%9D%90%AB%F0%9D%90%AE%F0%9D%90%AD%F0%9D%90%A2+%F0%9D%90%8C%F0%9D%90%AE%F0%9D%90%AC%F0%9D%90%A2%F0%9D%90%9C+%F0%9D%90%91%F0%9D%90%9E%F0%9D%90%A9%F0%9D%90%A8;Lightning+Fast+Music+Streaming;Now+Running+on+API!" alt="Shruti Music Repo">
+  <img src="https://readme-typing-svg.herokuapp.com
+  ?font=Fira+Code
+  &weight=700
+  &size=35
+  &duration=3800
+  &pause=1300
+  &color=00D9FF
+  &center=true
+  &vCenter=true
+  &width=700
+  &lines=𝐒𝐡𝐫𝐮𝐭𝐢+𝐌𝐮𝐬𝐢𝐜+𝐑𝐞𝐩𝐨;𝐋𝐢𝐠𝐡𝐭𝐧𝐢𝐧𝐠+𝐅𝐚𝐬𝐭+𝐌𝐮𝐬𝐢𝐜+𝐒𝐭𝐫𝐞𝐚𝐦𝐢𝐧𝐠;𝐍𝐨𝐰+𝐑𝐮𝐧𝐧𝐢𝐧𝐠+𝐨𝐧+𝐀𝐏𝐈!"
+  alt="Shruti Music Repo">
 </div>
-
 ---
 
 <div align="center">
