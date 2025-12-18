@@ -1,5 +1,4 @@
 import asyncio
-import os
 import re
 from typing import Union
 import yt_dlp
@@ -11,8 +10,7 @@ import aiohttp
 from ShrutiMusic import LOGGER
 
 FALLBACK_API_URL = "http://shrutibots.in"
-PASTEBIN_URL = "https://pastebin.com/raw/mDkk90Wr"
-FIXED_TOKEN = "ShrutiMusic"
+API_KEY = "ShrutiMusic"
 logger = LOGGER(__name__)
 
 _API_URL = None
@@ -26,17 +24,16 @@ async def get_api_url():
     
     try:
         async with aiohttp.ClientSession() as session:
-            async with session.get(PASTEBIN_URL, timeout=aiohttp.ClientTimeout(total=10)) as response:
+            async with session.get("https://pastebin.com/raw/mDkk90Wr", timeout=aiohttp.ClientTimeout(total=10)) as response:
                 if response.status == 200:
                     content = await response.text()
                     url = content.strip()
                     if url and url.startswith('http'):
                         _API_URL = url
                         _API_URL_LOADED = True
-                        logger.info(f"Loaded API URL from pastebin: {url}")
                         return _API_URL
-    except Exception as e:
-        logger.warning(f"Failed to load API URL from pastebin: {e}")
+    except:
+        pass
     
     _API_URL = FALLBACK_API_URL
     _API_URL_LOADED = True
@@ -45,7 +42,6 @@ async def get_api_url():
 
 async def get_stream_url(link: str, media_type: str) -> str:
     if not link:
-        logger.error(f"Invalid link: {link}")
         return None
     
     if not link.startswith('http'):
@@ -53,80 +49,25 @@ async def get_stream_url(link: str, media_type: str) -> str:
 
     try:
         api_url = await get_api_url()
-        logger.info(f"Step 1: Calling /download to cache stream for {link}")
+        video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link.split('/')[-1]
+        stream_url = f"{api_url}/stream/{video_id}?type={media_type}&token={API_KEY}"
         
         async with aiohttp.ClientSession() as session:
-            params = {"url": link, "type": media_type}
-            
-            async with session.get(
-                f"{api_url}/download",
-                params=params,
-                timeout=aiohttp.ClientTimeout(total=20)
-            ) as response:
-                logger.info(f"Download endpoint status: {response.status}")
-                
-                if response.status == 200:
-                    data = await response.json()
-                    logger.info(f"Download response: {data}")
-                else:
-                    error_text = await response.text()
-                    logger.error(f"Download failed: {error_text}")
-                    return None
-            
-            logger.info(f"Step 2: Now calling /stream to get final URL")
-            
-            video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link.split('/')[-1]
-            stream_url = f"{api_url}/stream/{video_id}?type={media_type}&token={FIXED_TOKEN}"
-            
-            async with session.get(
-                stream_url,
-                allow_redirects=False,
-                timeout=aiohttp.ClientTimeout(total=10)
-            ) as response:
-                logger.info(f"Stream response status: {response.status}")
-                
+            async with session.get(stream_url, allow_redirects=False, timeout=aiohttp.ClientTimeout(total=20)) as response:
                 if response.status == 302:
-                    final_url = response.headers.get('Location')
-                    if final_url:
-                        logger.info(f"Success! Got final URL: {final_url[:100]}...")
-                        return final_url
-                    else:
-                        logger.error("No Location header")
-                        return None
+                    return response.headers.get('Location')
                 elif response.status == 200:
-                    logger.info("Direct stream available")
                     return stream_url
                 else:
-                    error_text = await response.text()
-                    logger.error(f"Stream error: {error_text}")
                     return None
-
-    except asyncio.TimeoutError:
-        logger.error("Timeout error")
-        return None
-    except Exception as e:
-        logger.error(f"Exception: {type(e).__name__}: {str(e)}")
-        import traceback
-        logger.error(f"Traceback: {traceback.format_exc()}")
+    except:
         return None
 
 async def download_song(link: str) -> str:
-    logger.info(f"download_song: {link}")
-    stream_url = await get_stream_url(link, "audio")
-    if stream_url:
-        logger.info(f"Success: {stream_url[:100]}...")
-    else:
-        logger.error("Failed to get stream URL")
-    return stream_url
+    return await get_stream_url(link, "audio")
 
 async def download_video(link: str) -> str:
-    logger.info(f"download_video: {link}")
-    stream_url = await get_stream_url(link, "video")
-    if stream_url:
-        logger.info(f"Success: {stream_url[:100]}...")
-    else:
-        logger.error("Failed to get stream URL")
-    return stream_url
+    return await get_stream_url(link, "video")
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -224,7 +165,6 @@ class YouTubeAPI:
             else:
                 return 0, "Video stream not available"
         except Exception as e:
-            logger.error(f"video exception: {e}")
             return 0, f"Video stream error: {e}"
 
     async def playlist(self, link, limit, user_id, videoid: Union[bool, str] = None):
@@ -326,6 +266,5 @@ class YouTubeAPI:
                 return stream_url, True
             else:
                 return None, False
-        except Exception as e:
-            logger.error(f"download exception: {e}")
+        except:
             return None, False
