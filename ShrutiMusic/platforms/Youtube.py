@@ -10,7 +10,7 @@ from ShrutiMusic.utils.formatters import time_to_seconds
 import aiohttp
 from ShrutiMusic import LOGGER
 
-API_URL = "https://shrutibots.in"
+API_URL = "http://3.108.40.129:3000"
 FIXED_TOKEN = "ShrutiMusic"
 
 async def get_stream_url(link: str, media_type: str) -> str:
