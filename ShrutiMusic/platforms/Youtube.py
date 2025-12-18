@@ -11,32 +11,25 @@ import aiohttp
 from ShrutiMusic import LOGGER
 
 API_URLS = []
-FALLBACK_API_URL = "https://shrutibots.site"
+FALLBACK_API_URL = "https://shrutibots.in"
+FIXED_TOKEN = "ShrutiMusic"
 
 async def load_api_urls():
     global API_URLS
-    logger = LOGGER("ShrutiMusic.platforms.Youtube.py")
     
-    loaded_urls = []
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://pastebin.com/raw/mDkk90Wr", timeout=aiohttp.ClientTimeout(total=10)) as response:
+                if response.status == 200:
+                    content = await response.text()
+                    url = content.strip()
+                    if url:
+                        API_URLS = [url]
+                        return
+    except:
+        pass
     
-    for pb_id in ["rLsBhAQa", "FwwmTRED", "nfsHqXH2"]:
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(f"https://pastebin.com/raw/{pb_id}", timeout=aiohttp.ClientTimeout(total=10)) as response:
-                    if response.status == 200:
-                        content = await response.text()
-                        url = content.strip()
-                        if url:
-                            loaded_urls.append(url)
-        except Exception:
-            continue
-    
-    if loaded_urls:
-        API_URLS = loaded_urls
-        logger.info(f"Loaded {len(API_URLS)} API URLs successfully")
-    else:
-        API_URLS = [FALLBACK_API_URL]
-        logger.info("Using fallback API URL")
+    API_URLS = [FALLBACK_API_URL]
 
 try:
     loop = asyncio.get_event_loop()
@@ -44,8 +37,8 @@ try:
         asyncio.create_task(load_api_urls())
     else:
         loop.run_until_complete(load_api_urls())
-except RuntimeError:
-    pass
+except:
+    API_URLS = [FALLBACK_API_URL]
 
 async def get_working_api_url():
     global API_URLS
@@ -55,155 +48,46 @@ async def get_working_api_url():
         if not API_URLS:
             API_URLS = [FALLBACK_API_URL]
     
-    return API_URLS
+    return API_URLS[0] if API_URLS else FALLBACK_API_URL
+
+async def get_stream_url(link: str, media_type: str) -> str:
+    if not link:
+        return None
+    
+    if not link.startswith('http'):
+        link = f"https://www.youtube.com/watch?v={link}"
+    
+    video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link.split('/')[-1]
+
+    try:
+        api_url = await get_working_api_url()
+        
+        async with aiohttp.ClientSession() as session:
+            stream_url = f"{api_url}/stream/{video_id}?type={media_type}&token={FIXED_TOKEN}"
+            
+            async with session.get(stream_url, allow_redirects=False, timeout=aiohttp.ClientTimeout(total=20)) as response:
+                if response.status == 302:
+                    return response.headers.get('Location')
+                elif response.status == 200:
+                    return stream_url
+                else:
+                    params = {"url": link, "type": media_type}
+                    async with session.get(f"{api_url}/download", params=params, timeout=aiohttp.ClientTimeout(total=20)) as dl_response:
+                        if dl_response.status == 200:
+                            async with session.get(stream_url, allow_redirects=False, timeout=aiohttp.ClientTimeout(total=10)) as retry_response:
+                                if retry_response.status == 302:
+                                    return retry_response.headers.get('Location')
+                                elif retry_response.status == 200:
+                                    return stream_url
+                    return None
+    except:
+        return None
 
 async def download_song(link: str) -> str:
-    video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
-
-    if not video_id or len(video_id) < 3:
-        return None
-
-    DOWNLOAD_DIR = "downloads"
-    os.makedirs(DOWNLOAD_DIR, exist_ok=True)
-    file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.mp3")
-
-    if os.path.exists(file_path):
-        return file_path
-
-    api_urls = await get_working_api_url()
-    
-    for api_url in api_urls:
-        try:
-            async with aiohttp.ClientSession() as session:
-                params = {"url": video_id, "type": "audio"}
-                
-                async with session.get(
-                    f"{api_url}/download",
-                    params=params,
-                    timeout=aiohttp.ClientTimeout(total=7)
-                ) as response:
-                    if response.status != 200:
-                        continue
-
-                    data = await response.json()
-                    download_token = data.get("download_token")
-                    
-                    if not download_token:
-                        continue
-                    
-                    stream_url = f"{api_url}/stream/{video_id}?type=audio&token={download_token}"
-                    
-                    async with session.get(
-                        stream_url,
-                        timeout=aiohttp.ClientTimeout(total=300)
-                    ) as file_response:
-                        if file_response.status == 302:
-                            redirect_url = file_response.headers.get('Location')
-                            if redirect_url:
-                                async with session.get(redirect_url) as final_response:
-                                    if final_response.status != 200:
-                                        continue
-                                    with open(file_path, "wb") as f:
-                                        async for chunk in final_response.content.iter_chunked(16384):
-                                            f.write(chunk)
-                                    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-                                        return file_path
-                                    else:
-                                        continue
-                        elif file_response.status == 200:
-                            with open(file_path, "wb") as f:
-                                async for chunk in file_response.content.iter_chunked(16384):
-                                    f.write(chunk)
-                            if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-                                return file_path
-                            else:
-                                continue
-                        else:
-                            continue
-
-        except Exception:
-            if os.path.exists(file_path):
-                try:
-                    os.remove(file_path)
-                except:
-                    pass
-            continue
-    
-    return None
+    return await get_stream_url(link, "audio")
 
 async def download_video(link: str) -> str:
-    video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link
-
-    if not video_id or len(video_id) < 3:
-        return None
-
-    DOWNLOAD_DIR = "downloads"
-    os.makedirs(DOWNLOAD_DIR, exist_ok=True)
-    file_path = os.path.join(DOWNLOAD_DIR, f"{video_id}.mp4")
-
-    if os.path.exists(file_path):
-        return file_path
-
-    api_urls = await get_working_api_url()
-    
-    for api_url in api_urls:
-        try:
-            async with aiohttp.ClientSession() as session:
-                params = {"url": video_id, "type": "video"}
-                
-                async with session.get(
-                    f"{api_url}/download",
-                    params=params,
-                    timeout=aiohttp.ClientTimeout(total=7)
-                ) as response:
-                    if response.status != 200:
-                        continue
-
-                    data = await response.json()
-                    download_token = data.get("download_token")
-                    
-                    if not download_token:
-                        continue
-                    
-                    stream_url = f"{api_url}/stream/{video_id}?type=video&token={download_token}"
-                    
-                    async with session.get(
-                        stream_url,
-                        timeout=aiohttp.ClientTimeout(total=600)
-                    ) as file_response:
-                        if file_response.status == 302:
-                            redirect_url = file_response.headers.get('Location')
-                            if redirect_url:
-                                async with session.get(redirect_url) as final_response:
-                                    if final_response.status != 200:
-                                        continue
-                                    with open(file_path, "wb") as f:
-                                        async for chunk in final_response.content.iter_chunked(16384):
-                                            f.write(chunk)
-                                    if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-                                        return file_path
-                                    else:
-                                        continue
-                        elif file_response.status == 200:
-                            with open(file_path, "wb") as f:
-                                async for chunk in file_response.content.iter_chunked(16384):
-                                    f.write(chunk)
-                            if os.path.exists(file_path) and os.path.getsize(file_path) > 0:
-                                return file_path
-                            else:
-                                continue
-                        else:
-                            continue
-
-        except Exception:
-            if os.path.exists(file_path):
-                try:
-                    os.remove(file_path)
-                except:
-                    pass
-            continue
-    
-    return None
+    return await get_stream_url(link, "video")
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -295,13 +179,13 @@ class YouTubeAPI:
         if "&" in link:
             link = link.split("&")[0]
         try:
-            downloaded_file = await download_video(link)
-            if downloaded_file:
-                return 1, downloaded_file
+            stream_url = await download_video(link)
+            if stream_url:
+                return 1, stream_url
             else:
-                return 0, "Video download failed"
+                return 0, "Video stream not available"
         except Exception as e:
-            return 0, f"Video download error: {e}"
+            return 0, f"Video stream error: {e}"
 
     async def playlist(self, link, limit, user_id, videoid: Union[bool, str] = None):
         if videoid:
@@ -394,13 +278,13 @@ class YouTubeAPI:
 
         try:
             if video:
-                downloaded_file = await download_video(link)
+                stream_url = await download_video(link)
             else:
-                downloaded_file = await download_song(link)
+                stream_url = await download_song(link)
             
-            if downloaded_file:
-                return downloaded_file, True
+            if stream_url:
+                return stream_url, True
             else:
                 return None, False
-        except Exception:
+        except:
             return None, False
