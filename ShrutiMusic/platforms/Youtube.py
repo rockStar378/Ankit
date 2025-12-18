@@ -10,21 +10,18 @@ from ShrutiMusic.utils.formatters import time_to_seconds
 import aiohttp
 from ShrutiMusic import LOGGER
 
-API_URL = "http://3.108.40.129:3000"
+API_URL = "https://shrutibots.in"
 FIXED_TOKEN = "ShrutiMusic"
 logger = LOGGER(__name__)
 
 async def get_stream_url(link: str, media_type: str) -> str:
     if not link:
-        logger.error(f"Invalid link: {link}")
         return None
     
     if not link.startswith('http'):
         link = f"https://www.youtube.com/watch?v={link}"
 
     try:
-        logger.info(f"Step 1: Calling /download to cache stream for {link}")
-        
         async with aiohttp.ClientSession() as session:
             params = {"url": link, "type": media_type}
             
@@ -33,70 +30,21 @@ async def get_stream_url(link: str, media_type: str) -> str:
                 params=params,
                 timeout=aiohttp.ClientTimeout(total=20)
             ) as response:
-                logger.info(f"Download endpoint status: {response.status}")
                 
                 if response.status == 200:
                     data = await response.json()
-                    logger.info(f"Download response: {data}")
+                    return data.get('stream_url')
                 else:
-                    error_text = await response.text()
-                    logger.error(f"Download failed: {error_text}")
-                    return None
-            
-            logger.info(f"Step 2: Now calling /stream to get final URL")
-            
-            video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link.split('/')[-1]
-            stream_url = f"{API_URL}/stream/{video_id}?type={media_type}&token={FIXED_TOKEN}"
-            
-            async with session.get(
-                stream_url,
-                allow_redirects=False,
-                timeout=aiohttp.ClientTimeout(total=10)
-            ) as response:
-                logger.info(f"Stream response status: {response.status}")
-                
-                if response.status == 302:
-                    final_url = response.headers.get('Location')
-                    if final_url:
-                        logger.info(f"Success! Got final URL: {final_url[:100]}...")
-                        return final_url
-                    else:
-                        logger.error("No Location header")
-                        return None
-                elif response.status == 200:
-                    logger.info("Direct stream available")
-                    return stream_url
-                else:
-                    error_text = await response.text()
-                    logger.error(f"Stream error: {error_text}")
                     return None
 
-    except asyncio.TimeoutError:
-        logger.error("Timeout error")
-        return None
-    except Exception as e:
-        logger.error(f"Exception: {type(e).__name__}: {str(e)}")
-        import traceback
-        logger.error(f"Traceback: {traceback.format_exc()}")
+    except:
         return None
 
 async def download_song(link: str) -> str:
-    logger.info(f"download_song: {link}")
-    stream_url = await get_stream_url(link, "audio")
-    if stream_url:
-        logger.info(f"Success: {stream_url[:100]}...")
-    else:
-        logger.error("Failed to get stream URL")
-    return stream_url
+    return await get_stream_url(link, "audio")
 
 async def download_video(link: str) -> str:
-    logger.info(f"download_video: {link}")
-    stream_url = await get_stream_url(link, "video")
-    if stream_url:
-        logger.info(f"Success: {stream_url[:100]}...")
-    else:
-        logger.error("Failed to get stream URL")
-    return stream_url
+    return await get_stream_url(link, "video")
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -194,7 +142,6 @@ class YouTubeAPI:
             else:
                 return 0, "Video stream not available"
         except Exception as e:
-            logger.error(f"video exception: {e}")
             return 0, f"Video stream error: {e}"
 
     async def playlist(self, link, limit, user_id, videoid: Union[bool, str] = None):
@@ -297,5 +244,4 @@ class YouTubeAPI:
             else:
                 return None, False
         except Exception as e:
-            logger.error(f"download exception: {e}")
             return None, False
