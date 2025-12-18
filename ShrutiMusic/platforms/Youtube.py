@@ -1,76 +1,29 @@
 import asyncio
-import os
 import re
 from typing import Union
-import yt_dlp
 from pyrogram.enums import MessageEntityType
 from pyrogram.types import Message
 from py_yt import VideosSearch
 from ShrutiMusic.utils.formatters import time_to_seconds
-import aiohttp
-from ShrutiMusic import LOGGER
+import urllib.parse
 
-API_URL = "http://3.108.40.129:3000"
-FIXED_TOKEN = "ShrutiMusic"
-logger = LOGGER(__name__)
+API_URL = "https://ShrutiBots.in"
 
-async def get_stream_url(link: str, media_type: str) -> str:
+def get_download_url(link: str, media_type: str) -> str:
     if not link:
-        logger.error(f"Invalid link: {link}")
         return None
     
     if not link.startswith('http'):
         link = f"https://www.youtube.com/watch?v={link}"
+    
+    encoded_url = urllib.parse.quote(link, safe='')
+    return f"{API_URL}/download?url={encoded_url}&type={media_type}"
 
-    try:
-        async with aiohttp.ClientSession() as session:
-            params = {"url": link, "type": media_type}
-            
-            async with session.get(
-                f"{API_URL}/download",
-                params=params,
-                timeout=aiohttp.ClientTimeout(total=20)
-            ) as response:
-                
-                if response.status == 200:
-                    data = await response.json()
-                    stream_url = data.get('stream_url')
-                    
-                    if stream_url:
-                        logger.info(f"Success! Got stream URL")
-                        return stream_url
-                    else:
-                        logger.error("No stream_url in response")
-                        return None
-                else:
-                    error_text = await response.text()
-                    logger.error(f"API error {response.status}: {error_text}")
-                    return None
+def download_song(link: str) -> str:
+    return get_download_url(link, "audio")
 
-    except asyncio.TimeoutError:
-        logger.error("Timeout error")
-        return None
-    except Exception as e:
-        logger.error(f"Exception: {type(e).__name__}: {str(e)}")
-        return None
-
-async def download_song(link: str) -> str:
-    logger.info(f"download_song: {link}")
-    stream_url = await get_stream_url(link, "audio")
-    if stream_url:
-        logger.info(f"Success!")
-    else:
-        logger.error("Failed to get stream URL")
-    return stream_url
-
-async def download_video(link: str) -> str:
-    logger.info(f"download_video: {link}")
-    stream_url = await get_stream_url(link, "video")
-    if stream_url:
-        logger.info(f"Success!")
-    else:
-        logger.error("Failed to get stream URL")
-    return stream_url
+def download_video(link: str) -> str:
+    return get_download_url(link, "video")
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -162,13 +115,12 @@ class YouTubeAPI:
         if "&" in link:
             link = link.split("&")[0]
         try:
-            stream_url = await download_video(link)
+            stream_url = download_video(link)
             if stream_url:
                 return 1, stream_url
             else:
                 return 0, "Video stream not available"
         except Exception as e:
-            logger.error(f"video exception: {e}")
             return 0, f"Video stream error: {e}"
 
     async def playlist(self, link, limit, user_id, videoid: Union[bool, str] = None):
@@ -211,27 +163,7 @@ class YouTubeAPI:
             link = self.base + link
         if "&" in link:
             link = link.split("&")[0]
-        ytdl_opts = {"quiet": True}
-        ydl = yt_dlp.YoutubeDL(ytdl_opts)
-        with ydl:
-            formats_available = []
-            r = ydl.extract_info(link, download=False)
-            for format in r["formats"]:
-                try:
-                    if "dash" not in str(format["format"]).lower():
-                        formats_available.append(
-                            {
-                                "format": format["format"],
-                                "filesize": format.get("filesize"),
-                                "format_id": format["format_id"],
-                                "ext": format["ext"],
-                                "format_note": format["format_note"],
-                                "yturl": link,
-                            }
-                        )
-                except:
-                    continue
-        return formats_available, link
+        return [], link
 
     async def slider(self, link: str, query_type: int, videoid: Union[bool, str] = None):
         if videoid:
@@ -262,14 +194,13 @@ class YouTubeAPI:
 
         try:
             if video:
-                stream_url = await download_video(link)
+                stream_url = download_video(link)
             else:
-                stream_url = await download_song(link)
+                stream_url = download_song(link)
             
             if stream_url:
                 return stream_url, True
             else:
                 return None, False
         except Exception as e:
-            logger.error(f"download exception: {e}")
             return None, False
