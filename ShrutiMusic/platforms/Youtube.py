@@ -10,12 +10,13 @@ from ShrutiMusic.utils.formatters import time_to_seconds
 import aiohttp
 from ShrutiMusic import LOGGER
 
-API_URL = "https://shrutibots.in"
+API_URL = "http://3.108.40.129:3000"
 FIXED_TOKEN = "ShrutiMusic"
 logger = LOGGER(__name__)
 
 async def get_stream_url(link: str, media_type: str) -> str:
     if not link:
+        logger.error(f"Invalid link: {link}")
         return None
     
     if not link.startswith('http'):
@@ -33,18 +34,43 @@ async def get_stream_url(link: str, media_type: str) -> str:
                 
                 if response.status == 200:
                     data = await response.json()
-                    return data.get('stream_url')
+                    stream_url = data.get('stream_url')
+                    
+                    if stream_url:
+                        logger.info(f"Success! Got stream URL")
+                        return stream_url
+                    else:
+                        logger.error("No stream_url in response")
+                        return None
                 else:
+                    error_text = await response.text()
+                    logger.error(f"API error {response.status}: {error_text}")
                     return None
 
-    except:
+    except asyncio.TimeoutError:
+        logger.error("Timeout error")
+        return None
+    except Exception as e:
+        logger.error(f"Exception: {type(e).__name__}: {str(e)}")
         return None
 
 async def download_song(link: str) -> str:
-    return await get_stream_url(link, "audio")
+    logger.info(f"download_song: {link}")
+    stream_url = await get_stream_url(link, "audio")
+    if stream_url:
+        logger.info(f"Success!")
+    else:
+        logger.error("Failed to get stream URL")
+    return stream_url
 
 async def download_video(link: str) -> str:
-    return await get_stream_url(link, "video")
+    logger.info(f"download_video: {link}")
+    stream_url = await get_stream_url(link, "video")
+    if stream_url:
+        logger.info(f"Success!")
+    else:
+        logger.error("Failed to get stream URL")
+    return stream_url
 
 async def shell_cmd(cmd):
     proc = await asyncio.create_subprocess_shell(
@@ -142,6 +168,7 @@ class YouTubeAPI:
             else:
                 return 0, "Video stream not available"
         except Exception as e:
+            logger.error(f"video exception: {e}")
             return 0, f"Video stream error: {e}"
 
     async def playlist(self, link, limit, user_id, videoid: Union[bool, str] = None):
@@ -244,4 +271,5 @@ class YouTubeAPI:
             else:
                 return None, False
         except Exception as e:
+            logger.error(f"download exception: {e}")
             return None, False
