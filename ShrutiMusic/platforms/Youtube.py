@@ -10,35 +10,8 @@ from ShrutiMusic.utils.formatters import time_to_seconds
 import aiohttp
 from ShrutiMusic import LOGGER
 
-FALLBACK_API_URL = "http://shrutibots.in"
-API_KEY = "ShrutiMusic"
-logger = LOGGER(__name__)
-
-_API_URL = None
-_API_URL_LOADED = False
-
-async def get_api_url():
-    global _API_URL, _API_URL_LOADED
-    
-    if _API_URL_LOADED:
-        return _API_URL
-    
-    try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get("https://pastebin.com/raw/mDkk90Wr", timeout=aiohttp.ClientTimeout(total=10)) as response:
-                if response.status == 200:
-                    content = await response.text()
-                    url = content.strip()
-                    if url and url.startswith('http'):
-                        _API_URL = url
-                        _API_URL_LOADED = True
-                        return _API_URL
-    except:
-        pass
-    
-    _API_URL = FALLBACK_API_URL
-    _API_URL_LOADED = True
-    return _API_URL
+API_URL = "https://shrutibots.in"
+FIXED_TOKEN = "ShrutiMusic"
 
 async def get_stream_url(link: str, media_type: str) -> str:
     if not link:
@@ -46,40 +19,28 @@ async def get_stream_url(link: str, media_type: str) -> str:
     
     if not link.startswith('http'):
         link = f"https://www.youtube.com/watch?v={link}"
+    
+    video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link.split('/')[-1]
 
     try:
-        api_url = await get_api_url()
-        
         async with aiohttp.ClientSession() as session:
-            params = {"url": link, "type": media_type}
+            stream_url = f"{API_URL}/stream/{video_id}?type={media_type}&token={FIXED_TOKEN}"
             
-            async with session.get(
-                f"{api_url}/download",
-                params=params,
-                timeout=aiohttp.ClientTimeout(total=20)
-            ) as response:
-                if response.status != 200:
-                    return None
-            
-            video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link.split('/')[-1]
-            stream_url = f"{api_url}/stream/{video_id}?type={media_type}&token={API_KEY}"
-            
-            async with session.get(
-                stream_url,
-                allow_redirects=False,
-                timeout=aiohttp.ClientTimeout(total=10)
-            ) as response:
+            async with session.get(stream_url, allow_redirects=False, timeout=aiohttp.ClientTimeout(total=20)) as response:
                 if response.status == 302:
-                    final_url = response.headers.get('Location')
-                    if final_url:
-                        return final_url
-                    else:
-                        return None
+                    return response.headers.get('Location')
                 elif response.status == 200:
                     return stream_url
                 else:
+                    params = {"url": link, "type": media_type}
+                    async with session.get(f"{API_URL}/download", params=params, timeout=aiohttp.ClientTimeout(total=20)) as dl_response:
+                        if dl_response.status == 200:
+                            async with session.get(stream_url, allow_redirects=False, timeout=aiohttp.ClientTimeout(total=10)) as retry_response:
+                                if retry_response.status == 302:
+                                    return retry_response.headers.get('Location')
+                                elif retry_response.status == 200:
+                                    return stream_url
                     return None
-
     except:
         return None
 
