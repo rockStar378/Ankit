@@ -1,4 +1,5 @@
 import asyncio
+import os
 import re
 from typing import Union
 import yt_dlp
@@ -31,6 +32,7 @@ async def get_api_url():
                     if url and url.startswith('http'):
                         _API_URL = url
                         _API_URL_LOADED = True
+                        logger.info(f"API URL loaded from pastebin: {url}")
                         return _API_URL
     except:
         pass
@@ -49,17 +51,23 @@ async def get_stream_url(link: str, media_type: str) -> str:
 
     try:
         api_url = await get_api_url()
-        video_id = link.split('v=')[-1].split('&')[0] if 'v=' in link else link.split('/')[-1]
-        stream_url = f"{api_url}/stream/{video_id}?type={media_type}&token={API_KEY}"
         
         async with aiohttp.ClientSession() as session:
-            async with session.get(stream_url, allow_redirects=False, timeout=aiohttp.ClientTimeout(total=20)) as response:
+            params = {"url": link, "type": media_type, "token": API_KEY}
+            
+            async with session.get(
+                f"{api_url}/stream",
+                params=params,
+                allow_redirects=False,
+                timeout=aiohttp.ClientTimeout(total=20)
+            ) as response:
                 if response.status == 302:
                     return response.headers.get('Location')
                 elif response.status == 200:
-                    return stream_url
+                    return f"{api_url}/stream?url={link}&type={media_type}&token={API_KEY}"
                 else:
                     return None
+
     except:
         return None
 
