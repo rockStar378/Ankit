@@ -1,5 +1,4 @@
 import time
-import random
 from typing import Final
 
 from pyrogram import filters
@@ -25,21 +24,10 @@ from ShrutiMusic.utils.inline import help_pannel_page1, private_panel, start_pan
 from config import BANNED_USERS
 from strings import get_string
 
-RANDOM_STICKERS = [
-    "CAACAgUAAxkBAAEEnzFor872a_gYPHu-FxIwv-nxmZ5U8QACyBUAAt5hEFVBanMxRZCc7h4E",
-    "CAACAgUAAxkBAAEEnzJor88q_xRO1ljlwh_I6fRF7lDR-AACnBsAAlckCFWNCpez-HzWHB4E",
-    "CAACAgUAAxkBAAEEnzNor88uPuVTSyRImyVXsu1pqrpRLgACKRMAAvOEEFUpvggmgDu6bx4E",
-    "CAACAgUAAxkBAAEEnzRor880z_spEYEnEfyFXN55tNwydQACIxUAAosKEVUB8iqZMVYroR4E"
-]
-
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client, message: Message, _):
-    if getattr(config, 'START_STICKER_ENABLED', True):
-        random_sticker = random.choice(RANDOM_STICKERS)
-        await message.reply_sticker(sticker=random_sticker)
-    
     await add_served_user(message.from_user.id)
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
@@ -138,10 +126,6 @@ async def start_pm(client, message: Message, _):
 @app.on_message(filters.command(["start"]) & filters.group & ~BANNED_USERS)
 @LanguageStart
 async def start_gp(client, message: Message, _):
-    if getattr(config, 'START_STICKER_ENABLED', True):
-        random_sticker = random.choice(RANDOM_STICKERS)
-        await message.reply_sticker(sticker=random_sticker)
-    
     out = start_panel(_)
     uptime = int(time.time() - _boot_)
     try:
@@ -185,10 +169,6 @@ async def welcome(client, message: Message):
                         disable_web_page_preview=True,
                     )
                     return await app.leave_chat(message.chat.id)
-
-                if getattr(config, 'START_STICKER_ENABLED', True):
-                    random_sticker = random.choice(RANDOM_STICKERS)
-                    await message.reply_sticker(sticker=random_sticker)
 
                 out = start_panel(_)
                 try:
