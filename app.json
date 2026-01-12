@@ -106,11 +106,6 @@
       "description": "Image that appears with the /start command",
       "value": "https://graph.org/file/e054e63251ef2dc5729dd-6f719a9ecc59862631.png",
       "required": false
-    },
-    "START_STICKER_ENABLED": {
-      "description": "Enable or disable random sticker on /start command (True/False)",
-      "value": "True",
-      "required": false
     }
   },
   "buildpacks": [
