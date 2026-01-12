@@ -25,22 +25,12 @@ from ShrutiMusic.utils.inline import help_pannel_page1, private_panel, start_pan
 from config import BANNED_USERS
 from strings import get_string
 
-NAND_YADUWANSHI_EFFECTS: Final[list[str]] = [
-    "5104841245755180586",
-    "5107584321108051014",
-    "5159385139981059251",
-    "5046509860389126442",
-]
-
 RANDOM_STICKERS = [
     "CAACAgUAAxkBAAEEnzFor872a_gYPHu-FxIwv-nxmZ5U8QACyBUAAt5hEFVBanMxRZCc7h4E",
     "CAACAgUAAxkBAAEEnzJor88q_xRO1ljlwh_I6fRF7lDR-AACnBsAAlckCFWNCpez-HzWHB4E",
     "CAACAgUAAxkBAAEEnzNor88uPuVTSyRImyVXsu1pqrpRLgACKRMAAvOEEFUpvggmgDu6bx4E",
     "CAACAgUAAxkBAAEEnzRor880z_spEYEnEfyFXN55tNwydQACIxUAAosKEVUB8iqZMVYroR4E"
 ]
-
-def get_random_effect_id():
-    return int(random.choice(NAND_YADUWANSHI_EFFECTS))
 
 
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
@@ -60,8 +50,7 @@ async def start_pm(client, message: Message, _):
                     photo=config.START_IMG_URL,
                     caption=_["help_1"].format(config.SUPPORT_GROUP),
                     reply_markup=keyboard,
-                    has_spoiler=True,
-                    message_effect_id=get_random_effect_id(),
+                    message_effect_id=5104841245755180586,
                 )
             except:
                 return await message.reply_photo(
@@ -109,8 +98,7 @@ async def start_pm(client, message: Message, _):
                     photo=thumbnail,
                     caption=searched_text,
                     reply_markup=key,
-                    has_spoiler=True,
-                    message_effect_id=get_random_effect_id(),
+                    message_effect_id=5104841245755180586,
                 )
             except:
                 await app.send_photo(
@@ -132,8 +120,7 @@ async def start_pm(client, message: Message, _):
                 photo=config.START_IMG_URL,
                 caption=_["start_2"].format(message.from_user.mention, app.mention, UP, DISK, CPU, RAM),
                 reply_markup=InlineKeyboardMarkup(out),
-                has_spoiler=True,
-                message_effect_id=get_random_effect_id(),
+                message_effect_id=5104841245755180586,
             )
         except:
             await message.reply_photo(
@@ -162,8 +149,7 @@ async def start_gp(client, message: Message, _):
             photo=config.START_IMG_URL,
             caption=_["start_1"].format(app.mention, get_readable_time(uptime)),
             reply_markup=InlineKeyboardMarkup(out),
-            has_spoiler=True,
-            message_effect_id=get_random_effect_id(),
+            message_effect_id=5104841245755180586,
         )
     except:
         await message.reply_photo(
@@ -215,8 +201,7 @@ async def welcome(client, message: Message):
                             app.mention,
                         ),
                         reply_markup=InlineKeyboardMarkup(out),
-                        has_spoiler=True,
-                        message_effect_id=get_random_effect_id(),
+                        message_effect_id=5104841245755180586,
                     )
                 except:
                     await message.reply_photo(
