@@ -31,7 +31,6 @@ from typing import Union
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 from ShrutiMusic import app
 
-
 def help_pannel_page1(_, START: Union[bool, int] = None):
     return InlineKeyboardMarkup(
         [
@@ -63,7 +62,6 @@ def help_pannel_page1(_, START: Union[bool, int] = None):
             ],
         ]
     )
-
 
 def help_pannel_page2(_, START: Union[bool, int] = None):
     return InlineKeyboardMarkup(
@@ -97,7 +95,6 @@ def help_pannel_page2(_, START: Union[bool, int] = None):
         ]
     )
 
-
 def help_pannel_page3(_, START: Union[bool, int] = None):
     return InlineKeyboardMarkup(
         [
@@ -129,7 +126,6 @@ def help_pannel_page3(_, START: Union[bool, int] = None):
             ],
         ]
     )
-
 
 def help_pannel_page4(_, START: Union[bool, int] = None):
     return InlineKeyboardMarkup(
@@ -163,7 +159,6 @@ def help_pannel_page4(_, START: Union[bool, int] = None):
             ],
         ]
     )
-
 
 def help_back_markup(_, page: int = 1):
     return InlineKeyboardMarkup(
