@@ -99,7 +99,7 @@
     },
     "DONATE": {
       "description": "Link where people can support/donate or Any Link",
-      "value": "https://t.me/ShrutiBots/91",
+      "value": "http://bit.ly/3NITa3G",
       "required": false
     },
     "START_IMG_URL": {
