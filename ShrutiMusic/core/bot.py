@@ -1,5 +1,5 @@
 import asyncio
-from pyrogram import Client, idle
+from ShrutiMusic.misc import Client, idle
 
 API_ID = 123456
 API_HASH = "API_HASH_YAHA_DALO"
