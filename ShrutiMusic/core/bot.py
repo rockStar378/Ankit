@@ -1,12 +1,11 @@
 import asyncio
 from pyrogram import Client, idle
 
-# 👇 yahan module add kiya
-import ShrutiMusic.misc
+import ShrutiMusic.misc   # module load karne ke liye
 
-API_ID = 123456            # apna API_ID
-API_HASH = "API_HASH"      # apna API_HASH
-BOT_TOKEN = "BOT_TOKEN"    # apna BOT_TOKEN
+API_ID = 123456
+API_HASH = "API_HASH"
+BOT_TOKEN = "BOT_TOKEN"
 
 app = Client(
     "bot",
