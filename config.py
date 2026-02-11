@@ -48,7 +48,8 @@ BOT_USERNAME = os.getenv("BOT_USERNAME", "Ishika_musicbot")
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 MONGO_DB_URI = os.getenv("MONGO_DB_URI", None)
-LOG_GROUP_ID = int(os.getenv("LOG_GROUP_ID", None))
+LOG_GROUP_ID = int(os.getenv("LOG_GROUP_ID", "-1003481753731")
+
 API_KEY = getenv("API_KEY", "StrangerApia3075f5")
 API_BASE_URL = getenv("API_BASE_URL", "http://riyabots.site")
 
