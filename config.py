@@ -21,8 +21,8 @@ UPSTREAM_REPO = os.getenv("UPSTREAM_REPO", "https://github.com/NoxxOP/ShrutiMusi
 UPSTREAM_BRANCH = os.getenv("UPSTREAM_BRANCH", "main")
 GIT_TOKEN = os.getenv("GIT_TOKEN", None)
 
-SUPPORT_CHANNEL = os.getenv("SUPPORT_CHANNEL", "https://t.me/ShrutiBots")
-SUPPORT_GROUP = os.getenv("SUPPORT_GROUP", "https://t.me/ShrutiBotsSupport")
+SUPPORT_CHANNEL = os.getenv("SUPPORT_CHANNEL", "https://t.me/Ishika_musicbot")
+SUPPORT_GROUP = os.getenv("SUPPORT_GROUP", "https://t.me/shree_update")
 INSTAGRAM = os.getenv("INSTAGRAM", "https://instagram.com/yaduwanshi_nand")
 YOUTUBE = os.getenv("YOUTUBE", "https://youtube.com/@NandEditz")
 GITHUB = os.getenv("GITHUB", "https://github.com/NoxxOP")
