@@ -20,12 +20,10 @@
 # Email: badboy809075@gmail.com
 
 
-from ShrutiMusic.core.bot import app
 from ShrutiMusic.core.dir import dirr
 from ShrutiMusic.core.git import git
 from ShrutiMusic.core.userbot import Userbot
 from ShrutiMusic.misc import dbb, heroku
-
 from .logging import LOGGER
 
 dirr()
@@ -33,9 +31,7 @@ git()
 dbb()
 heroku()
 
-app = Aviax()
 userbot = Userbot()
-
 
 from .platforms import *
 
