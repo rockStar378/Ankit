@@ -22,7 +22,7 @@
 
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-#     ⚙️ CONFIGURATION FILE | Powered By @WTF_WhyMeeh & @kavya_music_robot
+#     ⚙️ CONFIGURATION FILE | Powered By @vip_ankit_121 & @kavya_music_robot
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 import os
@@ -40,8 +40,8 @@ API_ID = int(os.getenv("API_ID"))
 API_HASH = os.getenv("API_HASH")
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 OWNER_ID = int(os.getenv("OWNER_ID", None))
-OWNER_USERNAME = os.getenv("OWNER_USERNAME", "WTF_WhyMeeh")
-BOT_USERNAME = os.getenv("BOT_USERNAME", "ShrutixMusicBot")
+OWNER_USERNAME = os.getenv("OWNER_USERNAME", "vip_ankit_121")
+BOT_USERNAME = os.getenv("BOT_USERNAME", "Ishika_musicbot")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🛠️ Database & Deployment Configs
@@ -49,8 +49,8 @@ BOT_USERNAME = os.getenv("BOT_USERNAME", "ShrutixMusicBot")
 
 MONGO_DB_URI = os.getenv("MONGO_DB_URI", None)
 LOG_GROUP_ID = int(os.getenv("LOG_GROUP_ID", None))
-HEROKU_APP_NAME = os.getenv("HEROKU_APP_NAME")
-HEROKU_API_KEY = os.getenv("HEROKU_API_KEY")
+API_KEY = getenv("API_KEY", "StrangerApia3075f5")
+API_BASE_URL = getenv("API_BASE_URL", "http://riyabots.site")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 # 🔄 Git & Update Settings
@@ -65,11 +65,11 @@ GIT_TOKEN = os.getenv("GIT_TOKEN", None)
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 SUPPORT_CHANNEL = os.getenv("SUPPORT_CHANNEL", "https://t.me/kavya_music_robot")
-SUPPORT_GROUP = os.getenv("SUPPORT_GROUP", "https://t.me/+eDGuiLMGvO0zNmFl")
-INSTAGRAM = os.getenv("INSTAGRAM", "https://instagram.com/yaduwanshi_nand")
+SUPPORT_GROUP = os.getenv("SUPPORT_GROUP", "https://t.me/shree_update")
+INSTAGRAM = os.getenv("INSTAGRAM", "https://www.instagram.com/vip_ankit_121?igsh=NzRtbm93M2J4M2gx")
 YOUTUBE = os.getenv("YOUTUBE", "https://youtube.com/@NandEditz")
 GITHUB = os.getenv("GITHUB", "https://github.com/NoxxOP")
-DONATE = os.getenv("DONATE", "https://t.me/ShrutiBots/91")
+DONATE = os.getenv("DONATE", "https://t.me/Ishika_musicbot")
 PRIVACY_LINK = os.getenv("PRIVACY_LINK", "https://graph.org/Privacy-Policy-05-01-30")
 
 # ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
